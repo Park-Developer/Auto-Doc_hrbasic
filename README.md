@@ -1,2 +1,3 @@
-# Auto-Doc_hrbasic
-JOB Document Automation Program For HRBasic
+
+# AutoDoc_hrbasic
+Automatic document generation program for HRC HRBasic

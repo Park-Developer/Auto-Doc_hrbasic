@@ -1,0 +1,20 @@
+Program File Format Version : 1.6  MechType: _MECHTYPE  TotalAxis: _TOTAL_AX  AuxAxis: _AUX_AX
+' JOB description
+' Error Handiling Job
+
+PARAM li_errCode,li_ProLoc
+DIM lt_msg AS String
+
+IF li_errCode=0 THEN
+  ' No Error
+ELSE
+  lt_msg=gta_Error[li_errCode]+" / "+STR$(li_ProLoc)+".JOB"
+  
+  PRINT #0,lt_msg ' TP Ãâ·Â
+  STOP
+ENDIF
+
+
+END ' PROGRAM END
+
+
