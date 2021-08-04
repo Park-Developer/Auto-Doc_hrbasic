@@ -5,6 +5,11 @@ class HTML_Generator:
             '<html>\n',
             '<head>\n',
             '\t<title>Page Title</title>\n',
+            '\t<style>\n', # CSS Setting
+            '\tbody{\n',
+            '\tbackground-color: lightblue;\n',
+            '\t}\n',
+            '\t</style>\n', # CSS Setting
             '</head>\n',
 
             '<body>\n',
@@ -14,15 +19,30 @@ class HTML_Generator:
                 '\t</div>\n',
 
              '\t<div class="menu-bar">\n',
-                '\t\t<button onclick = "home_btn_func()">Home</button>\n'
-                '\t\t<button onclick = "index_btn_func()">Index</button>\n'
-                '\t\t<button onclick = "variable_btn_func()">Variable</button>\n'
-                '\t\t<button onclick = "function_btn_func()">Function</button>\n'
-             '\t</div>\n',
+                '\t\t<button onclick = "home_btn_func()">Home</button>\n',
+                '\t\t<button onclick = "index_btn_func()">Index</button>\n',
+                '\t\t<button onclick = "variable_btn_func()">Variable</button>\n',
+                '\t\t<button onclick = "function_btn_func()">Function</button>\n',
+             '\t</div>\n\n',
 
-             '\t<div class="main_frame">\n',
-             
-             '\t</div>\n',
+             '\t<!-- Main Frame Setting -->\n',
+             '\t<div class="main_frame">\n\n',
+             '\t\t<div class="home_UI">\n',
+             '\t\t<span> Home UI </span>\n',
+             '\t\t</div> <!--home_UI end-->\n\n',
+
+             '\t\t<div class="index_UI">\n',
+             '\t\t<span> index ui </span>\n',
+             '\t\t</div> <!--index_UI end-->\n\n',
+
+             '\t\t<div class="variable_UI">\n',
+             '\t\t<span> variable ui </span>\n',
+             '\t\t</div> <!--variable_UI end-->\n\n',
+
+             '\t\t<div class="function_UI">\n',
+             '\t\t</div> <!--function_UI end-->\n\n',
+
+             '\t</div> <!--main-frame end-->\n\n',
              '\t<script>\n',
                 # Variable Definition : All variable is global variable
                 '\t\t<!--Btn Variable Setting-->\n',
@@ -140,6 +160,42 @@ class HTML_Generator:
         result=''.join(html_list)
 
         return result
+
+    def find_classLoc(self,class_name:str,htmlline:list):
+        '''
+        class name을 이용하여 htmlline에서 해당 라인이 있는 위치 반환
+        :param class_name: 
+        :param htmlline: 
+        :return: (is_find, class_loc)  /   is_find : 존재 유무, class_loc : htmlline에서의 index
+        '''
+        is_find=False
+        class_loc=-1
+
+        target_sentence='class="'+class_name
+        
+        for idx,line in enumerate(htmlline):
+            if target_sentence in line:
+                is_find = True
+                class_loc = idx
+                break
+        
+        return (is_find, class_loc)        
+
+    def add_html(self, basic_html:list, operand_html:list,addtion_loc:int):
+        '''
+        basic_html의 addition_loc 위치에 operatnd html 삽입 후, 합쳐진 html list 반환        
+        삽입 컨셉 : 클래스 정의 라인 밑에 삽입
+        
+        :param basic_html: 
+        :param operand_html: 
+        :param addtion_loc: 
+        :return: 
+        '''
+        addtion_start_loc=addtion_loc+1 # 클래스 태그 다음에 삽입
+        merged_htm1=basic_html[:addtion_start_loc]+operand_html+basic_html[addtion_start_loc:]
+
+        return merged_htm1
+    
 if __name__ == "__main__":
     testObj=HTML_Generator();
 
@@ -155,3 +211,12 @@ if __name__ == "__main__":
     desc_file.write(testObj.returnHTML_file(testObj.description_div_list))
     desc_file.close()
 
+    # TEST
+    # 삽입할 위칭
+    isfind, location=testObj.find_classLoc("home_UI",testObj.htmlline)
+    merged_html=testObj.add_html(testObj.htmlline,testObj.description_div_list,location)
+
+
+    merged_file = open('merged.html', 'w')
+    merged_file.write(testObj.returnHTML_file(merged_html))
+    merged_file.close()
