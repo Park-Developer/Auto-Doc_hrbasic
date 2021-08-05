@@ -14,7 +14,7 @@ class HTML_Generator:
 
             '<body>\n',
                 '\t<div class="Status-bar">\n',
-                    '\t\t<h1 class="main_title">This is a Heading</h1>\n',
+                    '\t\t<h1 class="main_title">JOB Document</h1>\n',
                     '\t\t<p class="sub_title">This is a paragraph.</p>\n',
                 '\t</div>\n',
 
@@ -142,6 +142,39 @@ class HTML_Generator:
 
         self.description_div_list=html_result
 
+    def make_var_div(self,var_data:dict):
+        html_base=[
+        '<div class="variable">\n',
+        # Selector Setting
+        '\t<!--Selector Setting-->\n', # comment
+
+
+
+        '\t<div class="variable__selector">\n',
+
+        '\t<div class="variable__selector_type">\n', # variable__selector_type
+        '\t\t<select name="Type" class="Type_selection">\n',
+        '\t\t\t<option>Integer</option>\n',
+        '\t\t\t<option>Double</option>\n',
+        '\t\t\t<option>String</option>\n',
+        '\t\t\t<option>Array</option>\n',
+        '\t\t</select>\n'
+        '\t</div><!--variable__selector_type End-->\n\n', # variable__selector_type
+
+
+
+        '\t</div><!--selector End-->\n\n',
+
+
+
+
+
+        '</div>\n\n',
+        ]
+        html_result=[]
+        for var_name, var_info in var_data.items():
+            pass
+
     def returnHTML_basicForm(self):
         '''
         최종적으로 만들어진 html 파일을 반환
@@ -220,3 +253,105 @@ if __name__ == "__main__":
     merged_file = open('merged.html', 'w')
     merged_file.write(testObj.returnHTML_file(merged_html))
     merged_file.close()
+
+    # TEST
+    test_html=[
+        '<!DOCTYPE html>\n',
+        '<html>\n',
+        '<head>\n',
+        '\t<title>Page Title</title>\n',
+        '\t<style>\n',  # CSS Setting
+        '\tbody{\n',
+        '\tbackground-color: lightblue;\n',
+        '\t}\n',
+        '\t.variable_search_part{\n',
+        '\tdisplay: flex;\n',
+        '\t}\n',
+
+        '\t.variable__selector{\n',
+        '\t\tdisplay: flex;\n',
+        '\t}\n',
+
+        '\t.variable__table{\n',
+        '\t\tborder: 1px solid black;\n'
+        '\t\tborder-collapse: collapse;\n',
+        '\t}\n',
+
+        '\t</style>\n',  # CSS Setting
+        '</head>\n',
+
+        '<body>\n',
+        '<div class="variable">\n',
+        # Selector Setting
+        '\t<!--Selector Setting-->\n', # comment
+
+        '\t<!--variable_search_part-->\n',
+        '\t<div class="variable_search_part">\n',
+
+
+        '\t<div class="variable__selector">\n', ########################################[SELECTOR]################
+
+        '\t<div class="variable__selector_type">\n', # variable__selector_type
+        '\t\t<span class="Type_name">Type</span>\n',
+        '\t\t<select name="Type" class="Type_selection">\n',
+        '\t\t\t<option>Integer</option>\n',
+        '\t\t\t<option>Double</option>\n',
+        '\t\t\t<option>String</option>\n',
+        '\t\t\t<option>Array</option>\n',
+        '\t\t</select>\n'
+        '\t</div><!--variable__selector_type End-->\n\n', # variable__selector_type
+
+        '\t<div class="variable__selector_job">\n',  # variable__selector_job
+        '\t\t<span class="Job_name">Job</span>\n',
+        '\t\t<select name="Job" class="Job_selection">\n',
+        # 이 부분에 JOB List 추가
+        '\t\t</select>\n'
+        '\t</div><!--variable__selector_job End-->\n\n',  # variable__selector_job
+
+
+        '\t</div><!--selector End-->\n\n',########################################[SELECTOR]################
+
+        ########################################[Search]################
+        '\t<!--Search Setting-->\n',  # comment
+        '\t<div class="variable__search">\n',
+        '\t<span class="search__title">Search</span>\n',
+        '\t<input type="text" class="search__input" name="name" required minlength="4" maxlength="8" size="10">\n'
+        '\t</div>\n\n',
+        ########################################[Search]################
+
+        '\t</div><!--variable_search_part End-->\n\n',
+
+        '\t<!--variable_table_part-->\n',
+        '\t<div class="variable_table_part">\n',
+        '\t\t<table class="variable__table">\n',
+        '\t\t\t<tr class="variable__table_header">\n' # Table Header 
+        '\t\t\t<th class="header_index">Index</th>\n',
+        '\t\t\t<th class="header_variable">Variable</th>\n',
+        '\t\t\t<th class="header_description">Description</th>\n',
+        '\t\t\t<th class="header_default">Default</th>\n',
+        '\t\t\t<th class="header_use">Use</th>\n',
+        '\t\t\t<th class="header_job">Job</th>\n',
+        '\t\t\t</tr>\n',  # Table Header
+        
+        '\t\t</table>',
+        '\t</div><!--variable_table_part End-->\n\n',
+        ########################################[TABLE]################
+        ########################################[TABLE]################
+
+
+        '</div>\n\n',
+        '</body>\n',
+        '</html>\n',
+        ]
+    job_numlist=['\t\t\t<option>5001</option>\n',
+                 '\t\t\t<option>5002</option>\n',
+                 '\t\t\t<option>5003</option>\n']
+
+
+    for idx,line in enumerate(test_html):
+        if 'class="Job_selection"' in line:
+            test_result=test_html[:idx+1]+job_numlist+test_html[idx+1:]
+
+    test_file = open('test.html', 'w')
+    test_file.write(testObj.returnHTML_file(test_result))
+    test_file.close()

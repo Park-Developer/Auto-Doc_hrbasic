@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+	<style>
+	body{
+	background-color: lightblue;
+	}
+	.variable_search_part{
+	display: flex;
+	}
+	.variable__selector{
+		display: flex;
+	}
+	.variable__table{
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	</style>
+</head>
+<body>
+<div class="variable">
+	<!--Selector Setting-->
+	<!--variable_search_part-->
+	<div class="variable_search_part">
+	<div class="variable__selector">
+	<div class="variable__selector_type">
+		<span class="Type_name">Type</span>
+		<select name="Type" class="Type_selection">
+			<option>Integer</option>
+			<option>Double</option>
+			<option>String</option>
+			<option>Array</option>
+		</select>
+	</div><!--variable__selector_type End-->
+
+	<div class="variable__selector_job">
+		<span class="Job_name">Job</span>
+		<select name="Job" class="Job_selection">
+			<option>5001</option>
+			<option>5002</option>
+			<option>5003</option>
+		</select>
+	</div><!--variable__selector_job End-->
+
+	</div><!--selector End-->
+
+	<!--Search Setting-->
+	<div class="variable__search">
+	<span class="search__title">Search</span>
+	<input type="text" class="search__input" name="name" required minlength="4" maxlength="8" size="10">
+	</div>
+
+	</div><!--variable_search_part End-->
+
+	<!--variable_table_part-->
+	<div class="variable_table_part">
+		<table class="variable__table">
+			<tr class="variable__table_header">
+			<th class="header_index">Index</th>
+			<th class="header_variable">Variable</th>
+			<th class="header_description">Description</th>
+			<th class="header_default">Default</th>
+			<th class="header_use">Use</th>
+			<th class="header_job">Job</th>
+			</tr>
+		</table>	</div><!--variable_table_part End-->
+
+</div>
+
+</body>
+</html>
