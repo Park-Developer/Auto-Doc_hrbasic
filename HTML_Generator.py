@@ -24,22 +24,49 @@ class HTML_Generator:
             '\t}\n',
 
             '\t.variable__table{\n',
+            '\t\tborder: 1px solid black;\n',
+            '\t\tborder-collapse: collapse;\n',
+
+            '\t}\n',
+
+            '\t.variable__table_header{\n',
+            '\t\tbackground-color:var(--table_header_color)\n',
+            '\t}\n',
+
+            # Function CSS Setting_______________________________
+            '\t.function__table{\n',
             '\t\tborder: 1px solid black;\n'
             '\t\tborder-collapse: collapse;\n',
             '\t}\n',
 
-            '\t.variable__table_header{\n',
-            '\t\tbackground-color:var(--table_header_color)\n'
+            '\t.function__table_header{\n',
+            '\t\tbackground-color:var(--table_header_color)\n',
             '\t}\n',
-
 
             '\t</style>\n', # CSS Setting
             '</head>\n',
 
             '<body>\n',
                 '\t<div class="Status-bar">\n',
-                    '\t\t<h1 class="main_title">JOB Document</h1>\n',
-                    '\t\t<p class="sub_title">This is a paragraph.</p>\n',
+                '\t\t<div class="Status-bar__main">\n',
+                '\t\t<h1 class="main_title">Job Program Document</h1>\n',
+                '\t\t</div>\n\n',
+
+                '\t\t<div class="Status-bar__project">\n',
+                '\t\t<span class="sub_project">Project : </span>\n',
+                '\t\t<span class="sub_project__value"></span>\n',
+                '\t\t</div>\n\n',
+
+                '\t\t<div class="Status-bar__description">\n',
+                '\t\t<span class="sub_description">Description : </span>\n',
+                '\t\t<span class="sub_description__value"></span>\n',
+                '\t\t</div>\n\n',
+
+                '\t\t<div class="Status-bar__revdate">\n',
+                '\t\t<span class="sub_revdate">Rev date : </span>\n',
+                '\t\t<span class="sub_revdate__value"></span>\n',
+                '\t\t</div>\n\n',
+
                 '\t</div>\n',
 
              '\t<div class="menu-bar">\n',
@@ -73,12 +100,50 @@ class HTML_Generator:
 
              # JS Setting
              '\t<script>\n',
-                # DOM setting
+             # Constant Settong
+             '\t\t<!--CONST Setting-->\n',
+             '\t\tconst TYPE_INDEX = 6;\n',
+
+             # DOM setting
+             '\t\t<!--DOM Setting-->\n',
+             '\t\tlet variable_table= document.querySelector(".variable__table");\n\n',
+
+             '\t\tlet variable_typeSelector= document.querySelector(".Type_selection");\n\n', # selector
+             '\t\tvariable_typeSelector.addEventListener("change", () => {\n', # Event Setting
+             '\t\tchange_typeSelection();\n',
+             '\t\t});\n\n',
+             '\t\tfunction change_typeSelection(){\n', # Event function Definition
+             '\t\tlet filter_parameter=variable_typeSelector.value;\n',
+             '\t\tfor (let i=1; i<variable_table.rows.length;i++){\n', # Header행 제외 -> i=1부터 시작
+             '\t\tif (filter_parameter==="All"){\n',
+             '\t\tvariable_table.rows[i].style.display="block";\n',
+             #cell1.style.textAlign = "right";
+             
+             #'\t\tvariable_table.rows[i].cells[3].style.textAlign="center";\n',
+             #'\t\tvariable_table.rows[i].cells[5].style.textAlign="center";\n',
+             #'\t\tvariable_table.rows[i].cells[1].style.textAlign="left";\n',
+             #'\t\tvariable_table.rows[i].cells[2].style.textAlign="left";\n',
+             #'\t\tvariable_table.rows[i].cells[4].style.textAlign="left";\n',
+             '\t\t}else{\n',
+             '\t\tif (variable_table.rows[i].cells[TYPE_INDEX].innerHTML.indexOf(filter_parameter)!=-1){\n',
+             '\t\tvariable_table.rows[i].style.display="block";\n',
+             '\t\t}else{\n',
+             '\t\tvariable_table.rows[i].style.display="none";\n',
+             '\t\t}\n',
+             '\t\t}\n',
+             '\t\t}\n',
+             '\t\t}\n\n',
+             
+             '\t\tlet variable_jobSelector= document.querySelector(".Job_selection");\n', # Selector
+             '\t\tlet variable_Search= document.querySelector(".variable__search");\n', # Search
+
+
+
                 '\t\tlet description_UI = document.querySelector(".description_UI");\n',
                 '\t\tlet index_UI = document.querySelector(".index_UI");\n',
                 '\t\tlet variable_UI = document.querySelector(".variable_UI");\n',
                 '\t\tlet function_UI = document.querySelector(".function_UI");\n',
-                '\t\tlet label_UI = document.querySelector(".label_UI");\n',
+                '\t\tlet label_UI = document.querySelector(".label_UI");\n\n',
 
                 # Variable Definition : All variable is global variable
                 '\t\t<!--Btn Variable Setting-->\n',
@@ -89,10 +154,12 @@ class HTML_Generator:
 
                  # Event Setting
                 '\t\t<!--Btn Event Function Setting-->\n',
+                '\t\tfunction var_type_selection() {   <!--Type selection Button-->\n',
 
+                '\t\t}\n\n',
                 # Home Button Function________________________________________________________
                 '\t\tfunction home_btn_func() {   <!--Home Btn Function-->\n',
-                '\t\t\talert("This is a working button1");\n',
+
                 '\t\t\thome_btn_activation=true;\n',
                 '\t\t\tindex_btn_activation=false;\n',
                 '\t\t\tvariable_btn_activation=false;\n',
@@ -107,7 +174,7 @@ class HTML_Generator:
 
                 # Index Button Function________________________________________________________
                 '\t\tfunction index_btn_func() {   <!--Index Btn Function-->\n',
-                '\t\t\talert("This is a working button2");\n',
+
                 '\t\t\thome_btn_activation=false;\n',
                 '\t\t\tindex_btn_activation=true;\n',
                 '\t\t\tvariable_btn_activation=false;\n',
@@ -126,7 +193,7 @@ class HTML_Generator:
                 '\t\t\tindex_btn_activation=false;\n',
                 '\t\t\tvariable_btn_activation=true;\n',
                 '\t\t\tfunction_btn_activation=false;\n',
-                '\t\t\talert("This is a working button3");\n\n'
+
                 
                 '\t\t\tdescription_UI.style.display="none";\n',
                 '\t\t\tindex_UI.style.display="none";\n',
@@ -141,7 +208,7 @@ class HTML_Generator:
                 '\t\t\tindex_btn_activation=false;\n',
                 '\t\t\tvariable_btn_activation=false;\n',
                 '\t\t\tfunction_btn_activation=true;\n',
-                '\t\t\talert("This is a working button4");\n\n',
+
 
                 '\t\t\tdescription_UI.style.display="none";\n',
                 '\t\t\tindex_UI.style.display="none";\n',
@@ -197,6 +264,16 @@ class HTML_Generator:
             "variable__jobNum":4,
             "variable__type":5,
         }
+
+         self.function_table_index={
+         # | Function | Description | Param | Result | Reference |
+             "function__name": 0,
+             "function__desc": 1,
+             "function__param": 2,
+             "function__result": 3,
+             "function__ref": 4,
+         }
+
 
          self.var_insertInfo={
             "Search":"Job_selection",
@@ -297,8 +374,9 @@ class HTML_Generator:
         return self.variable_SearchPart_div_list
 
     def make_varTable_part(self,var_data:dict):
+        table_list = []
         var_Table_baseHTML=[
-            '\t\t\t\t\t<tr class="variable__table_header">\n'  # Table Header 
+            '\t\t\t\t\t<tr class="variable__table_header">\n',  # Table Header
             '\t\t\t\t\t<th class="header_index" align="center">Index</th>\n',
             '\t\t\t\t\t<th class="header_variable" align="center">Variable</th>\n',
             '\t\t\t\t\t<th class="header_description" align="center">Description</th>\n',
@@ -307,26 +385,26 @@ class HTML_Generator:
             '\t\t\t\t\t<th class="header_job" align="center">Job</th>\n',
             '\t\t\t\t\t<th class="header_job" align="center">Type</th>\n',
             '\t\t\t\t\t</tr>\n\n',  # Table Header
+
         ]
-        table_list = []
 
         def make_colInfo(var_info: dict, index_info: dict):
             new_row = ['-', '-', '-', '-', '-', '-', ]  # '-' : 속성이 없다는 뜻
 
-            # Index / Variable / Description / Default / Use / Job / type
+            # / Variable / Description / Default / Use / Job / Type }
 
-            def write_row(var_info: dict, row: list, property: str) -> list:
+            def write_row(var_info: dict, index_info: dict,row: list, property: str) -> list:
                 if (var_info.get(property) != None):
                     row[index_info[property]] = var_info[property]
                 return row
 
             # column별 속성 추가하기
-            new_row = write_row(var_info, new_row, "variable__name")
-            new_row = write_row(var_info, new_row, "variable__desc")
-            new_row = write_row(var_info, new_row, "variable__type")
-            new_row = write_row(var_info, new_row, "variable__use")
-            new_row = write_row(var_info, new_row, "variable__default")
-            new_row = write_row(var_info, new_row, "variable__jobNum")
+            new_row = write_row(var_info, index_info, new_row, "variable__name")
+            new_row = write_row(var_info, index_info, new_row, "variable__desc")
+            new_row = write_row(var_info, index_info, new_row, "variable__type")
+            new_row = write_row(var_info, index_info, new_row, "variable__use")
+            new_row = write_row(var_info, index_info, new_row, "variable__default")
+            new_row = write_row(var_info, index_info, new_row, "variable__jobNum")
 
             return new_row
 
@@ -387,6 +465,7 @@ class HTML_Generator:
             '\t\t\t<div class="variable__selector_type">\n',  # variable__selector_type
             '\t\t\t\t<span class="Type_name">Type</span>\n',
             '\t\t\t\t<select name="Type" class="Type_selection">\n',
+            '\t\t\t\t\t<option>All</option>\n',
             '\t\t\t\t\t<option>Integer</option>\n',
             '\t\t\t\t\t<option>Double</option>\n',
             '\t\t\t\t\t<option>String</option>\n',
@@ -397,6 +476,7 @@ class HTML_Generator:
             '\t\t\t<div class="variable__selector_job">\n',  # variable__selector_job
             '\t\t\t\t<span class="Job_name">Job</span>\n',
             '\t\t\t\t<select name="Job" class="Job_selection">\n',
+            '\t\t\t\t\t<option>All</option>\n',
             # 이 부분에 JOB List 추가
             '\t\t\t\t</select>\n'
             '\t\t\t</div><!--variable__selector_job End-->\n\n',  # variable__selector_job
@@ -456,67 +536,6 @@ class HTML_Generator:
         self.variable_div_list = result_html
         self.update_all_htmlList()
 
-    def make_var_div2222(self,var_data:dict):
-        html_base=[
-            '\t\t<div class="variable">\n',
-            # Selector Setting
-            '\t\t\t<!--Selector Setting-->\n',  # comment
-
-            '\t\t\t<!--variable_search_part-->\n',
-            '\t\t\t<div class="variable_search_part">\n',
-
-            '\t\t\t<div class="variable__selector">\n',  ########################################[SELECTOR]################
-
-            '\t\t\t<div class="variable__selector_type">\n',  # variable__selector_type
-            '\t\t\t\t<span class="Type_name">Type</span>\n',
-            '\t\t\t\t<select name="Type" class="Type_selection">\n',
-            '\t\t\t\t\t<option>Integer</option>\n',
-            '\t\t\t\t\t<option>Double</option>\n',
-            '\t\t\t\t\t<option>String</option>\n',
-            '\t\t\t\t\t<option>Array</option>\n',
-            '\t\t\t\t</select>\n',
-            '\t\t\t</div><!--variable__selector_type End-->\n\n',  # variable__selector_type
-
-            '\t\t\t<div class="variable__selector_job">\n',  # variable__selector_job
-            '\t\t\t\t<span class="Job_name">Job</span>\n',
-            '\t\t\t\t<select name="Job" class="Job_selection">\n',
-            # 이 부분에 JOB List 추가
-            '\t\t\t\t</select>\n'
-            '\t\t\t</div><!--variable__selector_job End-->\n\n',  # variable__selector_job
-
-            '\t\t\t</div><!--selector End-->\n\n',  ########################################[SELECTOR]################
-
-            ########################################[Search]################
-            '\t\t\t<!--Search Setting-->\n',  # comment
-            '\t\t\t<div class="variable__search">\n',
-            '\t\t\t<span class="search__title">Search</span>\n',
-            '\t\t\t<input type="text" class="search__input" name="name" required minlength="4" maxlength="8" size="10">\n',
-            '\t\t\t<button onclick = "search_Ok_btn_func()">ok</button>\n',
-            '\t\t\t</div>\n\n',
-            ########################################[Search]################
-
-            '\t\t\t</div><!--variable_search_part End-->\n\n',
-
-            '\t\t\t<!--variable_table_part-->\n',
-            '\t\t\t<div class="variable_table_part">\n',
-            '\t\t\t\t<table class="variable__table">\n',
-            '\t\t\t\t\t<tr class="variable__table_header">\n'  # Table Header 
-            '\t\t\t\t\t<th class="header_index">Index</th>\n',
-            '\t\t\t\t\t<th class="header_variable">Variable</th>\n',
-            '\t\t\t\t\t<th class="header_description">Description</th>\n',
-            '\t\t\t\t\t<th class="header_default">Default</th>\n',
-            '\t\t\t\t\t<th class="header_use">Use</th>\n',
-            '\t\t\t\t\t<th class="header_job">Job</th>\n',
-            '\t\t\t\t\t</tr>\n',  # Table Header
-
-            '\t\t\t\t</table>\n',
-            '\t\t\t</div> <!--variable_table_part End-->\n\n',
-            ########################################[TABLE]################
-            ########################################[TABLE]################
-
-            '\t\t\t</div>   <!--variable End-->\n\n',  # variable end
-        ]
-
         def get_jobnum_list(var_data: dict)->list:
             '''
             프로그램에 존재하는 중복되지 않은 JOB번호 리스트 반환
@@ -558,7 +577,7 @@ class HTML_Generator:
         최종적으로 만들어진 html 파일을 반환
         :return: HTML file
         '''
-        result=''.join(self.htmlline)
+        result=''.join(self.html_base)
 
         return result
 
@@ -641,6 +660,80 @@ class HTML_Generator:
             print("An exception occurred: ", e)
 
 
+    ################FUNCTION RELATED############################
+    def make_function_div(self,func_data:dict):
+        table_list = []
+        function_table_frontHTML=[
+            '\t\t\t<div class="function">\n',
+            '\t\t\t\t<table class="function__table">\n',
+            '\t\t\t\t\t<tr class="function__table_header">\n',  # Table Header
+            '\t\t\t\t\t<th class="header_index" align="center">Index</th>\n',
+            '\t\t\t\t\t<th class="header_variable" align="center">Function</th>\n',
+            '\t\t\t\t\t<th class="header_description" align="center">Description</th>\n',
+            '\t\t\t\t\t<th class="header_default" align="center">Param</th>\n',
+            '\t\t\t\t\t<th class="header_use" align="center">Result</th>\n',
+            '\t\t\t\t\t<th class="header_job" align="center">Reference</th>\n',
+            '\t\t\t\t\t</tr>\n\n',  # Table Header
+        ]
+        function_table_rearHTML = [
+            '\t\t\t\t</table>\n',
+            '\t\t\t</div>   <!--function End-->\n\n',
+        ]
+
+        def make_colInfo(function_info: dict, func_index_info: dict)->list:
+            new_row = ['-', '-', '-', '-', '-', ]  # '-' : 속성이 없다는 뜻
+            # | Function | Description | Param | Result | Reference |
+
+            def write_row(func_info: dict, index_info: dict, row: list, property: str) -> list:
+                if (func_info.get(property) != None):
+                    row[index_info[property]] = func_info[property]
+                return row
+
+            # Column에 속성 추가하기
+            new_row = write_row(function_info, func_index_info, new_row, "function__name")
+            new_row = write_row(function_info, func_index_info, new_row, "function__desc")
+            new_row = write_row(function_info, func_index_info, new_row, "function__param")
+            new_row = write_row(function_info, func_index_info, new_row, "function__result")
+            new_row = write_row(function_info, func_index_info, new_row, "function__ref")
+
+            return new_row
+
+        for func_name,func_info in func_data.items():
+            new_row= make_colInfo(func_info, self.function_table_index)
+            table_list.append(new_row)
+
+        def convert_funcTable_toHTML(func_table_list: list, func_index_info: dict) -> list:
+            func_html_table = []
+
+            def make_htmlTag(index, row_info):
+                row_html = ['\t\t\t\t\t<tr class="function__table_row ' + str(index) + '">\n',
+                            '\t\t\t\t\t<td class="function__table_row' + str(index) + '_col0" align="center">' + str(
+                                index + 1) + '</td>\n']  # Index Column
+                # Index Header에 center align 속성 추가
+
+                # index_info Reverse Version
+                reversed_index_info = {}
+                for key, value in func_index_info.items():
+                    reversed_index_info[value] = key
+
+                for col_idx, property_value in enumerate(row_info):
+
+                    row_html.append('\t\t\t\t\t<td class="variable__table_row' + str(index) + '_col'
+                                    + str(col_idx) + '">' + str(property_value) + '</td>\n'
+                                    )
+
+                row_html.append('\t\t\t\t\t</tr>\n\n')
+                return row_html
+
+            for index, row_info in enumerate(func_table_list):
+                func_html_table += make_htmlTag(index, row_info)
+
+            return func_html_table
+
+        # HTML Struncture
+        # front HTML + Converted HTML + rear HTML
+        self.function_div_list= function_table_frontHTML+convert_funcTable_toHTML(table_list,self.function_table_index)+ function_table_rearHTML
+        self.update_all_htmlList()
 
 if __name__ == "__main__":
     testObj=HTML_Generator();
@@ -659,13 +752,7 @@ if __name__ == "__main__":
 
     # TEST
     # 삽입할 위칭
-    isfind, location=testObj.find_classLoc("home_UI",testObj.htmlline)
-    merged_html=testObj.add_html(testObj.htmlline,testObj.description_div_list,location)
 
-
-    merged_file = open('merged.html', 'w')
-    merged_file.write(testObj.returnHTML_file(merged_html))
-    merged_file.close()
 
     # TEST
     test_html=[

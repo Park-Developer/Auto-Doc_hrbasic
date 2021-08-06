@@ -19,12 +19,36 @@
 	.variable__table_header{
 		background-color:var(--table_header_color)
 	}
+	.function__table{
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	.function__table_header{
+		background-color:var(--table_header_color)
+	}
 	</style>
 </head>
 <body>
 	<div class="Status-bar">
-		<h1 class="main_title">JOB Document</h1>
-		<p class="sub_title">This is a paragraph.</p>
+		<div class="Status-bar__main">
+		<h1 class="main_title">Job Program Document</h1>
+		</div>
+
+		<div class="Status-bar__project">
+		<span class="sub_project">Project : </span>
+		<span class="sub_project__value"></span>
+		</div>
+
+		<div class="Status-bar__description">
+		<span class="sub_description">Description : </span>
+		<span class="sub_description__value"></span>
+		</div>
+
+		<div class="Status-bar__revdate">
+		<span class="sub_revdate">Rev date : </span>
+		<span class="sub_revdate__value"></span>
+		</div>
+
 	</div>
 	<div class="menu-bar">
 		<button onclick = "home_btn_func()">Home</button>
@@ -77,6 +101,7 @@
 			<div class="variable__selector_type">
 				<span class="Type_name">Type</span>
 				<select name="Type" class="Type_selection">
+					<option>All</option>
 					<option>Integer</option>
 					<option>Double</option>
 					<option>String</option>
@@ -89,6 +114,7 @@
 				<select name="Job" class="Job_selection">
 			<option>5002</option>
 			<option>5001</option>
+					<option>All</option>
 				</select>
 			</div><!--variable__selector_job End-->
 
@@ -115,12 +141,13 @@
 					<th class="header_job" align="center">Job</th>
 					<th class="header_job" align="center">Type</th>
 					</tr>
+
 					<tr class="variable__table_row 0">
 					<td class="variable__table_row0_col0" align="center">1</td>
 					<td class="variable__table_row0_col0">gi_Search</td>
 					<td class="variable__table_row0_col1">Stage Search Method</td>
 					<td class="variable__table_row0_col2" align="center">-</td>
-					<td class="variable__table_row0_col3">0 : No setting, 1:Manual Searching, 2 : Auto Searching</td>
+					<td class="variable__table_row0_col3">0 : No setting, 1:Manual Searching, 2 : Auto Searching)</td>
 					<td class="variable__table_row0_col4" align="center">-</td>
 					<td class="variable__table_row0_col5">Integer</td>
 					</tr>
@@ -203,6 +230,38 @@
 		</div> <!--variable_UI end-->
 
 		<div class="function_UI">
+			<div class="function">
+				<table class="function__table">
+					<tr class="function__table_header">
+					<th class="header_index" align="center">Index</th>
+					<th class="header_variable" align="center">Function</th>
+					<th class="header_description" align="center">Description</th>
+					<th class="header_default" align="center">Param</th>
+					<th class="header_use" align="center">Result</th>
+					<th class="header_job" align="center">Reference</th>
+					</tr>
+
+					<tr class="function__table_row 0">
+					<td class="function__table_row0_col0" align="center">1</td>
+					<td class="variable__table_row0_col0">5002_GloVarCheck.JOB</td>
+					<td class="variable__table_row0_col1">global chaecck</td>
+					<td class="variable__table_row0_col2">none</td>
+					<td class="variable__table_row0_col3">li_errCode,li_ProLoc</td>
+					<td class="variable__table_row0_col4">testz  ¤»¤»</td>
+					</tr>
+
+					<tr class="function__table_row 1">
+					<td class="function__table_row1_col0" align="center">2</td>
+					<td class="variable__table_row1_col0">5400_error.JOB</td>
+					<td class="variable__table_row1_col1">Error Handling</td>
+					<td class="variable__table_row1_col2">li_errCode, li_ProLoc</td>
+					<td class="variable__table_row1_col3">none</td>
+					<td class="variable__table_row1_col4">¾ÆÁ÷ ´ú ¸¸µë ¤»</td>
+					</tr>
+
+				</table>
+			</div>   <!--function End-->
+
 		</div> <!--function_UI end-->
 
 		<div class="label_UI">
@@ -213,11 +272,41 @@
 	<script src = "https://kit.fontawesome.com/3dbd9a16b0.js" crossorigin = "anonymous" > </script>
 
 	<script>
+		<!--CONST Setting-->
+		const TYPE_INDEX = 6;
+		<!--DOM Setting-->
+		let variable_table= document.querySelector(".variable__table");
+
+		let variable_typeSelector= document.querySelector(".Type_selection");
+
+		variable_typeSelector.addEventListener("change", () => {
+		change_typeSelection();
+		});
+
+		function change_typeSelection(){
+		let filter_parameter=variable_typeSelector.value;
+		for (let i=1; i<variable_table.rows.length;i++){
+		if (filter_parameter==="All"){
+		variable_table.rows[i].style.display="block";
+		variable_table.rows[0].cells[0].style.width="30px";
+		}else{
+		if (variable_table.rows[i].cells[TYPE_INDEX].innerHTML.indexOf(filter_parameter)!=-1){
+		variable_table.rows[i].style.display="block";
+		}else{
+		variable_table.rows[i].style.display="none";
+		}
+		}
+		}
+		}
+
+		let variable_jobSelector= document.querySelector(".Job_selection");
+		let variable_Search= document.querySelector(".variable__search");
 		let description_UI = document.querySelector(".description_UI");
 		let index_UI = document.querySelector(".index_UI");
 		let variable_UI = document.querySelector(".variable_UI");
 		let function_UI = document.querySelector(".function_UI");
 		let label_UI = document.querySelector(".label_UI");
+
 		<!--Btn Variable Setting-->
 		let home_btn_activation=false;
 		let index_btn_activation=false;
@@ -225,8 +314,10 @@
 		let function_btn_activation=false;
 
 		<!--Btn Event Function Setting-->
+		function var_type_selection() {   <!--Type selection Button-->
+		}
+
 		function home_btn_func() {   <!--Home Btn Function-->
-			alert("This is a working button1");
 			home_btn_activation=true;
 			index_btn_activation=false;
 			variable_btn_activation=false;
@@ -240,7 +331,6 @@
 		}
 
 		function index_btn_func() {   <!--Index Btn Function-->
-			alert("This is a working button2");
 			home_btn_activation=false;
 			index_btn_activation=true;
 			variable_btn_activation=false;
@@ -258,8 +348,6 @@
 			index_btn_activation=false;
 			variable_btn_activation=true;
 			function_btn_activation=false;
-			alert("This is a working button3");
-
 			description_UI.style.display="none";
 			index_UI.style.display="none";
 			variable_UI.style.display="block";
@@ -272,8 +360,6 @@
 			index_btn_activation=false;
 			variable_btn_activation=false;
 			function_btn_activation=true;
-			alert("This is a working button4");
-
 			description_UI.style.display="none";
 			index_UI.style.display="none";
 			variable_UI.style.display="none";

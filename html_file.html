@@ -3,8 +3,21 @@
 <head>
 	<title>Page Title</title>
 	<style>
-	body{
+	:root{		--table_header_color:gray;	}	body{
 	background-color: lightblue;
+	}
+	.variable_search_part{
+	display: flex;
+	}
+	.variable__selector{
+		display: flex;
+	}
+	.variable__table{
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	.variable__table_header{
+		background-color:var(--table_header_color)
 	}
 	</style>
 </head>
@@ -23,24 +36,31 @@
 	<!-- Main Frame Setting -->
 	<div class="main_frame">
 
-		<div class="home_UI">
-		<span> Home UI </span>
-		</div> <!--home_UI end-->
+		<div class="description_UI">
+		</div> <!--description_UI end-->
 
 		<div class="index_UI">
-		<span> index ui </span>
 		</div> <!--index_UI end-->
 
 		<div class="variable_UI">
-		<span> variable ui </span>
 		</div> <!--variable_UI end-->
 
 		<div class="function_UI">
 		</div> <!--function_UI end-->
 
+		<div class="label_UI">
+		</div> <!--label_UI end-->
+
 	</div> <!--main-frame end-->
 
+	<script src = "https://kit.fontawesome.com/3dbd9a16b0.js" crossorigin = "anonymous" > </script>
+
 	<script>
+		let description_UI = document.querySelector(".description_UI");
+		let index_UI = document.querySelector(".index_UI");
+		let variable_UI = document.querySelector(".variable_UI");
+		let function_UI = document.querySelector(".function_UI");
+		let label_UI = document.querySelector(".label_UI");
 		<!--Btn Variable Setting-->
 		let home_btn_activation=false;
 		let index_btn_activation=false;
@@ -54,6 +74,12 @@
 			index_btn_activation=false;
 			variable_btn_activation=false;
 			function_btn_activation=false;
+
+			description_UI.style.display="block";
+			index_UI.style.display="none";
+			variable_UI.style.display="none";
+			function_UI.style.display="none";
+			label_UI.style.display="none";
 		}
 
 		function index_btn_func() {   <!--Index Btn Function-->
@@ -62,6 +88,12 @@
 			index_btn_activation=true;
 			variable_btn_activation=false;
 			function_btn_activation=false;
+
+			description_UI.style.display="none";
+			index_UI.style.display="block";
+			variable_UI.style.display="none";
+			function_UI.style.display="none";
+			label_UI.style.display="none";
 		}
 
 		function variable_btn_func() {   <!--Variable Btn Function-->
@@ -70,6 +102,12 @@
 			variable_btn_activation=true;
 			function_btn_activation=false;
 			alert("This is a working button3");
+
+			description_UI.style.display="none";
+			index_UI.style.display="none";
+			variable_UI.style.display="block";
+			function_UI.style.display="none";
+			label_UI.style.display="none";
 		}
 
 		function function_btn_func() {   <!--Function Btn Function-->
@@ -78,7 +116,27 @@
 			variable_btn_activation=false;
 			function_btn_activation=true;
 			alert("This is a working button4");
+
+			description_UI.style.display="none";
+			index_UI.style.display="none";
+			variable_UI.style.display="none";
+			function_UI.style.display="block";
+			label_UI.style.display="none";
 		}
+
+		function search_Ok_btn_func(){    <!--search_Ok_btn_func-->
+			alert("Searching!");
+		}
+
+		function init(){
+			description_UI.style.display="block";
+			index_UI.style.display="none";
+			variable_UI.style.display="none";
+			function_UI.style.display="none";
+			label_UI.style.display="none";
+		}
+
+		init();
 
 	</script>
 </body>

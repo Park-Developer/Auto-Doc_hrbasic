@@ -13,8 +13,9 @@ class JobReader:
         self.job_list=os.listdir(self.job_address)
 
     def read_n_make_rawData(self):
-        for job in self.job_list:
+        for job in self.job_list: # job : job 파일 이름
             job_loc=self.job_address+"\\"+job
+            func_tmp = []
             with open( job_loc, 'r') as file:
                 for i, line in enumerate(file):
                     if "@Description" in line:
@@ -37,23 +38,14 @@ class JobReader:
                         }
                         self.Variable_raw_List.append(temp_dic)
 
-
-
                     if "@func" in line: # func -> function
-                        func_tmp=[]
                         func_tmp.append(line)
                     elif "@param" in line: # param -> function
                         func_tmp.append(line)
-                    elif "@return" in line: # param -> function
+                    elif "@result" in line: # param -> function
                         func_tmp.append(line)
-                        if ("@func" in func_tmp[0]) and  ("@param" in func_tmp[1]) and ("@return" in func_tmp[2]):
-                            temp_dic = {
-                                "job_num": job,
-                                "rawdata": func_tmp
-                            }
-                            self.Function_raw_List.append(temp_dic)
-                        else:
-                            print(job,"EORRORR!",line)
+                    elif "@ref" in line:
+                        func_tmp.append(line)
 
                     if "@label" in line: # label -> label
                         temp_dic = {
@@ -61,6 +53,15 @@ class JobReader:
                             "rawdata": line
                         }
                         self.Label_raw_List.append(temp_dic)
+
+                # 한개의 파일에서 순환 종류후 데이터 검사
+                if (func_tmp!=[]):
+                    temp_dic = {
+                        "job_num": job,
+                        "rawdata": func_tmp
+                    }
+                    self.Function_raw_List.append(temp_dic)
+
 
     def save_DocData(self):
         pass
