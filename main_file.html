@@ -3,7 +3,7 @@
 <head>
 	<title>Page Title</title>
 	<style>
-	body{
+	:root{		--table_header_color:gray;	}	body{
 	background-color: lightblue;
 	}
 	.variable_search_part{
@@ -15,6 +15,9 @@
 	.variable__table{
 		border: 1px solid black;
 		border-collapse: collapse;
+	}
+	.variable__table_header{
+		background-color:var(--table_header_color)
 	}
 	</style>
 </head>
@@ -84,8 +87,8 @@
 			<div class="variable__selector_job">
 				<span class="Job_name">Job</span>
 				<select name="Job" class="Job_selection">
-			<option>5001</option>
 			<option>5002</option>
+			<option>5001</option>
 				</select>
 			</div><!--variable__selector_job End-->
 
@@ -104,13 +107,94 @@
 			<div class="variable_table_part">
 				<table class="variable__table">
 					<tr class="variable__table_header">
-					<th class="header_index">Index</th>
-					<th class="header_variable">Variable</th>
-					<th class="header_description">Description</th>
-					<th class="header_default">Default</th>
-					<th class="header_use">Use</th>
-					<th class="header_job">Job</th>
+					<th class="header_index" align="center">Index</th>
+					<th class="header_variable" align="center">Variable</th>
+					<th class="header_description" align="center">Description</th>
+					<th class="header_default" align="center">Default</th>
+					<th class="header_use" align="center">Use</th>
+					<th class="header_job" align="center">Job</th>
+					<th class="header_job" align="center">Type</th>
 					</tr>
+					<tr class="variable__table_row 0">
+					<td class="variable__table_row0_col0" align="center">1</td>
+					<td class="variable__table_row0_col0">gi_Search</td>
+					<td class="variable__table_row0_col1">Stage Search Method</td>
+					<td class="variable__table_row0_col2" align="center">-</td>
+					<td class="variable__table_row0_col3">0 : No setting, 1:Manual Searching, 2 : Auto Searching</td>
+					<td class="variable__table_row0_col4" align="center">-</td>
+					<td class="variable__table_row0_col5">Integer</td>
+					</tr>
+
+					<tr class="variable__table_row 1">
+					<td class="variable__table_row1_col0" align="center">2</td>
+					<td class="variable__table_row1_col0">gi_glsWidth</td>
+					<td class="variable__table_row1_col1">Glass Width Size</td>
+					<td class="variable__table_row1_col2" align="center">-</td>
+					<td class="variable__table_row1_col3">-</td>
+					<td class="variable__table_row1_col4" align="center">-</td>
+					<td class="variable__table_row1_col5">Integer</td>
+					</tr>
+
+					<tr class="variable__table_row 2">
+					<td class="variable__table_row2_col0" align="center">3</td>
+					<td class="variable__table_row2_col0">gi_glsHeight</td>
+					<td class="variable__table_row2_col1">Glass Height Size</td>
+					<td class="variable__table_row2_col2" align="center">-</td>
+					<td class="variable__table_row2_col3">-</td>
+					<td class="variable__table_row2_col4" align="center">-</td>
+					<td class="variable__table_row2_col5">Integer</td>
+					</tr>
+
+					<tr class="variable__table_row 3">
+					<td class="variable__table_row3_col0" align="center">4</td>
+					<td class="variable__table_row3_col0">gt_locIP</td>
+					<td class="variable__table_row3_col1">local IP Address</td>
+					<td class="variable__table_row3_col2" align="center">-</td>
+					<td class="variable__table_row3_col3">-</td>
+					<td class="variable__table_row3_col4" align="center">-</td>
+					<td class="variable__table_row3_col5">String User-defined</td>
+					</tr>
+
+					<tr class="variable__table_row 4">
+					<td class="variable__table_row4_col0" align="center">5</td>
+					<td class="variable__table_row4_col0">gt_RemoteIP</td>
+					<td class="variable__table_row4_col1">Remote IP Address</td>
+					<td class="variable__table_row4_col2" align="center">-</td>
+					<td class="variable__table_row4_col3">-</td>
+					<td class="variable__table_row4_col4" align="center">-</td>
+					<td class="variable__table_row4_col5">String User-defined</td>
+					</tr>
+
+					<tr class="variable__table_row 5">
+					<td class="variable__table_row5_col0" align="center">6</td>
+					<td class="variable__table_row5_col0">gi_Lo_port</td>
+					<td class="variable__table_row5_col1">Local Port Number</td>
+					<td class="variable__table_row5_col2" align="center">-</td>
+					<td class="variable__table_row5_col3">-</td>
+					<td class="variable__table_row5_col4" align="center">-</td>
+					<td class="variable__table_row5_col5">String User-defined</td>
+					</tr>
+
+					<tr class="variable__table_row 6">
+					<td class="variable__table_row6_col0" align="center">7</td>
+					<td class="variable__table_row6_col0">gi_Re_port</td>
+					<td class="variable__table_row6_col1">Remote Port Number</td>
+					<td class="variable__table_row6_col2" align="center">-</td>
+					<td class="variable__table_row6_col3">-</td>
+					<td class="variable__table_row6_col4" align="center">-</td>
+					<td class="variable__table_row6_col5">String User-defined</td>
+					</tr>
+
+					<tr class="variable__table_row 7">
+					<td class="variable__table_row7_col0" align="center">8</td>
+					<td class="variable__table_row7_col0">gi_UH_Gls1</td>
+					<td class="variable__table_row7_col1">Upper Hand GLass Sensor1</td>
+					<td class="variable__table_row7_col2" align="center">-</td>
+					<td class="variable__table_row7_col3">-</td>
+					<td class="variable__table_row7_col4" align="center">-</td>
+					<td class="variable__table_row7_col5">String User-defined</td>
+					</tr>
+
 				</table>
 			</div> <!--variable_table_part End-->
 

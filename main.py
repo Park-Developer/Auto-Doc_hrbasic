@@ -24,9 +24,9 @@ if __name__ == "__main__":
     html_generator.make_description_div(  descrition_processed_data)
     html_generator.make_var_div( variable_processed_data)
     print("debug")
-    print(html_generator.variable_div_list)
-    print("debug")
-    print(html_generator.description_div_list)
+    #print(html_generator.make_variable_table(variable_processed_data))
+    html_generator.make_varTable_part(variable_processed_data)
+    print(html_generator.variable_TablePart_div_list)
     html_generator.merge_Allhtml()
     result_html=html_generator.returnHTML_file(html_generator.html_base)
 

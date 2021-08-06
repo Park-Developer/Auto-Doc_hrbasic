@@ -6,6 +6,10 @@ class HTML_Generator:
             '<head>\n',
             '\t<title>Page Title</title>\n',
             '\t<style>\n', # CSS Setting
+            '\t:root{', # CSS Variable Setting
+            '\t\t--table_header_color:gray;',
+            '\t}',
+
             '\tbody{\n',
             '\tbackground-color: lightblue;\n',
             '\t}\n',
@@ -23,6 +27,11 @@ class HTML_Generator:
             '\t\tborder: 1px solid black;\n'
             '\t\tborder-collapse: collapse;\n',
             '\t}\n',
+
+            '\t.variable__table_header{\n',
+            '\t\tbackground-color:var(--table_header_color)\n'
+            '\t}\n',
+
 
             '\t</style>\n', # CSS Setting
             '</head>\n',
@@ -162,8 +171,10 @@ class HTML_Generator:
             '</body>\n',
             '</html>\n',
          ]
-         self.description_div_list=[3]
+         self.description_div_list=[]
          self.variable_div_list=[]
+         self.variable_SearchPart_div_list=[]
+         self.variable_TablePart_div_list = []
          self.function_div_list=[]
          self.label_div_list=[]
          self.index_div_list = []
@@ -177,6 +188,20 @@ class HTML_Generator:
               "label_UI":self.label_div_list,
          }
 
+         self.var_table_index={
+            # | Variable | Description | Default | Use | Job | type |
+            "variable__name":0,
+            "variable__desc":1,
+            "variable__default":2,
+            "variable__use": 3,
+            "variable__jobNum":4,
+            "variable__type":5,
+        }
+
+         self.var_insertInfo={
+            "Search":"Job_selection",
+            "Table":"variable__table",
+         }
     def update_all_htmlList(self):
         self.div_insert_location["description_UI"]=self.description_div_list
         self.div_insert_location["index_UI"]=self.index_div_list
@@ -235,7 +260,203 @@ class HTML_Generator:
 
         self.description_div_list=html_result
         self.update_all_htmlList()
-    def make_var_div(self,var_data:dict):
+
+    def make_varSearch_part(self, var_data: dict):
+        def get_jobnum_list(var_data: dict)->list:
+            '''
+            프로그램에 존재하는 중복되지 않은 JOB번호 리스트 반환
+            :param variable_info:
+            :return:
+            '''
+            job_list = []
+            for var_name, var_info in var_data.items():
+                job_list.append(var_info['variable__loc'])
+
+            result_list = list(set(job_list))  # list로 변환
+            return result_list
+
+        job_numList=get_jobnum_list(var_data)
+
+        def make_optionList( job_numList: list) -> list:
+            '''
+             job_numLis를 option tag로 변환해서 return
+            :param raw_list:
+            :return: list
+            '''
+
+            def convert_htmlOpt(rawdata: str)->str: # map function
+                if type(rawdata) == int:
+                    rawdata = str(rawdata)
+                result = '\t\t\t<option>' + rawdata + '</option>\n'
+                return result
+
+            result = list(map(convert_htmlOpt,  job_numList))
+            return result
+
+        self.variable_SearchPart_div_list= make_optionList(job_numList)
+        return self.variable_SearchPart_div_list
+
+    def make_varTable_part(self,var_data:dict):
+        var_Table_baseHTML=[
+            '\t\t\t\t\t<tr class="variable__table_header">\n'  # Table Header 
+            '\t\t\t\t\t<th class="header_index" align="center">Index</th>\n',
+            '\t\t\t\t\t<th class="header_variable" align="center">Variable</th>\n',
+            '\t\t\t\t\t<th class="header_description" align="center">Description</th>\n',
+            '\t\t\t\t\t<th class="header_default" align="center">Default</th>\n',
+            '\t\t\t\t\t<th class="header_use" align="center">Use</th>\n',
+            '\t\t\t\t\t<th class="header_job" align="center">Job</th>\n',
+            '\t\t\t\t\t<th class="header_job" align="center">Type</th>\n',
+            '\t\t\t\t\t</tr>\n\n',  # Table Header
+        ]
+        table_list = []
+
+        def make_colInfo(var_info: dict, index_info: dict):
+            new_row = ['-', '-', '-', '-', '-', '-', ]  # '-' : 속성이 없다는 뜻
+
+            # Index / Variable / Description / Default / Use / Job / type
+
+            def write_row(var_info: dict, row: list, property: str) -> list:
+                if (var_info.get(property) != None):
+                    row[index_info[property]] = var_info[property]
+                return row
+
+            # column별 속성 추가하기
+            new_row = write_row(var_info, new_row, "variable__name")
+            new_row = write_row(var_info, new_row, "variable__desc")
+            new_row = write_row(var_info, new_row, "variable__type")
+            new_row = write_row(var_info, new_row, "variable__use")
+            new_row = write_row(var_info, new_row, "variable__default")
+            new_row = write_row(var_info, new_row, "variable__jobNum")
+
+            return new_row
+
+        for var_name, var_info in var_data.items():
+            new_row = make_colInfo(var_info, self.var_table_index)
+            table_list.append(new_row)
+
+
+        def convert_varTable_toHTML(var_table_list: list, index_info: dict) -> list:
+            var_html_table = []
+
+            def make_htmlTag(index, row_info):
+                row_html = ['\t\t\t\t\t<tr class="variable__table_row '+ str(index) + '">\n',
+                            '\t\t\t\t\t<td class="variable__table_row' + str(index) + '_col0" align="center">' + str(index+1) + '</td>\n'] # Index Column
+                # Index Header에 center align 속성 추가
+
+                # index_info Reverse Version
+                reversed_index_info={}
+                for key,value in index_info.items():
+                    reversed_index_info[value]=key
+
+                for col_idx, property_value in enumerate(row_info):
+                    if("default" in reversed_index_info[col_idx] or "job" in reversed_index_info[col_idx]): # default와 job column은 text-align 적용
+                        row_html.append(
+                            '\t\t\t\t\t<td class="variable__table_row' + str(index) + '_col' + str(col_idx) + '" align="center">' + str(
+                                property_value) + '</td>\n')
+                    else:
+                        row_html.append(
+                            '\t\t\t\t\t<td class="variable__table_row' + str(index) + '_col' + str(col_idx) + '">' + str(
+                                property_value) + '</td>\n')
+
+                row_html.append('\t\t\t\t\t</tr>\n\n')
+                return row_html
+
+            for index, row_info in enumerate(var_table_list):
+                var_html_table += make_htmlTag(index, row_info)
+
+            return var_html_table
+
+        self.variable_TablePart_div_list= var_Table_baseHTML+convert_varTable_toHTML(table_list,self.var_table_index)
+        return self.variable_TablePart_div_list
+
+
+
+    def make_var_div(self,var_data:dict)->list:
+        # Variable base HTML frame
+        html_base = [
+            '\t\t<div class="variable">\n',
+            # Selector Setting
+            '\t\t\t<!--Selector Setting-->\n',  # comment
+
+            '\t\t\t<!--variable_search_part-->\n',
+            '\t\t\t<div class="variable_search_part">\n',
+
+            '\t\t\t<div class="variable__selector">\n',
+            ########################################[SELECTOR]################
+
+            '\t\t\t<div class="variable__selector_type">\n',  # variable__selector_type
+            '\t\t\t\t<span class="Type_name">Type</span>\n',
+            '\t\t\t\t<select name="Type" class="Type_selection">\n',
+            '\t\t\t\t\t<option>Integer</option>\n',
+            '\t\t\t\t\t<option>Double</option>\n',
+            '\t\t\t\t\t<option>String</option>\n',
+            '\t\t\t\t\t<option>Array</option>\n',
+            '\t\t\t\t</select>\n',
+            '\t\t\t</div><!--variable__selector_type End-->\n\n',  # variable__selector_type
+
+            '\t\t\t<div class="variable__selector_job">\n',  # variable__selector_job
+            '\t\t\t\t<span class="Job_name">Job</span>\n',
+            '\t\t\t\t<select name="Job" class="Job_selection">\n',
+            # 이 부분에 JOB List 추가
+            '\t\t\t\t</select>\n'
+            '\t\t\t</div><!--variable__selector_job End-->\n\n',  # variable__selector_job
+
+            '\t\t\t</div><!--selector End-->\n\n',  ########################################[SELECTOR]################
+
+            ########################################[Search]################
+            '\t\t\t<!--Search Setting-->\n',  # comment
+            '\t\t\t<div class="variable__search">\n',
+            '\t\t\t<span class="search__title">Search</span>\n',
+            '\t\t\t<input type="text" class="search__input" name="name" required minlength="4" maxlength="8" size="10">\n',
+            '\t\t\t<button onclick = "search_Ok_btn_func()">ok</button>\n',
+            '\t\t\t</div>\n\n',
+            ########################################[Search]################
+
+            '\t\t\t</div><!--variable_search_part End-->\n\n',
+
+            '\t\t\t<!--variable_table_part-->\n',
+            '\t\t\t<div class="variable_table_part">\n',
+            '\t\t\t\t<table class="variable__table">\n',
+            #'\t\t\t\t\t<tr class="variable__table_header">\n'  # Table Header
+            #'\t\t\t\t\t<th class="header_index">Index</th>\n',
+            #'\t\t\t\t\t<th class="header_variable">Variable</th>\n',
+            #'\t\t\t\t\t<th class="header_description">Description</th>\n',
+            #'\t\t\t\t\t<th class="header_default">Default</th>\n',
+            #'\t\t\t\t\t<th class="header_use">Use</th>\n',
+            #'\t\t\t\t\t<th class="header_job">Job</th>\n',
+            #'\t\t\t\t\t</tr>\n',  # Table Header
+
+            '\t\t\t\t</table>\n',
+            '\t\t\t</div> <!--variable_table_part End-->\n\n',
+            ########################################[TABLE]################
+            ########################################[TABLE]################
+
+            '\t\t\t</div>   <!--variable End-->\n\n',  # variable end
+        ]
+
+        # Insert Function
+        def insert_Div_to_base(base_html: list, insert_html: list, insert_class) -> list:
+            for idx, line in enumerate(base_html):
+                if insert_class in line:  # 삽입 위치
+                    merged_html = base_html[:idx + 1] + insert_html + base_html[idx + 1:]
+                    break
+            return merged_html
+
+        # Search Part
+        self.make_varSearch_part(var_data)
+        search_insertClass=self.var_insertInfo["Search"]
+        result_html=insert_Div_to_base(html_base,self.variable_SearchPart_div_list, search_insertClass)
+
+        # Table Part
+        self.make_varTable_part(var_data)
+        table_insertClass=self.var_insertInfo["Table"]
+        result_html=insert_Div_to_base(result_html,self.variable_TablePart_div_list,table_insertClass)
+
+        # Return & Update
+        self.variable_div_list = result_html
+        self.update_all_htmlList()
+
+    def make_var_div2222(self,var_data:dict):
         html_base=[
             '\t\t<div class="variable">\n',
             # Selector Setting
@@ -253,7 +474,7 @@ class HTML_Generator:
             '\t\t\t\t\t<option>Double</option>\n',
             '\t\t\t\t\t<option>String</option>\n',
             '\t\t\t\t\t<option>Array</option>\n',
-            '\t\t\t\t</select>\n'
+            '\t\t\t\t</select>\n',
             '\t\t\t</div><!--variable__selector_type End-->\n\n',  # variable__selector_type
 
             '\t\t\t<div class="variable__selector_job">\n',  # variable__selector_job
@@ -329,16 +550,7 @@ class HTML_Generator:
 
         job_optionList= make_optionList(job_numList)
 
-        def insert_optionlist(base_html:list, option_list:list,insert_location='class="Job_selection"')->list:
-            for idx, line in enumerate(base_html):
-                if insert_location in line: # 삽입 위치
-                    result = base_html[:idx + 1] +option_list + base_html[idx + 1:]
-                    break
-            return result
 
-        merged_html=insert_optionlist(html_base,job_optionList,'class="Job_selection"')
-
-        self.variable_div_list = merged_html
         self.update_all_htmlList()
 
     def returnHTML_basicForm(self):
