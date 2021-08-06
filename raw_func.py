@@ -95,35 +95,6 @@ def extract_descripInfo(desc_raw:dict):
     else:
         return result
 
-def get_jobnum_list(variable_info:dict):
-    '''
-    프로그램에 존재하는 중복되지 않은 JOB번호 리스트 반환
-    :param variable_info:
-    :return:
-    '''
-    job_list=[]
-    for var_name, var_info in variable_info.items():
-        job_list.append( var_info['variable__loc'])
-
-
-    result_list = list(set(job_list) )  # list로 변환
-    return result_list
-
-
-def make_optionList(raw_list: list)->list:
-    '''
-    raw_list를 option tag로 변환해서 return
-    :param raw_list:
-    :return: list
-    '''
-    def convert_htmlOpt(rawdata: str):
-        if type(rawdata) == int:
-            rawdata = str(rawdata)
-        result = '\t\t\t<option>' + rawdata + '</option>\n'
-        return result
-
-    result = list(map(convert_htmlOpt, raw_list))
-    return result
 
 if __name__=="__main__":
     test_desc_raw={'job_num': '1472_job_description.JOB', 'rawdata': ["'@Description : Auto Teaching Job\n", "'@Version : v1.0 \n", "'@Developer : Park Wonho, park.wonho@hyundai-robotics.com, 010-8332-1697\n"]}
@@ -143,6 +114,3 @@ if __name__=="__main__":
                  'rawdata': 'gi_Re_port=""\t\'@var Remote Port Number @type String User-defined\n'}]
 
     dD=extract_varInfo(testlist)
-
-    print(dD)
-    print( get_jobnum_list(dD))

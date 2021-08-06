@@ -1,6 +1,6 @@
 class HTML_Generator:
     def __init__(self):
-         self.htmlline=[ # Basic Form
+         self.html_base=[ # Basic Form
             '<!DOCTYPE html>\n',
             '<html>\n',
             '<head>\n',
@@ -9,6 +9,21 @@ class HTML_Generator:
             '\tbody{\n',
             '\tbackground-color: lightblue;\n',
             '\t}\n',
+
+            # Variable CSS Setting_______________________________
+            '\t.variable_search_part{\n',
+            '\tdisplay: flex;\n',
+            '\t}\n',
+
+            '\t.variable__selector{\n',
+            '\t\tdisplay: flex;\n',
+            '\t}\n',
+
+            '\t.variable__table{\n',
+            '\t\tborder: 1px solid black;\n'
+            '\t\tborder-collapse: collapse;\n',
+            '\t}\n',
+
             '\t</style>\n', # CSS Setting
             '</head>\n',
 
@@ -27,23 +42,35 @@ class HTML_Generator:
 
              '\t<!-- Main Frame Setting -->\n',
              '\t<div class="main_frame">\n\n',
-             '\t\t<div class="home_UI">\n',
-             '\t\t<span> Home UI </span>\n',
-             '\t\t</div> <!--home_UI end-->\n\n',
+
+             '\t\t<div class="description_UI">\n',
+             '\t\t</div> <!--description_UI end-->\n\n',
 
              '\t\t<div class="index_UI">\n',
-             '\t\t<span> index ui </span>\n',
              '\t\t</div> <!--index_UI end-->\n\n',
 
              '\t\t<div class="variable_UI">\n',
-             '\t\t<span> variable ui </span>\n',
              '\t\t</div> <!--variable_UI end-->\n\n',
 
              '\t\t<div class="function_UI">\n',
              '\t\t</div> <!--function_UI end-->\n\n',
 
+             '\t\t<div class="label_UI">\n',
+             '\t\t</div> <!--label_UI end-->\n\n',
+
              '\t</div> <!--main-frame end-->\n\n',
+             # icon Setting
+             '\t<script src = "https://kit.fontawesome.com/3dbd9a16b0.js" crossorigin = "anonymous" > </script>\n\n',
+
+             # JS Setting
              '\t<script>\n',
+                # DOM setting
+                '\t\tlet description_UI = document.querySelector(".description_UI");\n',
+                '\t\tlet index_UI = document.querySelector(".index_UI");\n',
+                '\t\tlet variable_UI = document.querySelector(".variable_UI");\n',
+                '\t\tlet function_UI = document.querySelector(".function_UI");\n',
+                '\t\tlet label_UI = document.querySelector(".label_UI");\n',
+
                 # Variable Definition : All variable is global variable
                 '\t\t<!--Btn Variable Setting-->\n',
                 '\t\tlet home_btn_activation=false;\n',
@@ -53,43 +80,109 @@ class HTML_Generator:
 
                  # Event Setting
                 '\t\t<!--Btn Event Function Setting-->\n',
-                '\t\tfunction home_btn_func() {   <!--Home Btn Function-->\n', # Home Button Function
+
+                # Home Button Function________________________________________________________
+                '\t\tfunction home_btn_func() {   <!--Home Btn Function-->\n',
                 '\t\t\talert("This is a working button1");\n',
                 '\t\t\thome_btn_activation=true;\n',
                 '\t\t\tindex_btn_activation=false;\n',
                 '\t\t\tvariable_btn_activation=false;\n',
-                '\t\t\tfunction_btn_activation=false;\n',
+                '\t\t\tfunction_btn_activation=false;\n\n',
+
+                '\t\t\tdescription_UI.style.display="block";\n', # Activate
+                '\t\t\tindex_UI.style.display="none";\n',
+                '\t\t\tvariable_UI.style.display="none";\n',
+                '\t\t\tfunction_UI.style.display="none";\n',
+                '\t\t\tlabel_UI.style.display="none";\n',
                 '\t\t}\n\n',
 
-                '\t\tfunction index_btn_func() {   <!--Index Btn Function-->\n', # Index Button Function
+                # Index Button Function________________________________________________________
+                '\t\tfunction index_btn_func() {   <!--Index Btn Function-->\n',
                 '\t\t\talert("This is a working button2");\n',
                 '\t\t\thome_btn_activation=false;\n',
                 '\t\t\tindex_btn_activation=true;\n',
                 '\t\t\tvariable_btn_activation=false;\n',
-                '\t\t\tfunction_btn_activation=false;\n',
+                '\t\t\tfunction_btn_activation=false;\n\n',
+
+                '\t\t\tdescription_UI.style.display="none";\n',
+                '\t\t\tindex_UI.style.display="block";\n', # Activate
+                '\t\t\tvariable_UI.style.display="none";\n',
+                '\t\t\tfunction_UI.style.display="none";\n',
+                '\t\t\tlabel_UI.style.display="none";\n',
                 '\t\t}\n\n',
 
-                '\t\tfunction variable_btn_func() {   <!--Variable Btn Function-->\n', # Variable Button Function
+                # Variable Button Function________________________________________________________
+                '\t\tfunction variable_btn_func() {   <!--Variable Btn Function-->\n',
                 '\t\t\thome_btn_activation=false;\n',
                 '\t\t\tindex_btn_activation=false;\n',
                 '\t\t\tvariable_btn_activation=true;\n',
                 '\t\t\tfunction_btn_activation=false;\n',
-                '\t\t\talert("This is a working button3");\n'
+                '\t\t\talert("This is a working button3");\n\n'
+                
+                '\t\t\tdescription_UI.style.display="none";\n',
+                '\t\t\tindex_UI.style.display="none";\n',
+                '\t\t\tvariable_UI.style.display="block";\n', # Activate
+                '\t\t\tfunction_UI.style.display="none";\n',
+                '\t\t\tlabel_UI.style.display="none";\n',
                 '\t\t}\n\n',
 
-                '\t\tfunction function_btn_func() {   <!--Function Btn Function-->\n', # Function Button Function
+                # Function Button Function________________________________________________________
+                '\t\tfunction function_btn_func() {   <!--Function Btn Function-->\n',
                 '\t\t\thome_btn_activation=false;\n',
                 '\t\t\tindex_btn_activation=false;\n',
                 '\t\t\tvariable_btn_activation=false;\n',
                 '\t\t\tfunction_btn_activation=true;\n',
-                '\t\t\talert("This is a working button4");\n',
+                '\t\t\talert("This is a working button4");\n\n',
+
+                '\t\t\tdescription_UI.style.display="none";\n',
+                '\t\t\tindex_UI.style.display="none";\n',
+                '\t\t\tvariable_UI.style.display="none";\n',
+                '\t\t\tfunction_UI.style.display="block";\n', # Activate
+                '\t\t\tlabel_UI.style.display="none";\n',
                 '\t\t}\n\n',
 
-             '\t</script>\n',
+                # Search Button Function________________________________________________________
+                '\t\tfunction search_Ok_btn_func(){    <!--search_Ok_btn_func-->\n',
+                '\t\t\talert("Searching!");\n',
+                '\t\t}\n\n',
+
+                 # Search Button Function________________________________________________________
+                 '\t\tfunction init(){\n',
+                 '\t\t\tdescription_UI.style.display="block";\n',  # Activate
+                 '\t\t\tindex_UI.style.display="none";\n',
+                 '\t\t\tvariable_UI.style.display="none";\n',
+                 '\t\t\tfunction_UI.style.display="none";\n',
+                 '\t\t\tlabel_UI.style.display="none";\n',
+                 '\t\t}\n\n',
+
+            # Excution______________________________________________________
+            '\t\tinit();\n\n', # init() Excution
+
+            '\t</script>\n',
             '</body>\n',
             '</html>\n',
          ]
-         self.description_div_list=[]
+         self.description_div_list=[3]
+         self.variable_div_list=[]
+         self.function_div_list=[]
+         self.label_div_list=[]
+         self.index_div_list = []
+
+         self.div_insert_location={
+             # Insert class name : HTML List
+              "description_UI": self.description_div_list,
+              "index_UI": self.index_div_list,
+              "variable_UI":self.variable_div_list,
+              "function_UI": self.function_div_list,
+              "label_UI":self.label_div_list,
+         }
+
+    def update_all_htmlList(self):
+        self.div_insert_location["description_UI"]=self.description_div_list
+        self.div_insert_location["index_UI"]=self.index_div_list
+        self.div_insert_location["variable_UI"]=self.variable_div_list
+        self.div_insert_location["function_UI"]=self.function_div_list
+        self.div_insert_location["label_UI"]=self.label_div_list
 
     def make_description_div(self,description_data:dict):
         '''
@@ -104,76 +197,149 @@ class HTML_Generator:
 
         html_result = [
 
-            '\t<div class="description">\n',
+            '\t\t<div class="description">\n',
             ###########################################################################################
-            '\t\t<div class="description__description">\n',
-                '\t\t\t<span class="description__title">\n',
-                '\t\t\t<i class="fas fa-square"></i> Description : \n',
-                '\t\t\t</span>\n',
+            '\t\t\t<div class="description__description">\n',
+                '\t\t\t\t<span class="description__title">\n',
+                '\t\t\t\t<i class="fas fa-square"></i> Description : \n',
+                '\t\t\t\t</span>\n',
 
-                '\t\t\t<span class="description__value">\n',
-                '\t\t\t'+description+'\n',
-                '\t\t\t</span>\n',
-            '\t\t</div>\n',
+                '\t\t\t\t<span class="description__value">\n',
+                '\t\t\t\t'+description+'\n',
+                '\t\t\t\t</span>\n',
+            '\t\t\t</div>\n',
             ###########################################################################################
-            '\t\t<div class="description__version">\n',
-                '\t\t\t<span class="version__title">\n',
-                '\t\t\t<i class="fas fa-square"></i> Version : \n',
-                '\t\t\t</span>\n',
+            '\t\t\t<div class="description__version">\n',
+                '\t\t\t\t<span class="version__title">\n',
+                '\t\t\t\t<i class="fas fa-square"></i> Version : \n',
+                '\t\t\t\t</span>\n',
 
-                '\t\t\t<span class="version__value">\n',
-                '\t\t\t' + version + '\n',
-                '\t\t\t</span>\n',
-            '\t\t</div>\n',
+                '\t\t\t\t<span class="version__value">\n',
+                '\t\t\t\t' + version + '\n',
+                '\t\t\t\t</span>\n',
+            '\t\t\t</div>\n',
             ###########################################################################################
-            '\t\t<div class="description__developer">\n',
-                '\t\t\t<span class="developer__title">\n',
-                '\t\t\t<i class="fas fa-square"></i> Developer : \n',
-                '\t\t\t</span>\n',
+            '\t\t\t<div class="description__developer">\n',
+                '\t\t\t\t<span class="developer__title">\n',
+                '\t\t\t\t<i class="fas fa-square"></i> Developer : \n',
+                '\t\t\t\t</span>\n',
 
-                '\t\t\t<span class="developer__value">\n',
-                '\t\t\t' + developer + '\n',
-                '\t\t\t</span>\n',
-            '\t\t</div>\n',
+                '\t\t\t\t<span class="developer__value">\n',
+                '\t\t\t\t' + developer + '\n',
+                '\t\t\t\t</span>\n',
+            '\t\t\t</div>\n',
             ###########################################################################################
-            '\t</div>\n',
-            '<script src = "https://kit.fontawesome.com/3dbd9a16b0.js" crossorigin = "anonymous" > </script >'
+            '\t\t</div>\n',
+
         ]
 
         self.description_div_list=html_result
-
+        self.update_all_htmlList()
     def make_var_div(self,var_data:dict):
         html_base=[
-        '<div class="variable">\n',
-        # Selector Setting
-        '\t<!--Selector Setting-->\n', # comment
+            '\t\t<div class="variable">\n',
+            # Selector Setting
+            '\t\t\t<!--Selector Setting-->\n',  # comment
 
+            '\t\t\t<!--variable_search_part-->\n',
+            '\t\t\t<div class="variable_search_part">\n',
 
+            '\t\t\t<div class="variable__selector">\n',  ########################################[SELECTOR]################
 
-        '\t<div class="variable__selector">\n',
+            '\t\t\t<div class="variable__selector_type">\n',  # variable__selector_type
+            '\t\t\t\t<span class="Type_name">Type</span>\n',
+            '\t\t\t\t<select name="Type" class="Type_selection">\n',
+            '\t\t\t\t\t<option>Integer</option>\n',
+            '\t\t\t\t\t<option>Double</option>\n',
+            '\t\t\t\t\t<option>String</option>\n',
+            '\t\t\t\t\t<option>Array</option>\n',
+            '\t\t\t\t</select>\n'
+            '\t\t\t</div><!--variable__selector_type End-->\n\n',  # variable__selector_type
 
-        '\t<div class="variable__selector_type">\n', # variable__selector_type
-        '\t\t<select name="Type" class="Type_selection">\n',
-        '\t\t\t<option>Integer</option>\n',
-        '\t\t\t<option>Double</option>\n',
-        '\t\t\t<option>String</option>\n',
-        '\t\t\t<option>Array</option>\n',
-        '\t\t</select>\n'
-        '\t</div><!--variable__selector_type End-->\n\n', # variable__selector_type
+            '\t\t\t<div class="variable__selector_job">\n',  # variable__selector_job
+            '\t\t\t\t<span class="Job_name">Job</span>\n',
+            '\t\t\t\t<select name="Job" class="Job_selection">\n',
+            # 이 부분에 JOB List 추가
+            '\t\t\t\t</select>\n'
+            '\t\t\t</div><!--variable__selector_job End-->\n\n',  # variable__selector_job
 
+            '\t\t\t</div><!--selector End-->\n\n',  ########################################[SELECTOR]################
 
+            ########################################[Search]################
+            '\t\t\t<!--Search Setting-->\n',  # comment
+            '\t\t\t<div class="variable__search">\n',
+            '\t\t\t<span class="search__title">Search</span>\n',
+            '\t\t\t<input type="text" class="search__input" name="name" required minlength="4" maxlength="8" size="10">\n',
+            '\t\t\t<button onclick = "search_Ok_btn_func()">ok</button>\n',
+            '\t\t\t</div>\n\n',
+            ########################################[Search]################
 
-        '\t</div><!--selector End-->\n\n',
+            '\t\t\t</div><!--variable_search_part End-->\n\n',
 
+            '\t\t\t<!--variable_table_part-->\n',
+            '\t\t\t<div class="variable_table_part">\n',
+            '\t\t\t\t<table class="variable__table">\n',
+            '\t\t\t\t\t<tr class="variable__table_header">\n'  # Table Header 
+            '\t\t\t\t\t<th class="header_index">Index</th>\n',
+            '\t\t\t\t\t<th class="header_variable">Variable</th>\n',
+            '\t\t\t\t\t<th class="header_description">Description</th>\n',
+            '\t\t\t\t\t<th class="header_default">Default</th>\n',
+            '\t\t\t\t\t<th class="header_use">Use</th>\n',
+            '\t\t\t\t\t<th class="header_job">Job</th>\n',
+            '\t\t\t\t\t</tr>\n',  # Table Header
 
+            '\t\t\t\t</table>\n',
+            '\t\t\t</div> <!--variable_table_part End-->\n\n',
+            ########################################[TABLE]################
+            ########################################[TABLE]################
 
-
-
-        '</div>\n\n',
+            '\t\t\t</div>   <!--variable End-->\n\n',  # variable end
         ]
-        html_result=[]
-        for var_name, var_info in var_data.items():
-            pass
+
+        def get_jobnum_list(var_data: dict)->list:
+            '''
+            프로그램에 존재하는 중복되지 않은 JOB번호 리스트 반환
+            :param variable_info:
+            :return:
+            '''
+            job_list = []
+            for var_name, var_info in var_data.items():
+                job_list.append(var_info['variable__loc'])
+
+            result_list = list(set(job_list))  # list로 변환
+            return result_list
+
+        job_numList=get_jobnum_list(var_data)
+
+        def make_optionList( job_numList: list) -> list:
+            '''
+             job_numLis를 option tag로 변환해서 return
+            :param raw_list:
+            :return: list
+            '''
+
+            def convert_htmlOpt(rawdata: str)->str: # map function
+                if type(rawdata) == int:
+                    rawdata = str(rawdata)
+                result = '\t\t\t<option>' + rawdata + '</option>\n'
+                return result
+
+            result = list(map(convert_htmlOpt,  job_numList))
+            return result
+
+        job_optionList= make_optionList(job_numList)
+
+        def insert_optionlist(base_html:list, option_list:list,insert_location='class="Job_selection"')->list:
+            for idx, line in enumerate(base_html):
+                if insert_location in line: # 삽입 위치
+                    result = base_html[:idx + 1] +option_list + base_html[idx + 1:]
+                    break
+            return result
+
+        merged_html=insert_optionlist(html_base,job_optionList,'class="Job_selection"')
+
+        self.variable_div_list = merged_html
+        self.update_all_htmlList()
 
     def returnHTML_basicForm(self):
         '''
@@ -228,7 +394,42 @@ class HTML_Generator:
         merged_htm1=basic_html[:addtion_start_loc]+operand_html+basic_html[addtion_start_loc:]
 
         return merged_htm1
-    
+
+    def merge_Allhtml(self):
+        try:
+            if (self.html_base==[]):
+                raise Exception("No HTML Base")
+
+            def find_classLoc(base_html:list,class_name:str)->dict:
+                result = {
+                    "is_find": False,
+                    "location": -1,
+                }
+                for idx, line in enumerate(base_html):
+                    if class_name in line:  # 삽입 위치
+                        result = {
+                            "is_find":True,
+                            "location":idx,
+                        }
+                        break
+                return result
+
+            def insert_to_basehtml(base_html:list,insert_html:list,insert_loc:int)->list:
+                result = base_html[:insert_loc] + insert_html + base_html[insert_loc:]
+                return result
+
+            for insert_className,insert_html in self.div_insert_location.items():
+                if (insert_html!=[]):
+                    find_result=find_classLoc(self.html_base, insert_className)
+                    if find_result["is_find"] == True:
+                        insert_loc = find_result["location"] + 1
+                        self.html_base=insert_to_basehtml( self.html_base, insert_html, insert_loc)
+
+        except Exception as e:
+            print("An exception occurred: ", e)
+
+
+
 if __name__ == "__main__":
     testObj=HTML_Generator();
 
@@ -334,12 +535,12 @@ if __name__ == "__main__":
         '\t\t\t</tr>\n',  # Table Header
         
         '\t\t</table>',
-        '\t</div><!--variable_table_part End-->\n\n',
+        '\t</div> <!--variable_table_part End-->\n\n',
         ########################################[TABLE]################
         ########################################[TABLE]################
 
 
-        '</div>\n\n',
+        '</div>   <!--variable End-->\n\n', # variable end
         '</body>\n',
         '</html>\n',
         ]
