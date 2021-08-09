@@ -15,9 +15,13 @@
 	.variable__table{
 		border: 1px solid black;
 		border-collapse: collapse;
+		table-layout:fixed;
 	}
 	.variable__table_header{
 		background-color:var(--table_header_color)
+	}
+	.header_index{
+	width:30px;
 	}
 	.function__table{
 		border: 1px solid black;
@@ -123,7 +127,7 @@
 			<!--Search Setting-->
 			<div class="variable__search">
 			<span class="search__title">Search</span>
-			<input type="text" class="search__input" name="name" required minlength="4" maxlength="8" size="10">
+			<input type="text" class="variable_search__input" name="name" required minlength="4" maxlength="8" size="10">
 			<button onclick = "search_Ok_btn_func()">ok</button>
 			</div>
 
@@ -274,6 +278,7 @@
 	<script>
 		<!--CONST Setting-->
 		const TYPE_INDEX = 6;
+		const VARIABLE_NAME = 1;
 		<!--DOM Setting-->
 		let variable_table= document.querySelector(".variable__table");
 
@@ -284,23 +289,15 @@
 		});
 
 		function change_typeSelection(){
-		let filter_parameter=variable_typeSelector.value;
-		for (let i=1; i<variable_table.rows.length;i++){
-		if (filter_parameter==="All"){
-		variable_table.rows[i].style.display="block";
-		variable_table.rows[0].cells[0].style.width="30px";
-		}else{
-		if (variable_table.rows[i].cells[TYPE_INDEX].innerHTML.indexOf(filter_parameter)!=-1){
-		variable_table.rows[i].style.display="block";
-		}else{
-		variable_table.rows[i].style.display="none";
-		}
-		}
-		}
+			table_Obj=variable_table;
+			selector_obj=variable_typeSelector;
+			filter_index=TYPE_INDEX;
+			filter_property(table_Obj, selector_obj, filter_index);
 		}
 
 		let variable_jobSelector= document.querySelector(".Job_selection");
 		let variable_Search= document.querySelector(".variable__search");
+		let variable_Search_Input=document.querySelector(".variable_search__input");
 		let description_UI = document.querySelector(".description_UI");
 		let index_UI = document.querySelector(".index_UI");
 		let variable_UI = document.querySelector(".variable_UI");
@@ -368,7 +365,11 @@
 		}
 
 		function search_Ok_btn_func(){    <!--search_Ok_btn_func-->
-			alert("Searching!");
+			let table_Obj=variable_table;
+			let input_Obj=variable_Search_Input;
+			let search_index=VARIABLE_NAME;
+
+			search_name(table_Obj, input_Obj, search_index)
 		}
 
 		function init(){
@@ -377,6 +378,32 @@
 			variable_UI.style.display="none";
 			function_UI.style.display="none";
 			label_UI.style.display="none";
+		}
+
+		function search_name(table_Obj,input_Obj,search_index){    <!--search function-->
+			let search_text= input_Obj.value;
+			for(let i=1;i<table_Obj.rows.length;i++){
+				if(table_Obj.rows[i].cells[search_index].innerHTML.indexOf(search_text)!=-1){
+					table_Obj.rows[i].style.display="";
+				}else{
+					table_Obj.rows[i].style.display="none";
+				}
+			}
+		}
+
+		function filter_property(table_Obj,selector_obj,filter_index){    <!--filter function-->
+		let filter_parameter=selector_obj.value;
+		for (let i=1; i<table_Obj.rows.length;i++){
+			if (filter_parameter==="All"){
+			table_Obj.rows[i].style.display="";
+			}else{
+			if (table_Obj.rows[i].cells[filter_index].innerHTML.indexOf(filter_parameter)!=-1){
+			table_Obj.rows[i].style.display="";
+			}else{
+			table_Obj.rows[i].style.display="none";
+			}
+		}
+		}
 		}
 
 		init();

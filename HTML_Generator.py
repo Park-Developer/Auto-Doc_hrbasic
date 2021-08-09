@@ -26,12 +26,18 @@ class HTML_Generator:
             '\t.variable__table{\n',
             '\t\tborder: 1px solid black;\n',
             '\t\tborder-collapse: collapse;\n',
+             '\t\ttable-layout:fixed;\n',
 
             '\t}\n',
 
             '\t.variable__table_header{\n',
             '\t\tbackground-color:var(--table_header_color)\n',
             '\t}\n',
+
+            # TEST to solve bug
+             '\t.header_index{\n',
+             '\twidth:30px;\n'
+             '\t}\n',
 
             # Function CSS Setting_______________________________
             '\t.function__table{\n',
@@ -103,7 +109,7 @@ class HTML_Generator:
              # Constant Settong
              '\t\t<!--CONST Setting-->\n',
              '\t\tconst TYPE_INDEX = 6;\n',
-
+             '\t\tconst VARIABLE_NAME = 1;\n',
              # DOM setting
              '\t\t<!--DOM Setting-->\n',
              '\t\tlet variable_table= document.querySelector(".variable__table");\n\n',
@@ -113,31 +119,16 @@ class HTML_Generator:
              '\t\tchange_typeSelection();\n',
              '\t\t});\n\n',
              '\t\tfunction change_typeSelection(){\n', # Event function Definition
-             '\t\tlet filter_parameter=variable_typeSelector.value;\n',
-             '\t\tfor (let i=1; i<variable_table.rows.length;i++){\n', # Header행 제외 -> i=1부터 시작
-             '\t\tif (filter_parameter==="All"){\n',
-             '\t\tvariable_table.rows[i].style.display="block";\n',
-             #cell1.style.textAlign = "right";
-             
-             #'\t\tvariable_table.rows[i].cells[3].style.textAlign="center";\n',
-             #'\t\tvariable_table.rows[i].cells[5].style.textAlign="center";\n',
-             #'\t\tvariable_table.rows[i].cells[1].style.textAlign="left";\n',
-             #'\t\tvariable_table.rows[i].cells[2].style.textAlign="left";\n',
-             #'\t\tvariable_table.rows[i].cells[4].style.textAlign="left";\n',
-             '\t\t}else{\n',
-             '\t\tif (variable_table.rows[i].cells[TYPE_INDEX].innerHTML.indexOf(filter_parameter)!=-1){\n',
-             '\t\tvariable_table.rows[i].style.display="block";\n',
-             '\t\t}else{\n',
-             '\t\tvariable_table.rows[i].style.display="none";\n',
-             '\t\t}\n',
-             '\t\t}\n',
-             '\t\t}\n',
+
+             '\t\t\ttable_Obj=variable_table;\n',
+             '\t\t\tselector_obj=variable_typeSelector;\n',
+             '\t\t\tfilter_index=TYPE_INDEX;\n',
+             '\t\t\tfilter_property(table_Obj, selector_obj, filter_index);\n',
              '\t\t}\n\n',
-             
+
              '\t\tlet variable_jobSelector= document.querySelector(".Job_selection");\n', # Selector
              '\t\tlet variable_Search= document.querySelector(".variable__search");\n', # Search
-
-
+             '\t\tlet variable_Search_Input=document.querySelector(".variable_search__input");\n', # Search input
 
                 '\t\tlet description_UI = document.querySelector(".description_UI");\n',
                 '\t\tlet index_UI = document.querySelector(".index_UI");\n',
@@ -193,7 +184,6 @@ class HTML_Generator:
                 '\t\t\tindex_btn_activation=false;\n',
                 '\t\t\tvariable_btn_activation=true;\n',
                 '\t\t\tfunction_btn_activation=false;\n',
-
                 
                 '\t\t\tdescription_UI.style.display="none";\n',
                 '\t\t\tindex_UI.style.display="none";\n',
@@ -209,7 +199,6 @@ class HTML_Generator:
                 '\t\t\tvariable_btn_activation=false;\n',
                 '\t\t\tfunction_btn_activation=true;\n',
 
-
                 '\t\t\tdescription_UI.style.display="none";\n',
                 '\t\t\tindex_UI.style.display="none";\n',
                 '\t\t\tvariable_UI.style.display="none";\n',
@@ -218,8 +207,13 @@ class HTML_Generator:
                 '\t\t}\n\n',
 
                 # Search Button Function________________________________________________________
+                # search_input=document.querySelector(".search__input");\n', # Search input
                 '\t\tfunction search_Ok_btn_func(){    <!--search_Ok_btn_func-->\n',
-                '\t\t\talert("Searching!");\n',
+                '\t\t\tlet table_Obj=variable_table;\n',
+                '\t\t\tlet input_Obj=variable_Search_Input;\n',
+                '\t\t\tlet search_index=VARIABLE_NAME;\n\n',
+
+                '\t\t\tsearch_name(table_Obj, input_Obj, search_index)\n',
                 '\t\t}\n\n',
 
                  # Search Button Function________________________________________________________
@@ -230,6 +224,36 @@ class HTML_Generator:
                  '\t\t\tfunction_UI.style.display="none";\n',
                  '\t\t\tlabel_UI.style.display="none";\n',
                  '\t\t}\n\n',
+
+             # Resue Function1 : Seach item
+             '\t\tfunction search_name(table_Obj,input_Obj,search_index){    <!--search function-->\n',
+             '\t\t\tlet search_text= input_Obj.value;\n',
+             '\t\t\tfor(let i=1;i<table_Obj.rows.length;i++){\n',
+             '\t\t\t\tif(table_Obj.rows[i].cells[search_index].innerHTML.indexOf(search_text)!=-1){\n',
+             '\t\t\t\t\ttable_Obj.rows[i].style.display="";\n',
+             '\t\t\t\t}else{\n',
+             '\t\t\t\t\ttable_Obj.rows[i].style.display="none";\n',
+             '\t\t\t\t}\n',
+             '\t\t\t}\n',
+             '\t\t}\n\n',
+             # -------------------------------------------------------------------------------------------
+
+             # Reuse Function2 : Filter item
+             '\t\tfunction filter_property(table_Obj,selector_obj,filter_index){    <!--filter function-->\n',
+             '\t\tlet filter_parameter=selector_obj.value;\n',
+             '\t\tfor (let i=1; i<table_Obj.rows.length;i++){\n',  # Header행 제외 -> i=1부터 시작
+             '\t\t\tif (filter_parameter==="All"){\n',
+             '\t\t\ttable_Obj.rows[i].style.display="";\n',
+             '\t\t\t}else{\n',
+             '\t\t\tif (table_Obj.rows[i].cells[filter_index].innerHTML.indexOf(filter_parameter)!=-1){\n',
+             '\t\t\ttable_Obj.rows[i].style.display="";\n',
+             '\t\t\t}else{\n',
+             '\t\t\ttable_Obj.rows[i].style.display="none";\n',
+             '\t\t\t}\n',
+             '\t\t}\n',
+             '\t\t}\n',
+             '\t\t}\n\n',
+             # -------------------------------------------------------------------------------------------
 
             # Excution______________________________________________________
             '\t\tinit();\n\n', # init() Excution
@@ -487,7 +511,7 @@ class HTML_Generator:
             '\t\t\t<!--Search Setting-->\n',  # comment
             '\t\t\t<div class="variable__search">\n',
             '\t\t\t<span class="search__title">Search</span>\n',
-            '\t\t\t<input type="text" class="search__input" name="name" required minlength="4" maxlength="8" size="10">\n',
+            '\t\t\t<input type="text" class="variable_search__input" name="name" required minlength="4" maxlength="8" size="10">\n',
             '\t\t\t<button onclick = "search_Ok_btn_func()">ok</button>\n',
             '\t\t\t</div>\n\n',
             ########################################[Search]################

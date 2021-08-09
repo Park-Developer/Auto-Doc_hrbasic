@@ -15,16 +15,44 @@
 	.variable__table{
 		border: 1px solid black;
 		border-collapse: collapse;
+		table-layout:fixed;
 	}
 	.variable__table_header{
+		background-color:var(--table_header_color)
+	}
+	.header_index{
+	width:30px;
+	}
+	.function__table{
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	.function__table_header{
 		background-color:var(--table_header_color)
 	}
 	</style>
 </head>
 <body>
 	<div class="Status-bar">
-		<h1 class="main_title">JOB Document</h1>
-		<p class="sub_title">This is a paragraph.</p>
+		<div class="Status-bar__main">
+		<h1 class="main_title">Job Program Document</h1>
+		</div>
+
+		<div class="Status-bar__project">
+		<span class="sub_project">Project : </span>
+		<span class="sub_project__value"></span>
+		</div>
+
+		<div class="Status-bar__description">
+		<span class="sub_description">Description : </span>
+		<span class="sub_description__value"></span>
+		</div>
+
+		<div class="Status-bar__revdate">
+		<span class="sub_revdate">Rev date : </span>
+		<span class="sub_revdate__value"></span>
+		</div>
+
 	</div>
 	<div class="menu-bar">
 		<button onclick = "home_btn_func()">Home</button>
@@ -56,11 +84,40 @@
 	<script src = "https://kit.fontawesome.com/3dbd9a16b0.js" crossorigin = "anonymous" > </script>
 
 	<script>
+		<!--CONST Setting-->
+		const TYPE_INDEX = 6;
+		<!--DOM Setting-->
+		let variable_table= document.querySelector(".variable__table");
+
+		let variable_typeSelector= document.querySelector(".Type_selection");
+
+		variable_typeSelector.addEventListener("change", () => {
+		change_typeSelection();
+		});
+
+		function change_typeSelection(){
+		let filter_parameter=variable_typeSelector.value;
+		for (let i=1; i<variable_table.rows.length;i++){
+		if (filter_parameter==="All"){
+		variable_table.rows[i].style.display="block";
+		}else{
+		if (variable_table.rows[i].cells[TYPE_INDEX].innerHTML.indexOf(filter_parameter)!=-1){
+		variable_table.rows[i].style.display="block";
+		}else{
+		variable_table.rows[i].style.display="none";
+		}
+		}
+		}
+		}
+
+		let variable_jobSelector= document.querySelector(".Job_selection");
+		let variable_Search= document.querySelector(".variable__search");
 		let description_UI = document.querySelector(".description_UI");
 		let index_UI = document.querySelector(".index_UI");
 		let variable_UI = document.querySelector(".variable_UI");
 		let function_UI = document.querySelector(".function_UI");
 		let label_UI = document.querySelector(".label_UI");
+
 		<!--Btn Variable Setting-->
 		let home_btn_activation=false;
 		let index_btn_activation=false;
@@ -68,8 +125,10 @@
 		let function_btn_activation=false;
 
 		<!--Btn Event Function Setting-->
+		function var_type_selection() {   <!--Type selection Button-->
+		}
+
 		function home_btn_func() {   <!--Home Btn Function-->
-			alert("This is a working button1");
 			home_btn_activation=true;
 			index_btn_activation=false;
 			variable_btn_activation=false;
@@ -83,7 +142,6 @@
 		}
 
 		function index_btn_func() {   <!--Index Btn Function-->
-			alert("This is a working button2");
 			home_btn_activation=false;
 			index_btn_activation=true;
 			variable_btn_activation=false;
@@ -101,8 +159,6 @@
 			index_btn_activation=false;
 			variable_btn_activation=true;
 			function_btn_activation=false;
-			alert("This is a working button3");
-
 			description_UI.style.display="none";
 			index_UI.style.display="none";
 			variable_UI.style.display="block";
@@ -115,8 +171,6 @@
 			index_btn_activation=false;
 			variable_btn_activation=false;
 			function_btn_activation=true;
-			alert("This is a working button4");
-
 			description_UI.style.display="none";
 			index_UI.style.display="none";
 			variable_UI.style.display="none";
