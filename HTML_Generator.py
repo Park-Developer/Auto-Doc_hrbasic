@@ -55,31 +55,19 @@ class HTML_Generator:
             '<body>\n',
                 '\t<div class="Status-bar">\n',
                 '\t\t<div class="Status-bar__main">\n',
-                '\t\t<h1 class="main_title">Job Program Document</h1>\n',
+                '\t\t<h1 class="main_title">Job Program Specification</h1>\n',
                 '\t\t</div>\n\n',
 
-                '\t\t<div class="Status-bar__project">\n',
-                '\t\t<span class="sub_project">Project : </span>\n',
-                '\t\t<span class="sub_project__value"></span>\n',
+                '\t\t<div class="program_intro">\n',
+                '\t\t<span class="sub_project">This document is based on a Job Program </span>\n',
                 '\t\t</div>\n\n',
-
-                '\t\t<div class="Status-bar__description">\n',
-                '\t\t<span class="sub_description">Description : </span>\n',
-                '\t\t<span class="sub_description__value"></span>\n',
-                '\t\t</div>\n\n',
-
-                '\t\t<div class="Status-bar__revdate">\n',
-                '\t\t<span class="sub_revdate">Rev date : </span>\n',
-                '\t\t<span class="sub_revdate__value"></span>\n',
-                '\t\t</div>\n\n',
-
                 '\t</div>\n',
 
              '\t<div class="menu-bar">\n',
-                '\t\t<button onclick = "home_btn_func()">Home</button>\n',
-                '\t\t<button onclick = "index_btn_func()">Index</button>\n',
-                '\t\t<button onclick = "variable_btn_func()">Variable</button>\n',
-                '\t\t<button onclick = "function_btn_func()">Function</button>\n',
+                '\t\t<button class="home_btn">Home</button>\n',
+                '\t\t<button class="label_btn">Label</button>\n',
+                '\t\t<button class="variable_btn">Variable</button>\n',
+                '\t\t<button class="function_btn">Function</button>\n',
              '\t</div>\n\n',
 
              '\t<!-- Main Frame Setting -->\n',
@@ -88,8 +76,8 @@ class HTML_Generator:
              '\t\t<div class="description_UI">\n',
              '\t\t</div> <!--description_UI end-->\n\n',
 
-             '\t\t<div class="index_UI">\n',
-             '\t\t</div> <!--index_UI end-->\n\n',
+             '\t\t<div class="label_UI">\n',
+             '\t\t</div> <!--label_UI end-->\n\n',
 
              '\t\t<div class="variable_UI">\n',
              '\t\t</div> <!--variable_UI end-->\n\n',
@@ -106,126 +94,181 @@ class HTML_Generator:
 
              # JS Setting
              '\t<script>\n',
-             # Constant Settong
-             '\t\t<!--CONST Setting-->\n',
-             '\t\tconst TYPE_INDEX = 6;\n',
-             '\t\tconst VARIABLE_NAME = 1;\n',
-             # DOM setting
-             '\t\t<!--DOM Setting-->\n',
-             '\t\tlet variable_table= document.querySelector(".variable__table");\n\n',
 
+             ########################################[Initial Setting]#####################################
+
+             # | Initial DOM setting|
+             # 1. DIV DOM
+             '\t\tlet home_UI = document.querySelector(".description_UI");\n',
+             '\t\tlet label_UI = document.querySelector(".label_UI");\n',
+             '\t\tlet variable_UI = document.querySelector(".variable_UI");\n',
+             '\t\tlet function_UI = document.querySelector(".function_UI");\n\n',
+
+
+             # 2. Button DOM
+             '\t\tlet home_btn=document.querySelector(".home_btn");\n',
+             '\t\tlet label_btn=document.querySelector(".label_btn");\n',
+             '\t\tlet variable_btn=document.querySelector(".variable_btn");\n',
+             '\t\tlet function_btn=document.querySelector(".function_btn");\n\n',
+
+             # | Initial Object setting |  : All variable is global variable
+             '\t\t<!--Initial Btn Variable Setting-->\n',
+             '\t\tlet home_btn_activation=false;\n',
+             '\t\tlet label_btn_activation=false;\n',
+             '\t\tlet variable_btn_activation=false;\n',
+             '\t\tlet function_btn_activation=false;\n\n',
+
+             '\t\t\thome_UI.style.display="block";\n',  # Activate
+             '\t\t\tvariable_UI.style.display="none";\n',
+             '\t\t\tfunction_UI.style.display="none";\n',
+             '\t\t\tlabel_UI.style.display="none";\n\n',
+
+             # | Event Setting|
+             # Button Event Setting
+             '\t\thome_btn.addEventListener("click",main_Btn_func )\n',
+             '\t\tlabel_btn.addEventListener("click", main_Btn_func)\n',
+             '\t\tvariable_btn.addEventListener("click", main_Btn_func)\n',
+             '\t\tfunction_btn.addEventListener("click", main_Btn_func)\n\n',
+
+             # Button Event Function
+             '\t\tfunction main_Btn_func(event){   <!--main button function-->\n',
+             '\t\t\tlet button_type=event.target.innerHTML\n',
+             '\t\t\tswitch(button_type){\n',
+             # [Home Button Click]_______
+             '\t\t\t\tcase "Home":\n',
+             '\t\t\t\t\thome_btn_activation=true;\n', # activatge
+             '\t\t\t\t\tlabel_btn_activation=false;\n',
+             '\t\t\t\t\tvariable_btn_activation=false;\n',
+             '\t\t\t\t\tfunction_btn_activation=false;\n\n',
+
+             '\t\t\t\t\thome_UI.style.display="block";\n',  # block
+             '\t\t\t\t\tlabel_UI.style.display="none";\n',
+             '\t\t\t\t\tvariable_UI.style.display="none";\n',
+             '\t\t\t\t\tfunction_UI.style.display="none";\n',
+             '\t\t\t\t\tbreak;\n\n',
+             # [Label Button Click]_______
+             '\t\t\t\tcase "Label":\n',
+             '\t\t\thome_btn_activation=false;\n',
+             '\t\t\tlabel_btn_activation=true;\n', # activate
+             '\t\t\tvariable_btn_activation=false;\n',
+             '\t\t\tfunction_btn_activation=false;\n\n',
+
+             '\t\t\thome_UI.style.display="none";\n',
+             '\t\t\tlabel_UI.style.display="block";\n',  # block
+             '\t\t\tvariable_UI.style.display="none";\n',
+             '\t\t\tfunction_UI.style.display="none";\n',
+             '\t\t\t\t\tbreak;\n\n',
+             # [Variable Button Click]______
+             '\t\t\tcase "Variable":\n',
+             '\t\t\t\thome_btn_activation=false;\n',
+             '\t\t\t\tlabel_btn_activation=false;\n',
+             '\t\t\t\tvariable_btn_activation=true;\n',  # activate
+             '\t\t\t\tfunction_btn_activation=false;\n\n',
+
+             '\t\t\t\thome_UI.style.display="none";\n',
+             '\t\t\t\tlabel_UI.style.display="none";\n',
+             '\t\t\t\tvariable_UI.style.display="block";\n',  # block
+             '\t\t\t\tfunction_UI.style.display="none";\n',
+             '\t\t\t\t\tbreak;\n\n',
+             # [Function Button Click]______
+             '\t\t\tcase "Function":\n',
+             '\t\t\t\thome_btn_activation=false;\n',
+             '\t\t\t\tlabel_btn_activation=false;\n',
+             '\t\t\t\tvariable_btn_activation=false;\n',
+             '\t\t\t\tfunction_btn_activation=true;\n\n',   # activate
+
+             '\t\t\t\thome_UI.style.display="none";\n',
+             '\t\t\t\tlabel_UI.style.display="none";\n',
+             '\t\t\t\tvariable_UI.style.display="none";\n',
+             '\t\t\t\tfunction_UI.style.display="block";\n', # block
+             '\t\t\t\t\tbreak;\n\n',
+             '\t\t\t}\n',
+             '\t\t}\n\n',
+
+             ########################################[Variable Setting]##################################
+
+             # |Variable Constant Setting|
+             '\t\t<!--Variable CONST Setting-->\n',
+             '\t\tconst VARIABLE_TYPE_INDEX = 6;\n',
+             '\t\tconst VARIABLE_JOB_INDEX = 5;\n',
+             '\t\tconst VARIABLE_NAME_INDEX = 1;\n\n',
+
+             # |Variable DOM setting|
+             '\t\t<!--Variable DOM Setting-->\n',
+             '\t\tlet variable_table= document.querySelector(".variable__table");\n\n',
              '\t\tlet variable_typeSelector= document.querySelector(".Type_selection");\n\n', # selector
+             '\t\tlet variable_jobSelector= document.querySelector(".Job_selection");\n',  # Selector
+             '\t\tlet variable_Search= document.querySelector(".variable__search");\n',  # Search
+             '\t\tlet variable_Search_Input=document.querySelector(".variable_search__input");\n',  # Search input
+             '\t\tlet variable_Search_Btn=document.querySelector(".variable_search__btn");\n',  # Search ok button
+
+             # |Variable Event Setting|
+             # (1). Variable Type Selector Event_____________________
              '\t\tvariable_typeSelector.addEventListener("change", () => {\n', # Event Setting
              '\t\tchange_typeSelection();\n',
              '\t\t});\n\n',
-             '\t\tfunction change_typeSelection(){\n', # Event function Definition
 
+             # Type Selection Event Function
+             '\t\tfunction change_typeSelection(){\n', # Event function Definition
              '\t\t\ttable_Obj=variable_table;\n',
              '\t\t\tselector_obj=variable_typeSelector;\n',
-             '\t\t\tfilter_index=TYPE_INDEX;\n',
+             '\t\t\tfilter_index=VARIABLE_TYPE_INDEX;\n',
              '\t\t\tfilter_property(table_Obj, selector_obj, filter_index);\n',
              '\t\t}\n\n',
 
-             '\t\tlet variable_jobSelector= document.querySelector(".Job_selection");\n', # Selector
-             '\t\tlet variable_Search= document.querySelector(".variable__search");\n', # Search
-             '\t\tlet variable_Search_Input=document.querySelector(".variable_search__input");\n', # Search input
+             # (2). Variable Job Selector Event_____________________
+             '\t\tvariable_jobSelector.addEventListener("change", () => {\n',  # Event Setting
+             '\t\tchange_jobSelection();\n',
+             '\t\t});\n\n',
 
-                '\t\tlet description_UI = document.querySelector(".description_UI");\n',
-                '\t\tlet index_UI = document.querySelector(".index_UI");\n',
-                '\t\tlet variable_UI = document.querySelector(".variable_UI");\n',
-                '\t\tlet function_UI = document.querySelector(".function_UI");\n',
-                '\t\tlet label_UI = document.querySelector(".label_UI");\n\n',
+             # Type Selection Event Function
+             '\t\tfunction change_jobSelection(){\n',  # Event function Definition
+             '\t\t\ttable_Obj=variable_table;\n',
+             '\t\t\tselector_obj=variable_jobSelector;\n',
+             '\t\t\tfilter_index=VARIABLE_JOB_INDEX;\n',
+             '\t\t\tfilter_property(table_Obj, selector_obj, filter_index);\n',
+             '\t\t}\n\n',
 
-                # Variable Definition : All variable is global variable
-                '\t\t<!--Btn Variable Setting-->\n',
-                '\t\tlet home_btn_activation=false;\n',
-                '\t\tlet index_btn_activation=false;\n',
-                '\t\tlet variable_btn_activation=false;\n',
-                '\t\tlet function_btn_activation=false;\n\n',
+             # (3). Variable Search Event_____________________
+             '\t\tvariable_Search_Btn.addEventListener("click", () => {\n',  # Event Setting
+             '\t\tvar_search_Ok_btn_func();\n',
+             '\t\t});\n\n',
 
-                 # Event Setting
-                '\t\t<!--Btn Event Function Setting-->\n',
-                '\t\tfunction var_type_selection() {   <!--Type selection Button-->\n',
+             # Variable Name Search Event Function
+            '\t\tfunction var_search_Ok_btn_func(){    <!--var_search_Ok_btn_func-->\n',
+            '\t\t\tlet table_Obj=variable_table;\n',
+            '\t\t\tlet input_Obj=variable_Search_Input;\n',
+            '\t\t\tlet search_index=VARIABLE_NAME_INDEX;\n\n',
+            '\t\t\tsearch_name(table_Obj, input_Obj, search_index)\n',
+            '\t\t}\n\n',
 
-                '\t\t}\n\n',
-                # Home Button Function________________________________________________________
-                '\t\tfunction home_btn_func() {   <!--Home Btn Function-->\n',
+            ########################################[Function Setting]################################
+             # |Function Constant Setting|
+             '\t\t<!--Variable CONST Setting-->\n',
+             '\t\tconst FUNCTION_NAME_INDEX = 1;\n\n',
 
-                '\t\t\thome_btn_activation=true;\n',
-                '\t\t\tindex_btn_activation=false;\n',
-                '\t\t\tvariable_btn_activation=false;\n',
-                '\t\t\tfunction_btn_activation=false;\n\n',
+             # |Function DOM setting|
+             '\t\t<!--Function DOM Setting-->\n',
+             '\t\tlet function_Search_Input=document.querySelector(".function_search__input");\n',  # Search input
+             '\t\tlet function_Search_Btn=document.querySelector(".function_search__btn");\n\n',  # Search ok button
+             '\t\tlet function_table= document.querySelector(".function__table");\n\n',
 
-                '\t\t\tdescription_UI.style.display="block";\n', # Activate
-                '\t\t\tindex_UI.style.display="none";\n',
-                '\t\t\tvariable_UI.style.display="none";\n',
-                '\t\t\tfunction_UI.style.display="none";\n',
-                '\t\t\tlabel_UI.style.display="none";\n',
-                '\t\t}\n\n',
+             # |Function Event Setting|
+             '\t\tfunction_Search_Btn.addEventListener("click", () => {\n',  # Event Setting
+             '\t\tfunc_search_Ok_btn_func();\n',
+             '\t\t});\n\n',
 
-                # Index Button Function________________________________________________________
-                '\t\tfunction index_btn_func() {   <!--Index Btn Function-->\n',
+             # Function Name Search Event Function
+             '\t\tfunction func_search_Ok_btn_func(){    <!--func_search_Ok_btn_func-->\n',
+             '\t\t\tlet table_Obj=function_table;\n',
+             '\t\t\tlet input_Obj=function_Search_Input;\n',
+             '\t\t\tlet search_index=FUNCTION_NAME_INDEX ;\n\n',
+             '\t\t\tsearch_name(table_Obj, input_Obj, search_index)\n',
+             '\t\t}\n\n',
 
-                '\t\t\thome_btn_activation=false;\n',
-                '\t\t\tindex_btn_activation=true;\n',
-                '\t\t\tvariable_btn_activation=false;\n',
-                '\t\t\tfunction_btn_activation=false;\n\n',
+            ########################################[Reuse Function]##################################
 
-                '\t\t\tdescription_UI.style.display="none";\n',
-                '\t\t\tindex_UI.style.display="block";\n', # Activate
-                '\t\t\tvariable_UI.style.display="none";\n',
-                '\t\t\tfunction_UI.style.display="none";\n',
-                '\t\t\tlabel_UI.style.display="none";\n',
-                '\t\t}\n\n',
-
-                # Variable Button Function________________________________________________________
-                '\t\tfunction variable_btn_func() {   <!--Variable Btn Function-->\n',
-                '\t\t\thome_btn_activation=false;\n',
-                '\t\t\tindex_btn_activation=false;\n',
-                '\t\t\tvariable_btn_activation=true;\n',
-                '\t\t\tfunction_btn_activation=false;\n',
-                
-                '\t\t\tdescription_UI.style.display="none";\n',
-                '\t\t\tindex_UI.style.display="none";\n',
-                '\t\t\tvariable_UI.style.display="block";\n', # Activate
-                '\t\t\tfunction_UI.style.display="none";\n',
-                '\t\t\tlabel_UI.style.display="none";\n',
-                '\t\t}\n\n',
-
-                # Function Button Function________________________________________________________
-                '\t\tfunction function_btn_func() {   <!--Function Btn Function-->\n',
-                '\t\t\thome_btn_activation=false;\n',
-                '\t\t\tindex_btn_activation=false;\n',
-                '\t\t\tvariable_btn_activation=false;\n',
-                '\t\t\tfunction_btn_activation=true;\n',
-
-                '\t\t\tdescription_UI.style.display="none";\n',
-                '\t\t\tindex_UI.style.display="none";\n',
-                '\t\t\tvariable_UI.style.display="none";\n',
-                '\t\t\tfunction_UI.style.display="block";\n', # Activate
-                '\t\t\tlabel_UI.style.display="none";\n',
-                '\t\t}\n\n',
-
-                # Search Button Function________________________________________________________
-                # search_input=document.querySelector(".search__input");\n', # Search input
-                '\t\tfunction search_Ok_btn_func(){    <!--search_Ok_btn_func-->\n',
-                '\t\t\tlet table_Obj=variable_table;\n',
-                '\t\t\tlet input_Obj=variable_Search_Input;\n',
-                '\t\t\tlet search_index=VARIABLE_NAME;\n\n',
-
-                '\t\t\tsearch_name(table_Obj, input_Obj, search_index)\n',
-                '\t\t}\n\n',
-
-                 # Search Button Function________________________________________________________
-                 '\t\tfunction init(){\n',
-                 '\t\t\tdescription_UI.style.display="block";\n',  # Activate
-                 '\t\t\tindex_UI.style.display="none";\n',
-                 '\t\t\tvariable_UI.style.display="none";\n',
-                 '\t\t\tfunction_UI.style.display="none";\n',
-                 '\t\t\tlabel_UI.style.display="none";\n',
-                 '\t\t}\n\n',
-
-             # Resue Function1 : Seach item
+             # |Resue Function1| : Seach item
              '\t\tfunction search_name(table_Obj,input_Obj,search_index){    <!--search function-->\n',
              '\t\t\tlet search_text= input_Obj.value;\n',
              '\t\t\tfor(let i=1;i<table_Obj.rows.length;i++){\n',
@@ -236,9 +279,8 @@ class HTML_Generator:
              '\t\t\t\t}\n',
              '\t\t\t}\n',
              '\t\t}\n\n',
-             # -------------------------------------------------------------------------------------------
 
-             # Reuse Function2 : Filter item
+             # |Reuse Function2| : Filter item
              '\t\tfunction filter_property(table_Obj,selector_obj,filter_index){    <!--filter function-->\n',
              '\t\tlet filter_parameter=selector_obj.value;\n',
              '\t\tfor (let i=1; i<table_Obj.rows.length;i++){\n',  # Header행 제외 -> i=1부터 시작
@@ -253,10 +295,8 @@ class HTML_Generator:
              '\t\t}\n',
              '\t\t}\n',
              '\t\t}\n\n',
-             # -------------------------------------------------------------------------------------------
 
             # Excution______________________________________________________
-            '\t\tinit();\n\n', # init() Excution
 
             '\t</script>\n',
             '</body>\n',
@@ -512,7 +552,7 @@ class HTML_Generator:
             '\t\t\t<div class="variable__search">\n',
             '\t\t\t<span class="search__title">Search</span>\n',
             '\t\t\t<input type="text" class="variable_search__input" name="name" required minlength="4" maxlength="8" size="10">\n',
-            '\t\t\t<button onclick = "search_Ok_btn_func()">ok</button>\n',
+            '\t\t\t<button class = "variable_search__btn"><i class="fas fa-search"></i></button>\n',
             '\t\t\t</div>\n\n',
             ########################################[Search]################
 
@@ -689,6 +729,12 @@ class HTML_Generator:
         table_list = []
         function_table_frontHTML=[
             '\t\t\t<div class="function">\n',
+            '\t<!--Function Search Setting-->\n',  # comment
+            '\t<div class="function__search">\n',
+            '\t<span class="function_search__title">Search</span>\n',
+            '\t<input type="text" class="function_search__input" name="name" required minlength="4" maxlength="8" size="10">\n',
+            '\t<button class ="function_search__btn"><i class="fas fa-search"></i></button>\n',
+            '\t</div>\n\n',
             '\t\t\t\t<table class="function__table">\n',
             '\t\t\t\t\t<tr class="function__table_header">\n',  # Table Header
             '\t\t\t\t\t<th class="header_index" align="center">Index</th>\n',
@@ -742,7 +788,7 @@ class HTML_Generator:
 
                 for col_idx, property_value in enumerate(row_info):
 
-                    row_html.append('\t\t\t\t\t<td class="variable__table_row' + str(index) + '_col'
+                    row_html.append('\t\t\t\t\t<td class="function__table_row' + str(index) + '_col'
                                     + str(col_idx) + '">' + str(property_value) + '</td>\n'
                                     )
 

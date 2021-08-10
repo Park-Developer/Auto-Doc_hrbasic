@@ -35,30 +35,19 @@
 <body>
 	<div class="Status-bar">
 		<div class="Status-bar__main">
-		<h1 class="main_title">Job Program Document</h1>
+		<h1 class="main_title">Job Program Specification</h1>
 		</div>
 
-		<div class="Status-bar__project">
-		<span class="sub_project">Project : </span>
-		<span class="sub_project__value"></span>
-		</div>
-
-		<div class="Status-bar__description">
-		<span class="sub_description">Description : </span>
-		<span class="sub_description__value"></span>
-		</div>
-
-		<div class="Status-bar__revdate">
-		<span class="sub_revdate">Rev date : </span>
-		<span class="sub_revdate__value"></span>
+		<div class="program_intro">
+		<span class="sub_project">This document is based on a Job Program </span>
 		</div>
 
 	</div>
 	<div class="menu-bar">
-		<button onclick = "home_btn_func()">Home</button>
-		<button onclick = "index_btn_func()">Index</button>
-		<button onclick = "variable_btn_func()">Variable</button>
-		<button onclick = "function_btn_func()">Function</button>
+		<button class="home_btn">Home</button>
+		<button class="label_btn">Label</button>
+		<button class="variable_btn">Variable</button>
+		<button class="function_btn">Function</button>
 	</div>
 
 	<!-- Main Frame Setting -->
@@ -93,8 +82,8 @@
 		</div>
 		</div> <!--description_UI end-->
 
-		<div class="index_UI">
-		</div> <!--index_UI end-->
+		<div class="label_UI">
+		</div> <!--label_UI end-->
 
 		<div class="variable_UI">
 		<div class="variable">
@@ -128,7 +117,7 @@
 			<div class="variable__search">
 			<span class="search__title">Search</span>
 			<input type="text" class="variable_search__input" name="name" required minlength="4" maxlength="8" size="10">
-			<button onclick = "search_Ok_btn_func()">ok</button>
+			<button class = "variable_search__btn"><i class="fas fa-search"></i></button>
 			</div>
 
 			</div><!--variable_search_part End-->
@@ -235,6 +224,13 @@
 
 		<div class="function_UI">
 			<div class="function">
+	<!--Function Search Setting-->
+	<div class="function__search">
+	<span class="function_search__title">Search</span>
+	<input type="text" class="function_search__input" name="name" required minlength="4" maxlength="8" size="10">
+	<button class ="function_search__btn"><i class="fas fa-search"></i></button>
+	</div>
+
 				<table class="function__table">
 					<tr class="function__table_header">
 					<th class="header_index" align="center">Index</th>
@@ -247,20 +243,20 @@
 
 					<tr class="function__table_row 0">
 					<td class="function__table_row0_col0" align="center">1</td>
-					<td class="variable__table_row0_col0">5002_GloVarCheck.JOB</td>
-					<td class="variable__table_row0_col1">global chaecck</td>
-					<td class="variable__table_row0_col2">none</td>
-					<td class="variable__table_row0_col3">li_errCode,li_ProLoc</td>
-					<td class="variable__table_row0_col4">testz  六六</td>
+					<td class="function__table_row0_col0">5002_GloVarCheck.JOB</td>
+					<td class="function__table_row0_col1">global chaecck</td>
+					<td class="function__table_row0_col2">none</td>
+					<td class="function__table_row0_col3">li_errCode,li_ProLoc</td>
+					<td class="function__table_row0_col4">testz  六六</td>
 					</tr>
 
 					<tr class="function__table_row 1">
 					<td class="function__table_row1_col0" align="center">2</td>
-					<td class="variable__table_row1_col0">5400_error.JOB</td>
-					<td class="variable__table_row1_col1">Error Handling</td>
-					<td class="variable__table_row1_col2">li_errCode, li_ProLoc</td>
-					<td class="variable__table_row1_col3">none</td>
-					<td class="variable__table_row1_col4">嬴霜 測 虜蛟 六</td>
+					<td class="function__table_row1_col0">5400_error.JOB</td>
+					<td class="function__table_row1_col1">Error Handling</td>
+					<td class="function__table_row1_col2">li_errCode, li_ProLoc</td>
+					<td class="function__table_row1_col3">none</td>
+					<td class="function__table_row1_col4">嬴霜 測 虜蛟 六</td>
 					</tr>
 
 				</table>
@@ -276,14 +272,100 @@
 	<script src = "https://kit.fontawesome.com/3dbd9a16b0.js" crossorigin = "anonymous" > </script>
 
 	<script>
-		<!--CONST Setting-->
-		const TYPE_INDEX = 6;
-		const VARIABLE_NAME = 1;
-		<!--DOM Setting-->
+		let home_UI = document.querySelector(".description_UI");
+		let label_UI = document.querySelector(".label_UI");
+		let variable_UI = document.querySelector(".variable_UI");
+		let function_UI = document.querySelector(".function_UI");
+
+		let home_btn=document.querySelector(".home_btn");
+		let label_btn=document.querySelector(".label_btn");
+		let variable_btn=document.querySelector(".variable_btn");
+		let function_btn=document.querySelector(".function_btn");
+
+		<!--Initial Btn Variable Setting-->
+		let home_btn_activation=false;
+		let label_btn_activation=false;
+		let variable_btn_activation=false;
+		let function_btn_activation=false;
+
+			home_UI.style.display="block";
+			variable_UI.style.display="none";
+			function_UI.style.display="none";
+			label_UI.style.display="none";
+
+		home_btn.addEventListener("click",main_Btn_func )
+		label_btn.addEventListener("click", main_Btn_func)
+		variable_btn.addEventListener("click", main_Btn_func)
+		function_btn.addEventListener("click", main_Btn_func)
+
+		function main_Btn_func(event){   <!--main button function-->
+			let button_type=event.target.innerHTML
+			switch(button_type){
+				case "Home":
+					home_btn_activation=true;
+					label_btn_activation=false;
+					variable_btn_activation=false;
+					function_btn_activation=false;
+
+					home_UI.style.display="block";
+					label_UI.style.display="none";
+					variable_UI.style.display="none";
+					function_UI.style.display="none";
+					break;
+
+				case "Label":
+			home_btn_activation=false;
+			label_btn_activation=true;
+			variable_btn_activation=false;
+			function_btn_activation=false;
+
+			home_UI.style.display="none";
+			label_UI.style.display="block";
+			variable_UI.style.display="none";
+			function_UI.style.display="none";
+					break;
+
+			case "Variable":
+				home_btn_activation=false;
+				label_btn_activation=false;
+				variable_btn_activation=true;
+				function_btn_activation=false;
+
+				home_UI.style.display="none";
+				label_UI.style.display="none";
+				variable_UI.style.display="block";
+				function_UI.style.display="none";
+					break;
+
+			case "Function":
+				home_btn_activation=false;
+				label_btn_activation=false;
+				variable_btn_activation=false;
+				function_btn_activation=true;
+
+				home_UI.style.display="none";
+				label_UI.style.display="none";
+				variable_UI.style.display="none";
+				function_UI.style.display="block";
+					break;
+
+			}
+		}
+
+		<!--Variable CONST Setting-->
+		const VARIABLE_TYPE_INDEX = 6;
+		const VARIABLE_JOB_INDEX = 5;
+		const VARIABLE_NAME_INDEX = 1;
+
+		<!--Variable DOM Setting-->
 		let variable_table= document.querySelector(".variable__table");
 
 		let variable_typeSelector= document.querySelector(".Type_selection");
 
+		let variable_jobSelector= document.querySelector(".Job_selection");
+		let variable_Search= document.querySelector(".variable__search");
+		let variable_Search_Input=document.querySelector(".variable_search__input");
+		let variable_Search_Btn=document.querySelector(".variable_search__btn");
 		variable_typeSelector.addEventListener("change", () => {
 		change_typeSelection();
 		});
@@ -291,93 +373,52 @@
 		function change_typeSelection(){
 			table_Obj=variable_table;
 			selector_obj=variable_typeSelector;
-			filter_index=TYPE_INDEX;
+			filter_index=VARIABLE_TYPE_INDEX;
 			filter_property(table_Obj, selector_obj, filter_index);
 		}
 
-		let variable_jobSelector= document.querySelector(".Job_selection");
-		let variable_Search= document.querySelector(".variable__search");
-		let variable_Search_Input=document.querySelector(".variable_search__input");
-		let description_UI = document.querySelector(".description_UI");
-		let index_UI = document.querySelector(".index_UI");
-		let variable_UI = document.querySelector(".variable_UI");
-		let function_UI = document.querySelector(".function_UI");
-		let label_UI = document.querySelector(".label_UI");
+		variable_jobSelector.addEventListener("change", () => {
+		change_jobSelection();
+		});
 
-		<!--Btn Variable Setting-->
-		let home_btn_activation=false;
-		let index_btn_activation=false;
-		let variable_btn_activation=false;
-		let function_btn_activation=false;
-
-		<!--Btn Event Function Setting-->
-		function var_type_selection() {   <!--Type selection Button-->
+		function change_jobSelection(){
+			table_Obj=variable_table;
+			selector_obj=variable_jobSelector;
+			filter_index=VARIABLE_JOB_INDEX;
+			filter_property(table_Obj, selector_obj, filter_index);
 		}
 
-		function home_btn_func() {   <!--Home Btn Function-->
-			home_btn_activation=true;
-			index_btn_activation=false;
-			variable_btn_activation=false;
-			function_btn_activation=false;
+		variable_Search_Btn.addEventListener("click", () => {
+		var_search_Ok_btn_func();
+		});
 
-			description_UI.style.display="block";
-			index_UI.style.display="none";
-			variable_UI.style.display="none";
-			function_UI.style.display="none";
-			label_UI.style.display="none";
-		}
-
-		function index_btn_func() {   <!--Index Btn Function-->
-			home_btn_activation=false;
-			index_btn_activation=true;
-			variable_btn_activation=false;
-			function_btn_activation=false;
-
-			description_UI.style.display="none";
-			index_UI.style.display="block";
-			variable_UI.style.display="none";
-			function_UI.style.display="none";
-			label_UI.style.display="none";
-		}
-
-		function variable_btn_func() {   <!--Variable Btn Function-->
-			home_btn_activation=false;
-			index_btn_activation=false;
-			variable_btn_activation=true;
-			function_btn_activation=false;
-			description_UI.style.display="none";
-			index_UI.style.display="none";
-			variable_UI.style.display="block";
-			function_UI.style.display="none";
-			label_UI.style.display="none";
-		}
-
-		function function_btn_func() {   <!--Function Btn Function-->
-			home_btn_activation=false;
-			index_btn_activation=false;
-			variable_btn_activation=false;
-			function_btn_activation=true;
-			description_UI.style.display="none";
-			index_UI.style.display="none";
-			variable_UI.style.display="none";
-			function_UI.style.display="block";
-			label_UI.style.display="none";
-		}
-
-		function search_Ok_btn_func(){    <!--search_Ok_btn_func-->
+		function var_search_Ok_btn_func(){    <!--var_search_Ok_btn_func-->
 			let table_Obj=variable_table;
 			let input_Obj=variable_Search_Input;
-			let search_index=VARIABLE_NAME;
+			let search_index=VARIABLE_NAME_INDEX;
 
 			search_name(table_Obj, input_Obj, search_index)
 		}
 
-		function init(){
-			description_UI.style.display="block";
-			index_UI.style.display="none";
-			variable_UI.style.display="none";
-			function_UI.style.display="none";
-			label_UI.style.display="none";
+		<!--Variable CONST Setting-->
+		const FUNCTION_NAME_INDEX = 1;
+
+		<!--Function DOM Setting-->
+		let function_Search_Input=document.querySelector(".function_search__input");
+		let function_Search_Btn=document.querySelector(".function_search__btn");
+
+		let function_table= document.querySelector(".function__table");
+
+		function_Search_Btn.addEventListener("click", () => {
+		func_search_Ok_btn_func();
+		});
+
+		function func_search_Ok_btn_func(){    <!--func_search_Ok_btn_func-->
+			let table_Obj=function_table;
+			let input_Obj=function_Search_Input;
+			let search_index=FUNCTION_NAME_INDEX ;
+
+			search_name(table_Obj, input_Obj, search_index)
 		}
 
 		function search_name(table_Obj,input_Obj,search_index){    <!--search function-->
@@ -405,8 +446,6 @@
 		}
 		}
 		}
-
-		init();
 
 	</script>
 </body>
