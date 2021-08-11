@@ -63,6 +63,7 @@
 				Auto Teaching Job
 				</span>
 			</div>
+
 			<div class="description__version">
 				<span class="version__title">
 				<i class="fas fa-square"></i> Version : 
@@ -71,15 +72,66 @@
 				v1.0
 				</span>
 			</div>
-			<div class="description__developer">
-				<span class="developer__title">
-				<i class="fas fa-square"></i> Developer : 
+
+			<div class="description__revdate">
+				<span class="revdate__title">
+				<i class="fas fa-square"></i> Rev Date : 
 				</span>
-				<span class="developer__value">
-				Park Wonho, park.wonho@hyundai-robotics.com, 010-8332-1697
+				<span class="revdate__value">
+				2021.08.09
 				</span>
 			</div>
-		</div>
+
+			<div class="description__name">
+				<span class="name__title">
+				<i class="fas fa-square"></i> Developer 
+				</span>
+			</div>
+
+			<div class="description__name">
+				<span class="name__title">
+				<i class="fas fa-circle"></i> name : 
+				</span>
+				<span class="name__value">
+				Park Wonho
+				</span>
+			</div>
+
+			<div class="description__email">
+				<span class="email__title">
+				<i class="fas fa-circle"></i> email : 
+				</span>
+				<span class="email__value">
+				park.wonho@hyundai-robotics.com
+				</span>
+			</div>
+
+			<div class="description_phone">
+				<span class="phone__title">
+				<i class="fas fa-circle"></i> phone : 
+				</span>
+				<span class="phone__value">
+				010-8332-1697
+				</span>
+			</div>  <!--class="description_phone END-->
+
+			<div class="description_readme">
+				<span class="readme__title">
+				<i class="fas fa-square"></i> Notice : 
+				<br></span>
+				<span class="readme_0">
+					 asdasd
+				<br></span>
+				<span class="readme_1">
+					as#dd
+				<br></span>
+				<span class="readme_2">
+					asd
+				<br></span>
+			</div>
+
+		</div> <!--description END-->  
+
 		</div> <!--description_UI end-->
 
 		<div class="label_UI">
@@ -105,8 +157,8 @@
 			<div class="variable__selector_job">
 				<span class="Job_name">Job</span>
 				<select name="Job" class="Job_selection">
-			<option>5002</option>
 			<option>5001</option>
+			<option>5002</option>
 					<option>All</option>
 				</select>
 			</div><!--variable__selector_job End-->
@@ -352,6 +404,77 @@
 			}
 		}
 
+		<!--Description CONST Setting-->
+		HEADER_STYLE={
+			h1_size:"50px",
+			h2_size:"40px",
+			h3_size:"30px",
+			h4_size:"20px",
+			h5_size:"10px",
+		}
+
+		<!--Description Function-->
+		function check_Head_MD(line){
+			function make_md(header,line){
+			let sentence=line.split(header)
+			let non_applined_part=sentence[0].trim();
+			let applied_part=sentence[1].trim();
+		let result={
+			"non_applied":non_applined_part,
+			"applied":applied_part,
+			"header":header
+			}
+
+		return result;		}
+
+		let header;
+		if (line.indexOf("####")!==-1){
+		header="####";
+		}else if (line.indexOf("###")!==-1){
+		header="###";
+		}else if (line.indexOf("##")!==-1){
+		header="##";
+		}else if (line.indexOf("#")!==-1){
+		header="#";
+		}
+		 let result=make_md(header,line);
+		 return result
+		}
+
+		function apply_headerMD(parentNode, md_result, header_style){
+			function decide_font(header, header_style){
+			let header_size = "h" + header.length + "_size";
+			return header_style[header_size];
+
+			}
+
+		header = md_result["header"];
+		let non_applied = document.createElement("span");
+		non_applied.innerText = md_result["non_applied"];
+
+		let applied = document.createElement("span");
+		applied.innerText = md_result["applied"];
+		 applied.style.fontSize = decide_font(header, header_style);
+		parentNode.innerText = "";
+		parentNode.appendChild(non_applied);
+		parentNode.appendChild(applied);
+		}
+		<!--Description DOM Setting-->
+		let description_readme= document.querySelector(".description_readme");
+
+		console.log("readme",description_readme.childElementCount);
+
+		let readmeLine_num=description_readme.childElementCount;
+		for(let i=0; i<readmeLine_num;i++){
+		if(i>=1){ // <!--header Á¦¿Ü-->
+		let readline=document.querySelector(".readme_"+(i-1).toString());
+		let readline__text=readline.innerText;
+		if(readline__text.indexOf("#")!==-1){
+		let is_HeadMD=check_Head_MD(readline__text);
+		 apply_headerMD(readline,is_HeadMD,HEADER_STYLE)
+		}
+		}
+		}
 		<!--Variable CONST Setting-->
 		const VARIABLE_TYPE_INDEX = 6;
 		const VARIABLE_JOB_INDEX = 5;

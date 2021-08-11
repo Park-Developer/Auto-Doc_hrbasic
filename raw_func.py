@@ -155,26 +155,60 @@ def extract_descripInfo(desc_raw:dict):
     job_num=desc_raw['job_num']
     raw_data=desc_raw['rawdata']
 
+    if 'readme' in desc_raw:
+        processed_readme = []
+        for readme_line in desc_raw['readme']:
+
+            while True:
+                if ("\t" not in readme_line) and ("'" not in readme_line) and ("\n" not in readme_line) \
+                        and ("/@read" not in readme_line) and ("@read/" not in readme_line):
+                    break
+
+                if "\t" in readme_line:
+                    readme_line = readme_line.replace("\t", "").strip()
+                if "'" in readme_line:
+                    readme_line = readme_line.replace("'", "").strip()
+                if "\n" in readme_line:
+                    readme_line = readme_line.replace("\n", "").strip()
+
+                if "@read/" in readme_line:
+                    readme_line = readme_line.replace("@read/", "")
+
+                if "/@read" in readme_line:
+                    readme_line = readme_line.replace("/@read", "")
+
+            processed_readme.append(readme_line)
+
+        result["readme"] = processed_readme
+
     for data in raw_data:
         if ('@Description' in data):
             description =data.split(':')[1].strip()
+            result["description"]=description
+
         if ('@Version' in data):
             version =data.split(':')[1].strip()
-        if ('@Developer' in data):
-            developer =data.split(':')[1].strip()
+            result["version"] = version
 
-    try:
-        result={
-            "description" : description,
-            "version" : version,
-            "developer":developer
-        }
+        if ('@Revdate' in data):
+            revdate = data.split(':')[1].strip()
+            result["revdate"] = revdate
 
-    except NameError:
-        print("well, it WASN'T defined after all!")
-    else:
-        return result
+        if ('@name' in data):
+            name = data.split(':')[1].strip()
+            result["name"] = name
 
+        if ('@email' in data):
+            email = data.split(':')[1].strip()
+            result["email"] = email
+
+        if ('phone' in data):
+            phone = data.split(':')[1].strip()
+            result["phone"] = phone
+
+
+
+    return result
 
 if __name__=="__main__":
     test_func_raw=[ {'job_num': '5400_error.JOB', 'rawdata': ["' @func Error Handling\n", "' @ref 아직 덜 만듬 ㅋ\n", "' @param li_errCode, li_ProLoc\n"]}]

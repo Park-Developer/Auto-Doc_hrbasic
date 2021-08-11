@@ -13,28 +13,48 @@ class JobReader:
         self.job_list=os.listdir(self.job_address)
 
     def read_n_make_rawData(self):
+        readme_flag =False
+        readme = []  # read raw데이터 저장
+
         for job in self.job_list: # job : job 파일 이름
             job_loc=self.job_address+"\\"+job
             func_tmp = []
             with open( job_loc, 'r') as file:
                 for i, line in enumerate(file):
                     if "@Description" in line:
+                        desc_jobName=job
                         desc_tmp=[]
                         desc_tmp.append(line)
                     elif "@Version" in line:
+                        desc_jobName = job
                         desc_tmp.append(line)
-                    elif "@Developer" in line:
+                    elif "@Revdate" in line:
+                        desc_jobName = job
                         desc_tmp.append(line)
-                        temp_dic = {
-                            "job_num": job,
-                            "rawdata": desc_tmp
-                        }
-                        self.Job_description=temp_dic
+                    elif "@name" in line:
+                        desc_jobName = job
+                        desc_tmp.append(line)
+                    elif "@email" in line:
+                        desc_jobName = job
+                        desc_tmp.append(line)
+                    elif "@phone" in line:
+                        desc_jobName = job
+                        desc_tmp.append(line)
+                    elif "@read/" in line:
+                        readme_flag=True # readme 기록 start
+                    elif "/@read" in line:
+                        readme_flag=False # readme 기록 end
+                        readme.append(line)
+
+                    if (readme_flag==True):
+                        readme.append(line)
+
+
 
                     if "@var" in line: # var -> Variable
                         temp_dic={
                             "job_num" : job,
-                            "rawdata" : line
+                            "rawdata" : line,
                         }
                         self.Variable_raw_List.append(temp_dic)
 
@@ -61,6 +81,18 @@ class JobReader:
                         "rawdata": func_tmp
                     }
                     self.Function_raw_List.append(temp_dic)
+
+        # Description Data
+        if desc_tmp!=[]:
+            self.Job_description = {
+                "job_num": desc_jobName,
+                "rawdata": desc_tmp
+            }
+
+        if readme!=[]:
+
+            self.Job_description["readme"]=readme
+            print( self.Job_description)
 
 
     def save_DocData(self):

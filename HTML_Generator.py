@@ -184,7 +184,82 @@ class HTML_Generator:
              '\t\t\t\t\tbreak;\n\n',
              '\t\t\t}\n',
              '\t\t}\n\n',
+             ########################################[Description Setting]###############################
+             '\t\t<!--Description CONST Setting-->\n',
+             '\t\tHEADER_STYLE={\n',
+             '\t\t\th1_size:"50px",\n',
+             '\t\t\th2_size:"40px",\n',
+             '\t\t\th3_size:"30px",\n',
+             '\t\t\th4_size:"20px",\n',
+             '\t\t\th5_size:"10px",\n',
+             '\t\t}\n\n',
 
+             '\t\t<!--Description Function-->\n',
+             # function check_Head_MD(line)
+             '\t\tfunction check_Head_MD(line){\n',
+             '\t\t\tfunction make_md(header,line){\n',
+             '\t\t\tlet sentence=line.split(header)\n',
+             '\t\t\tlet non_applined_part=sentence[0].trim();\n',
+             '\t\t\tlet applied_part=sentence[1].trim();\n',
+                
+             '\t\tlet result={\n',
+             '\t\t\t"non_applied":non_applined_part,\n',
+             '\t\t\t"applied":applied_part,\n',
+             '\t\t\t"header":header\n',
+             '\t\t\t}\n\n',
+             '\t\treturn result;',
+             '\t\t}\n\n',
+             '\t\tlet header;\n',
+             '\t\tif (line.indexOf("####")!==-1){\n',
+             '\t\theader="####";\n',
+             '\t\t}else if (line.indexOf("###")!==-1){\n',
+             '\t\theader="###";\n',
+             '\t\t}else if (line.indexOf("##")!==-1){\n',
+             '\t\theader="##";\n',
+             '\t\t}else if (line.indexOf("#")!==-1){\n',
+             '\t\theader="#";\n',
+             '\t\t}\n',
+
+             '\t\t let result=make_md(header,line);\n',
+             '\t\t return result\n',
+             '\t\t}\n\n',
+
+             #########@#@#@#@
+             #function apply_headerMD(parentNode, md_result, header_style)
+             '\t\tfunction apply_headerMD(parentNode, md_result, header_style){\n',
+             '\t\t\tfunction decide_font(header, header_style){\n',
+             '\t\t\tlet header_size = "h" + header.length + "_size";\n',\
+             '\t\t\treturn header_style[header_size];\n\n',
+             '\t\t\t}\n\n',
+             '\t\theader = md_result["header"];\n',
+             '\t\tlet non_applied = document.createElement("span");\n',
+             '\t\tnon_applied.innerText = md_result["non_applied"];\n\n',
+
+             '\t\tlet applied = document.createElement("span");\n',
+             '\t\tapplied.innerText = md_result["applied"];\n',
+             '\t\t applied.style.fontSize = decide_font(header, header_style);\n',
+
+             '\t\tparentNode.innerText = "";\n',
+             '\t\tparentNode.appendChild(non_applied);\n',
+             '\t\tparentNode.appendChild(applied);\n',
+             '\t\t}\n',
+             ##############@#@#
+
+             '\t\t<!--Description DOM Setting-->\n',
+             '\t\tlet description_readme= document.querySelector(".description_readme");\n\n',
+             '\t\tconsole.log("readme",description_readme.childElementCount);\n\n',
+
+             '\t\tlet readmeLine_num=description_readme.childElementCount;\n',
+             '\t\tfor(let i=0; i<readmeLine_num;i++){\n',
+             '\t\tif(i>=1){ // <!--header 제외-->\n',
+             '\t\tlet readline=document.querySelector(".readme_"+(i-1).toString());\n',
+             '\t\tlet readline__text=readline.innerText;\n',
+             '\t\tif(readline__text.indexOf("#")!==-1){\n',
+             '\t\tlet is_HeadMD=check_Head_MD(readline__text);\n',
+             '\t\t apply_headerMD(readline,is_HeadMD,HEADER_STYLE)\n',
+             '\t\t}\n',
+             '\t\t}\n',
+             '\t\t}\n',
              ########################################[Variable Setting]##################################
 
              # |Variable Constant Setting|
@@ -357,15 +432,14 @@ class HTML_Generator:
         :return: html div part for description (list)
         '''
 
-        description=description_data['description']
-        version=description_data['version']
-        developer=description_data['developer']
+        base_html_head=['\t\t<div class="description">\n']
+        base_html_tail=['\t\t</div> <!--description END-->  \n\n']
+        body_html=[]
 
-        html_result = [
-
-            '\t\t<div class="description">\n',
-            ###########################################################################################
-            '\t\t\t<div class="description__description">\n',
+        if "description" in description_data:
+            description = description_data['description']
+            description_html=[
+                '\t\t\t<div class="description__description">\n',
                 '\t\t\t\t<span class="description__title">\n',
                 '\t\t\t\t<i class="fas fa-square"></i> Description : \n',
                 '\t\t\t\t</span>\n',
@@ -373,9 +447,14 @@ class HTML_Generator:
                 '\t\t\t\t<span class="description__value">\n',
                 '\t\t\t\t'+description+'\n',
                 '\t\t\t\t</span>\n',
-            '\t\t\t</div>\n',
-            ###########################################################################################
-            '\t\t\t<div class="description__version">\n',
+                '\t\t\t</div>\n\n'
+            ]
+            body_html+=description_html
+
+        if 'version' in description_data:
+            version = description_data['version']
+            version_html=[
+                '\t\t\t<div class="description__version">\n',
                 '\t\t\t\t<span class="version__title">\n',
                 '\t\t\t\t<i class="fas fa-square"></i> Version : \n',
                 '\t\t\t\t</span>\n',
@@ -383,23 +462,101 @@ class HTML_Generator:
                 '\t\t\t\t<span class="version__value">\n',
                 '\t\t\t\t' + version + '\n',
                 '\t\t\t\t</span>\n',
-            '\t\t\t</div>\n',
-            ###########################################################################################
-            '\t\t\t<div class="description__developer">\n',
-                '\t\t\t\t<span class="developer__title">\n',
-                '\t\t\t\t<i class="fas fa-square"></i> Developer : \n',
+                '\t\t\t</div>\n\n',
+            ]
+            body_html +=version_html
+
+        if 'revdate' in description_data:
+            revdate = description_data['revdate']
+            revdate_html=[
+                '\t\t\t<div class="description__revdate">\n',
+                '\t\t\t\t<span class="revdate__title">\n',
+                '\t\t\t\t<i class="fas fa-square"></i> Rev Date : \n',
                 '\t\t\t\t</span>\n',
 
-                '\t\t\t\t<span class="developer__value">\n',
-                '\t\t\t\t' + developer + '\n',
+                '\t\t\t\t<span class="revdate__value">\n',
+                '\t\t\t\t' + revdate + '\n',
                 '\t\t\t\t</span>\n',
-            '\t\t\t</div>\n',
-            ###########################################################################################
-            '\t\t</div>\n',
+                '\t\t\t</div>\n\n',
+            ]
+            body_html+= revdate_html
 
-        ]
+        if ('name' in description_data) or ('email' in description_data) or ('phone' in description_data):
+            developer_html=[
+                '\t\t\t<div class="description__name">\n',
+                '\t\t\t\t<span class="name__title">\n',
+                '\t\t\t\t<i class="fas fa-square"></i> Developer \n',
+                '\t\t\t\t</span>\n',
+                '\t\t\t</div>\n\n',
+            ]
+            body_html += developer_html
 
-        self.description_div_list=html_result
+        if 'name' in description_data:
+            name = description_data['name']
+            name_html=[
+                '\t\t\t<div class="description__name">\n',
+                '\t\t\t\t<span class="name__title">\n',
+                '\t\t\t\t<i class="fas fa-circle"></i> name : \n',
+                '\t\t\t\t</span>\n',
+
+                '\t\t\t\t<span class="name__value">\n',
+                '\t\t\t\t' + name + '\n',
+                '\t\t\t\t</span>\n',
+                '\t\t\t</div>\n\n',
+            ]
+            body_html+=name_html
+
+        if 'email' in description_data:
+            email = description_data['email']
+            email_html=[
+                '\t\t\t<div class="description__email">\n',
+                '\t\t\t\t<span class="email__title">\n',
+                '\t\t\t\t<i class="fas fa-circle"></i> email : \n',
+                '\t\t\t\t</span>\n',
+
+                '\t\t\t\t<span class="email__value">\n',
+                '\t\t\t\t' + email + '\n',
+                '\t\t\t\t</span>\n',
+                '\t\t\t</div>\n\n',
+            ]
+            body_html+= email_html
+
+        if 'phone' in description_data:
+            phone = description_data['phone']
+            phone_html=[
+                '\t\t\t<div class="description_phone">\n',
+                '\t\t\t\t<span class="phone__title">\n',
+                '\t\t\t\t<i class="fas fa-circle"></i> phone : \n',
+                '\t\t\t\t</span>\n',
+
+                '\t\t\t\t<span class="phone__value">\n',
+                '\t\t\t\t' + phone + '\n',
+                '\t\t\t\t</span>\n',
+                '\t\t\t</div>  <!--class="description_phone END-->\n\n',
+            ]
+            body_html += phone_html
+
+        if 'readme' in description_data:
+
+            readme=description_data['readme']
+            readme_html_head=['\t\t\t<div class="description_readme">\n'
+                              '\t\t\t\t<span class="readme__title">\n',
+                              '\t\t\t\t<i class="fas fa-square"></i> Notice : \n',
+                              '\t\t\t\t<br></span>\n',
+                              ]
+            readme_html_tail = ['\t\t\t</div>\n\n']
+            readme_html_body = []
+            for idx, line in enumerate(readme):
+                class_name="readme_"+str(idx)
+                html_line=['\t\t\t\t<span class="'+class_name+'">\n',
+                           '\t\t\t\t\t'+line+'\n',
+                           '\t\t\t\t<br></span>\n']
+
+                readme_html_body+=html_line
+
+            body_html +=(readme_html_head+ readme_html_body+readme_html_tail)
+
+        self.description_div_list=base_html_head+body_html+base_html_tail
         self.update_all_htmlList()
 
     def make_varSearch_part(self, var_data: dict):
