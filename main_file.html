@@ -120,7 +120,7 @@
 				<i class="fas fa-square"></i> Notice : 
 				<br></span>
 				<span class="readme_0">
-					 asdasd
+					 as__da__sd
 				<br></span>
 				<span class="readme_1">
 					as#dd
@@ -157,8 +157,8 @@
 			<div class="variable__selector_job">
 				<span class="Job_name">Job</span>
 				<select name="Job" class="Job_selection">
-			<option>5001</option>
 			<option>5002</option>
+			<option>5001</option>
 					<option>All</option>
 				</select>
 			</div><!--variable__selector_job End-->
@@ -405,12 +405,16 @@
 		}
 
 		<!--Description CONST Setting-->
-		HEADER_STYLE={
+		const HEADER_STYLE={
 			h1_size:"50px",
 			h2_size:"40px",
 			h3_size:"30px",
 			h4_size:"20px",
 			h5_size:"10px",
+		}
+
+		const BOLD_STYLE={
+			fontWeight:"bold"
 		}
 
 		<!--Description Function-->
@@ -458,7 +462,37 @@
 		parentNode.innerText = "";
 		parentNode.appendChild(non_applied);
 		parentNode.appendChild(applied);
+		parentNode.appendChild(document.createElement("br"));
 		}
+
+		function apply_boldMD(parentNode,md_result,bold_style){
+		let applied = document.createElement("span");
+		applied.innerText = md_result["applied"];
+		applied.style.fontWeight=BOLD_STYLE.fontWeight;//[fontWeight];
+		let front_non_applined_part = document.createElement("span");
+		front_non_applined_part.innerText = md_result["front_non_applined_part"];
+		let rear_non_applined_part = document.createElement("span");
+		rear_non_applined_part.innerText = md_result["rear_non_applined_part"];
+		parentNode.innerText="";
+		parentNode.appendChild(front_non_applined_part);
+		parentNode.appendChild(applied);
+		parentNode.appendChild(rear_non_applined_part);
+		parentNode.appendChild(document.createElement("br"));
+		}
+
+		function check_Bold_MD(line){
+		let sentence=line.split("__");
+		let front_non_applined_part=sentence[0].trim();
+		let rear_non_applined_part=sentence[2].trim();
+		let applied_part=sentence[1].trim();
+		let result={
+		"front_non_applined_part":front_non_applined_part,
+		"rear_non_applined_part":rear_non_applined_part,
+		"applied":applied_part,
+		}
+		return result;
+		}
+
 		<!--Description DOM Setting-->
 		let description_readme= document.querySelector(".description_readme");
 
@@ -466,13 +500,20 @@
 
 		let readmeLine_num=description_readme.childElementCount;
 		for(let i=0; i<readmeLine_num;i++){
-		if(i>=1){ // <!--header 제외-->
-		let readline=document.querySelector(".readme_"+(i-1).toString());
-		let readline__text=readline.innerText;
-		if(readline__text.indexOf("#")!==-1){
-		let is_HeadMD=check_Head_MD(readline__text);
-		 apply_headerMD(readline,is_HeadMD,HEADER_STYLE)
-		}
+			if(i>=1){ // <!--header 제외-->
+			let readline=document.querySelector(".readme_"+(i-1).toString());
+			let readline__text=readline.innerText;
+			if(readline__text.indexOf("#")!==-1){
+			let is_HeadMD=check_Head_MD(readline__text);
+			apply_headerMD(readline,is_HeadMD,HEADER_STYLE)
+			}
+			if(readline__text.indexOf("__")!==-1){
+			let first_loc=readline__text.indexOf("__")
+			if(readline__text.indexOf("__",first_loc+3)!==-1){
+			let is_boldMD=check_Bold_MD(readline__text);
+			apply_boldMD(readline,is_boldMD,BOLD_STYLE)
+			}
+			}
 		}
 		}
 		<!--Variable CONST Setting-->

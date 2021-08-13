@@ -186,12 +186,16 @@ class HTML_Generator:
              '\t\t}\n\n',
              ########################################[Description Setting]###############################
              '\t\t<!--Description CONST Setting-->\n',
-             '\t\tHEADER_STYLE={\n',
+             '\t\tconst HEADER_STYLE={\n',
              '\t\t\th1_size:"50px",\n',
              '\t\t\th2_size:"40px",\n',
              '\t\t\th3_size:"30px",\n',
              '\t\t\th4_size:"20px",\n',
              '\t\t\th5_size:"10px",\n',
+             '\t\t}\n\n',
+
+             '\t\tconst BOLD_STYLE={\n',
+             '\t\t\tfontWeight:"bold"\n',
              '\t\t}\n\n',
 
              '\t\t<!--Description Function-->\n',
@@ -223,12 +227,10 @@ class HTML_Generator:
              '\t\t let result=make_md(header,line);\n',
              '\t\t return result\n',
              '\t\t}\n\n',
-
-             #########@#@#@#@
-             #function apply_headerMD(parentNode, md_result, header_style)
+             # function apply_headerMD(parentNode, md_result, header_style)
              '\t\tfunction apply_headerMD(parentNode, md_result, header_style){\n',
              '\t\t\tfunction decide_font(header, header_style){\n',
-             '\t\t\tlet header_size = "h" + header.length + "_size";\n',\
+             '\t\t\tlet header_size = "h" + header.length + "_size";\n',
              '\t\t\treturn header_style[header_size];\n\n',
              '\t\t\t}\n\n',
              '\t\theader = md_result["header"];\n',
@@ -242,7 +244,43 @@ class HTML_Generator:
              '\t\tparentNode.innerText = "";\n',
              '\t\tparentNode.appendChild(non_applied);\n',
              '\t\tparentNode.appendChild(applied);\n',
-             '\t\t}\n',
+             '\t\tparentNode.appendChild(document.createElement("br"));\n',
+             '\t\t}\n\n',
+
+             # function apply_headerMD(parentNode, md_result, header_style)
+             '\t\tfunction apply_boldMD(parentNode,md_result,bold_style){\n',
+
+             '\t\tlet applied = document.createElement("span");\n',
+             '\t\tapplied.innerText = md_result["applied"];\n',
+             '\t\tapplied.style.fontWeight=BOLD_STYLE.fontWeight;//[fontWeight];\n',
+
+             '\t\tlet front_non_applined_part = document.createElement("span");\n',
+             '\t\tfront_non_applined_part.innerText = md_result["front_non_applined_part"];\n',
+
+             '\t\tlet rear_non_applined_part = document.createElement("span");\n',
+             '\t\trear_non_applined_part.innerText = md_result["rear_non_applined_part"];\n',
+
+             '\t\tparentNode.innerText="";\n',
+             '\t\tparentNode.appendChild(front_non_applined_part);\n',
+             '\t\tparentNode.appendChild(applied);\n',
+             '\t\tparentNode.appendChild(rear_non_applined_part);\n',
+             '\t\tparentNode.appendChild(document.createElement("br"));\n',
+             '\t\t}\n\n',
+
+            #function check_Bold_MD(line)
+            '\t\tfunction check_Bold_MD(line){\n',
+            '\t\tlet sentence=line.split("__");\n',
+            '\t\tlet front_non_applined_part=sentence[0].trim();\n',
+            '\t\tlet rear_non_applined_part=sentence[2].trim();\n',
+            '\t\tlet applied_part=sentence[1].trim();\n',
+
+            '\t\tlet result={\n',
+            '\t\t"front_non_applined_part":front_non_applined_part,\n',
+            '\t\t"rear_non_applined_part":rear_non_applined_part,\n',
+            '\t\t"applied":applied_part,\n',
+            '\t\t}\n',
+            '\t\treturn result;\n',
+            '\t\t}\n\n',
              ##############@#@#
 
              '\t\t<!--Description DOM Setting-->\n',
@@ -251,13 +289,22 @@ class HTML_Generator:
 
              '\t\tlet readmeLine_num=description_readme.childElementCount;\n',
              '\t\tfor(let i=0; i<readmeLine_num;i++){\n',
-             '\t\tif(i>=1){ // <!--header 제외-->\n',
-             '\t\tlet readline=document.querySelector(".readme_"+(i-1).toString());\n',
-             '\t\tlet readline__text=readline.innerText;\n',
-             '\t\tif(readline__text.indexOf("#")!==-1){\n',
-             '\t\tlet is_HeadMD=check_Head_MD(readline__text);\n',
-             '\t\t apply_headerMD(readline,is_HeadMD,HEADER_STYLE)\n',
-             '\t\t}\n',
+             '\t\t\tif(i>=1){ // <!--header 제외-->\n',
+             '\t\t\tlet readline=document.querySelector(".readme_"+(i-1).toString());\n',
+             '\t\t\tlet readline__text=readline.innerText;\n',
+             # Header MD Check & Application
+             '\t\t\tif(readline__text.indexOf("#")!==-1){\n',
+             '\t\t\tlet is_HeadMD=check_Head_MD(readline__text);\n',
+             '\t\t\tapply_headerMD(readline,is_HeadMD,HEADER_STYLE)\n',
+             '\t\t\t}\n',
+             # Bold MD Check & Application
+             '\t\t\tif(readline__text.indexOf("__")!==-1){\n',
+             '\t\t\tlet first_loc=readline__text.indexOf("__")\n',
+             '\t\t\tif(readline__text.indexOf("__",first_loc+3)!==-1){\n',
+             '\t\t\tlet is_boldMD=check_Bold_MD(readline__text);\n',
+             '\t\t\tapply_boldMD(readline,is_boldMD,BOLD_STYLE)\n',
+             '\t\t\t}\n',
+             '\t\t\t}\n',
              '\t\t}\n',
              '\t\t}\n',
              ########################################[Variable Setting]##################################
