@@ -4,7 +4,26 @@ class HTML_Generator:
             '<!DOCTYPE html>\n',
             '<html>\n',
             '<head>\n',
-            '\t<title>Page Title</title>\n',
+             # favicon
+            '\t<link rel="apple-touch-icon" sizes="57x57" href="./favicon/apple-icon-57x57.png">\n',
+            '\t<link rel="apple-touch-icon" sizes="60x60" href="./favicon/apple-icon-60x60.png">\n',
+            '\t<link rel="apple-touch-icon" sizes="72x72" href="./favicon/apple-icon-72x72.png">\n',
+            '\t<link rel="apple-touch-icon" sizes="76x76" href="./favicon/apple-icon-76x76.png">\n',
+            '\t<link rel="apple-touch-icon" sizes="114x114" href="./favicon/apple-icon-114x114.png">\n',
+            '\t<link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-icon-120x120.png">\n',
+            '\t<link rel="apple-touch-icon" sizes="144x144" href="./favicon/apple-icon-144x144.png">\n',
+            '\t<link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-icon-152x152.png">\n',
+            '\t<link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-icon-180x180.png">\n',
+            '\t<link rel="icon" type="image/png" sizes="192x192"  href="./favicon/android-icon-192x192.png">\n',
+            '\t<link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">\n',
+            '\t<link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png">\n',
+            '\t<link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">\n',
+            '\t<link rel="manifest" href="./favicon/manifest.json">\n',
+            '\t<meta name="msapplication-TileColor" content="#ffffff">\n',
+            '\t<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">\n',
+            '\t<meta name="theme-color" content="#ffffff">\n',
+
+            '\t<title>JOB Specification</title>\n',
             '\t<style>\n', # CSS Setting
             '\t:root{', # CSS Variable Setting
             '\t\t--table_header_color:gray;',
@@ -13,8 +32,12 @@ class HTML_Generator:
             '\tbody{\n',
             '\tbackground-color: lightblue;\n',
             '\t}\n',
-
-            # Variable CSS Setting_______________________________
+            # Menu Bac Setting_______________________________
+             '\t.menu-bar{\n',
+             '\tmargin-top:30px;\n',
+             '\tmargin-bottom:10px;\n',
+             '\t}\n',
+            # Variable Setting_______________________________
             '\t.variable_search_part{\n',
             '\tdisplay: flex;\n',
             '\t}\n',
@@ -65,7 +88,7 @@ class HTML_Generator:
 
              '\t<div class="menu-bar">\n',
                 '\t\t<button class="home_btn">Home</button>\n',
-                '\t\t<button class="label_btn">Label</button>\n',
+                #'\t\t<button class="label_btn">Label</button>\n',
                 '\t\t<button class="variable_btn">Variable</button>\n',
                 '\t\t<button class="function_btn">Function</button>\n',
              '\t</div>\n\n',
@@ -100,14 +123,14 @@ class HTML_Generator:
              # | Initial DOM setting|
              # 1. DIV DOM
              '\t\tlet home_UI = document.querySelector(".description_UI");\n',
-             '\t\tlet label_UI = document.querySelector(".label_UI");\n',
+             #'\t\tlet label_UI = document.querySelector(".label_UI");\n',
              '\t\tlet variable_UI = document.querySelector(".variable_UI");\n',
              '\t\tlet function_UI = document.querySelector(".function_UI");\n\n',
 
 
              # 2. Button DOM
              '\t\tlet home_btn=document.querySelector(".home_btn");\n',
-             '\t\tlet label_btn=document.querySelector(".label_btn");\n',
+             #'\t\tlet label_btn=document.querySelector(".label_btn");\n',
              '\t\tlet variable_btn=document.querySelector(".variable_btn");\n',
              '\t\tlet function_btn=document.querySelector(".function_btn");\n\n',
 
@@ -121,12 +144,12 @@ class HTML_Generator:
              '\t\t\thome_UI.style.display="block";\n',  # Activate
              '\t\t\tvariable_UI.style.display="none";\n',
              '\t\t\tfunction_UI.style.display="none";\n',
-             '\t\t\tlabel_UI.style.display="none";\n\n',
+             #'\t\t\tlabel_UI.style.display="none";\n\n',
 
              # | Event Setting|
              # Button Event Setting
              '\t\thome_btn.addEventListener("click",main_Btn_func )\n',
-             '\t\tlabel_btn.addEventListener("click", main_Btn_func)\n',
+             #'\t\tlabel_btn.addEventListener("click", main_Btn_func)\n',
              '\t\tvariable_btn.addEventListener("click", main_Btn_func)\n',
              '\t\tfunction_btn.addEventListener("click", main_Btn_func)\n\n',
 
@@ -137,48 +160,48 @@ class HTML_Generator:
              # [Home Button Click]_______
              '\t\t\t\tcase "Home":\n',
              '\t\t\t\t\thome_btn_activation=true;\n', # activatge
-             '\t\t\t\t\tlabel_btn_activation=false;\n',
+             #'\t\t\t\t\tlabel_btn_activation=false;\n',
              '\t\t\t\t\tvariable_btn_activation=false;\n',
              '\t\t\t\t\tfunction_btn_activation=false;\n\n',
 
              '\t\t\t\t\thome_UI.style.display="block";\n',  # block
-             '\t\t\t\t\tlabel_UI.style.display="none";\n',
+             #'\t\t\t\t\tlabel_UI.style.display="none";\n',
              '\t\t\t\t\tvariable_UI.style.display="none";\n',
              '\t\t\t\t\tfunction_UI.style.display="none";\n',
              '\t\t\t\t\tbreak;\n\n',
              # [Label Button Click]_______
              '\t\t\t\tcase "Label":\n',
              '\t\t\thome_btn_activation=false;\n',
-             '\t\t\tlabel_btn_activation=true;\n', # activate
+             #'\t\t\tlabel_btn_activation=true;\n', # activate
              '\t\t\tvariable_btn_activation=false;\n',
              '\t\t\tfunction_btn_activation=false;\n\n',
 
              '\t\t\thome_UI.style.display="none";\n',
-             '\t\t\tlabel_UI.style.display="block";\n',  # block
+             #'\t\t\tlabel_UI.style.display="block";\n',  # block
              '\t\t\tvariable_UI.style.display="none";\n',
              '\t\t\tfunction_UI.style.display="none";\n',
              '\t\t\t\t\tbreak;\n\n',
              # [Variable Button Click]______
              '\t\t\tcase "Variable":\n',
              '\t\t\t\thome_btn_activation=false;\n',
-             '\t\t\t\tlabel_btn_activation=false;\n',
+             #'\t\t\t\tlabel_btn_activation=false;\n',
              '\t\t\t\tvariable_btn_activation=true;\n',  # activate
              '\t\t\t\tfunction_btn_activation=false;\n\n',
 
              '\t\t\t\thome_UI.style.display="none";\n',
-             '\t\t\t\tlabel_UI.style.display="none";\n',
+             #'\t\t\t\tlabel_UI.style.display="none";\n',
              '\t\t\t\tvariable_UI.style.display="block";\n',  # block
              '\t\t\t\tfunction_UI.style.display="none";\n',
              '\t\t\t\t\tbreak;\n\n',
              # [Function Button Click]______
              '\t\t\tcase "Function":\n',
              '\t\t\t\thome_btn_activation=false;\n',
-             '\t\t\t\tlabel_btn_activation=false;\n',
+             #'\t\t\t\tlabel_btn_activation=false;\n',
              '\t\t\t\tvariable_btn_activation=false;\n',
              '\t\t\t\tfunction_btn_activation=true;\n\n',   # activate
 
              '\t\t\t\thome_UI.style.display="none";\n',
-             '\t\t\t\tlabel_UI.style.display="none";\n',
+             #'\t\t\t\tlabel_UI.style.display="none";\n',
              '\t\t\t\tvariable_UI.style.display="none";\n',
              '\t\t\t\tfunction_UI.style.display="block";\n', # block
              '\t\t\t\t\tbreak;\n\n',
@@ -186,6 +209,7 @@ class HTML_Generator:
              '\t\t}\n\n',
              ########################################[Description Setting]###############################
              '\t\t<!--Description CONST Setting-->\n',
+             # HEADER CONSTANT
              '\t\tconst HEADER_STYLE={\n',
              '\t\t\th1_size:"50px",\n',
              '\t\t\th2_size:"40px",\n',
@@ -193,9 +217,24 @@ class HTML_Generator:
              '\t\t\th4_size:"20px",\n',
              '\t\t\th5_size:"10px",\n',
              '\t\t}\n\n',
-
+             # BOLD CONSTANT
              '\t\tconst BOLD_STYLE={\n',
              '\t\t\tfontWeight:"bold"\n',
+             '\t\t}\n\n',
+             # UNDERLINE CONSTANT
+             '\t\tconst UNDERLINE_STYLE={\n',
+             '\t\t\ttextDecoration:"underline"\n',
+             '\t\t}\n\n',
+             # HIGHLIGHT CONSTANT
+             '\t\tconst HIGHLIGHT_STYLE={\n',
+             '\t\t\tbackgroundColor:"#FFFF00"\n', # #FFFF00 : Yellow
+             '\t\t}\n\n',
+             # TEXTCOLOR CONSTANT
+             '\t\tconst COLOR_STYLE={\n',
+             '\t\t\tyellow:"#FFFF00",\n',
+             '\t\t\tred:"#FF0000",\n',
+             '\t\t\tblue:"#0000FF",\n',
+             '\t\t\tgreen:"#008000",\n',
              '\t\t}\n\n',
 
              '\t\t<!--Description Function-->\n',
@@ -247,7 +286,7 @@ class HTML_Generator:
              '\t\tparentNode.appendChild(document.createElement("br"));\n',
              '\t\t}\n\n',
 
-             # function apply_headerMD(parentNode, md_result, header_style)
+             # function apply_boldMD(parentNode, md_result, header_style)
              '\t\tfunction apply_boldMD(parentNode,md_result,bold_style){\n',
 
              '\t\tlet applied = document.createElement("span");\n',
@@ -282,31 +321,178 @@ class HTML_Generator:
             '\t\treturn result;\n',
             '\t\t}\n\n',
              ##############@#@#
+             # function check_Underline_MD(line)
+             '\t\tfunction check_Underline_MD(line){\n',
+             '\t\tlet sentence=line.split("@u{");\n',
+             '\t\tlet front_non_applined_part=sentence[0].trim();\n',
+             '\t\tlet temp_line_part=sentence[1].split("}");\n',
+             '\t\tlet rear_non_applined_part= temp_line_part[1].trim();\n',
+             '\t\tlet applied_part= temp_line_part[0].trim();\n\n',
 
+             '\t\tlet result={\n',
+             '\t\t"front_non_applined_part":front_non_applined_part,\n',
+             '\t\t"rear_non_applined_part":rear_non_applined_part,\n',
+             '\t\t"applied":applied_part,\n',
+             '\t\t}\n',
+             '\t\treturn result;\n',
+             '\t\t}\n\n',
+             ##############@#@#
+             # function apply_underlineMD(parentNode, md_result, header_style)
+             '\t\tfunction apply_underlineMD(parentNode,md_result,bold_style){\n',
+
+             '\t\tlet applied = document.createElement("span");\n',
+             '\t\tapplied.innerText = md_result["applied"];\n',
+             '\t\tapplied.style.textDecoration=UNDERLINE_STYLE.textDecoration;\n',
+
+             '\t\tlet front_non_applined_part = document.createElement("span");\n',
+             '\t\tfront_non_applined_part.innerText = md_result["front_non_applined_part"];\n',
+
+             '\t\tlet rear_non_applined_part = document.createElement("span");\n',
+             '\t\trear_non_applined_part.innerText = md_result["rear_non_applined_part"];\n',
+
+             '\t\tparentNode.innerText="";\n',
+             '\t\tparentNode.appendChild(front_non_applined_part);\n',
+             '\t\tparentNode.appendChild(applied);\n',
+             '\t\tparentNode.appendChild(rear_non_applined_part);\n',
+             '\t\tparentNode.appendChild(document.createElement("br"));\n',
+             '\t\t}\n\n',
+             #######################################################################
+             # function check_Highlight_MD(line)
+             '\t\tfunction check_Highlight_MD(line){\n',
+             '\t\tlet sentence=line.split("@mark{");\n',
+             '\t\tlet front_non_applined_part=sentence[0].trim();\n',
+             '\t\tlet temp_line_part=sentence[1].split("}");\n',
+             '\t\tlet rear_non_applined_part= temp_line_part[1].trim();\n',
+             '\t\tlet applied_part= temp_line_part[0].trim();\n',
+
+             '\t\tlet result={\n',
+             '\t\t"front_non_applined_part":front_non_applined_part,\n',
+             '\t\t"rear_non_applined_part":rear_non_applined_part,\n',
+             '\t\t"applied":applied_part,\n',
+             '\t\t}\n',
+             '\t\treturn result;\n',
+             '\t\t}\n\n',
+             #########################################################################
+             # function apply_highlightMD(parentNode, md_result, header_style)
+             '\t\tfunction apply_highlightMD(parentNode,md_result,bold_style){\n',
+
+             '\t\tlet applied = document.createElement("span");\n',
+             '\t\tapplied.innerText = md_result["applied"];\n',
+             '\t\tapplied.style.backgroundColor=HIGHLIGHT_STYLE.backgroundColor;\n',
+
+             '\t\tlet front_non_applined_part = document.createElement("span");\n',
+             '\t\tfront_non_applined_part.innerText = md_result["front_non_applined_part"];\n',
+
+             '\t\tlet rear_non_applined_part = document.createElement("span");\n',
+             '\t\trear_non_applined_part.innerText = md_result["rear_non_applined_part"];\n',
+
+             '\t\tparentNode.innerText="";\n',
+             '\t\tparentNode.appendChild(front_non_applined_part);\n',
+             '\t\tparentNode.appendChild(applied);\n',
+             '\t\tparentNode.appendChild(rear_non_applined_part);\n',
+             '\t\tparentNode.appendChild(document.createElement("br"));\n',
+             '\t\t}\n\n',
+             #########################################################################
+             # function check_Color_MD(line)
+             '\t\tfunction check_Color_MD(line){\n',
+             '\t\tlet color_tag;\n',
+             '\t\tif (line.indexOf("red")!==-1){\n',
+             '\t\tcolor_tag="@red{";\n',
+             '\t\t}else if (line.indexOf("blue")!==-1){\n',
+             '\t\tcolor_tag="@blue{";\n',
+             '\t\t}else if (line.indexOf("green")!==-1){\n',
+             '\t\tcolor_tag="@green{";\n',
+             '\t\t}else if (line.indexOf("yelllow")!==-1){\n',
+             '\t\tcolor_tag="@yellow{";\n',
+             '\t\t}\n\n',
+
+             '\t\tlet sentence=line.split(color_tag);\n',
+             '\t\tlet front_non_applined_part=sentence[0].trim();\n',
+             '\t\tlet temp_line_part=sentence[1].split("}");\n',
+             '\t\tlet rear_non_applined_part= temp_line_part[1].trim();\n',
+             '\t\tlet applied_part= temp_line_part[0].trim();\n\n',
+
+             '\t\tlet result={\n',
+             '\t\t"front_non_applined_part":front_non_applined_part,\n',
+             '\t\t"rear_non_applined_part":rear_non_applined_part,\n',
+             '\t\t"applied":applied_part,\n',
+             '\t\t"color_tag":color_tag.substring(1,color_tag.length-1),\n',
+             '\t\t}\n',
+             '\t\treturn result;\n',
+             '\t\t}\n\n',
+             #########################################################################
+             # function apply_colorMD(parentNode, md_result, header_style)
+             '\t\tfunction apply_colorMD(parentNode,md_result,bold_style){\n',
+
+             '\t\tlet applied = document.createElement("span");\n',
+             '\t\tapplied.innerText = md_result["applied"];\n',
+             '\t\tlet color_style=md_result["color_tag"];\n',
+             '\t\tapplied.style.color=COLOR_STYLE[color_style];\n',
+
+             '\t\tlet front_non_applined_part = document.createElement("span");\n',
+             '\t\tfront_non_applined_part.innerText = md_result["front_non_applined_part"];\n',
+
+             '\t\tlet rear_non_applined_part = document.createElement("span");\n',
+             '\t\trear_non_applined_part.innerText = md_result["rear_non_applined_part"];\n',
+
+             '\t\tparentNode.innerText="";\n',
+             '\t\tparentNode.appendChild(front_non_applined_part);\n',
+             '\t\tparentNode.appendChild(applied);\n',
+             '\t\tparentNode.appendChild(rear_non_applined_part);\n',
+             '\t\tparentNode.appendChild(document.createElement("br"));\n',
+             '\t\t}\n\n',
+             #########################################################################
              '\t\t<!--Description DOM Setting-->\n',
              '\t\tlet description_readme= document.querySelector(".description_readme");\n\n',
-             '\t\tconsole.log("readme",description_readme.childElementCount);\n\n',
 
              '\t\tlet readmeLine_num=description_readme.childElementCount;\n',
              '\t\tfor(let i=0; i<readmeLine_num;i++){\n',
              '\t\t\tif(i>=1){ // <!--header 제외-->\n',
              '\t\t\tlet readline=document.querySelector(".readme_"+(i-1).toString());\n',
+             'console.log("innerHTML", readline.innerHTML);<!--debug-->\n',
+             'console.log("innerText", readline.innerText);<!--debug-->\n',
              '\t\t\tlet readline__text=readline.innerText;\n',
-             # Header MD Check & Application
+             # [1]_ Header MD Check & Application
              '\t\t\tif(readline__text.indexOf("#")!==-1){\n',
              '\t\t\tlet is_HeadMD=check_Head_MD(readline__text);\n',
-             '\t\t\tapply_headerMD(readline,is_HeadMD,HEADER_STYLE)\n',
+             '\t\t\tapply_headerMD(readline,is_HeadMD,HEADER_STYLE);\n',
              '\t\t\t}\n',
-             # Bold MD Check & Application
+
+             # [2]_ Bold MD Check & Application
              '\t\t\tif(readline__text.indexOf("__")!==-1){\n',
-             '\t\t\tlet first_loc=readline__text.indexOf("__")\n',
+             '\t\t\tlet first_loc=readline__text.indexOf("__");\n',
              '\t\t\tif(readline__text.indexOf("__",first_loc+3)!==-1){\n',
              '\t\t\tlet is_boldMD=check_Bold_MD(readline__text);\n',
-             '\t\t\tapply_boldMD(readline,is_boldMD,BOLD_STYLE)\n',
+             '\t\t\tapply_boldMD(readline,is_boldMD,BOLD_STYLE);\n',
              '\t\t\t}\n',
              '\t\t\t}\n',
-             '\t\t}\n',
-             '\t\t}\n',
+
+             # [3]_ Underline MD Check & Application
+             '\t\t\tif(readline__text.indexOf("@u")!==-1){\n',
+             '\t\t\tlet is_underlineMD=check_Underline_MD(readline__text);\n',
+             '\t\t\tapply_underlineMD(readline,is_underlineMD,UNDERLINE_STYLE);\n',
+             '\t\t\t}\n',
+
+             # [4]_ Highlight MD Check & Application
+             '\t\t\tif(readline__text.indexOf("@mark")!==-1){\n',
+             '\t\t\tlet is_highlightMD=check_Highlight_MD(readline__text);\n',
+             '\t\t\tapply_highlightMD(readline,is_highlightMD,HIGHLIGHT_STYLE);\n',
+             '\t\t\t}\n',
+
+             # [5]_ Color MD Check & Application
+             '\t\tlet colorList=Object.keys(COLOR_STYLE);\n',
+             '\t\tfor(let i=0;i<colorList.length;i++){\n',
+             '\t\t\tlet colorTag="@"+colorList[i];\n',
+             '\t\t\tif(readline__text.indexOf(colorTag)!==-1){\n',
+             '\t\t\t\tlet is_colorMD=check_Color_MD(readline__text);\n',
+             '\t\t\t\tapply_colorMD(readline,is_colorMD,COLOR_STYLE);\n',
+             '\t\t\t\tbreak;\n',
+             '\t\t\t}\n',
+             '\t\t}\n\n',
+             '\t\t}\n', ## Main Loop END
+             '\t\t}\n\n',
+
+
              ########################################[Variable Setting]##################################
 
              # |Variable Constant Setting|
@@ -488,7 +674,7 @@ class HTML_Generator:
             description_html=[
                 '\t\t\t<div class="description__description">\n',
                 '\t\t\t\t<span class="description__title">\n',
-                '\t\t\t\t<i class="fas fa-square"></i> Description : \n',
+                '\t\t\t\t<i class="fas fa-square"></i> <strong>Description</strong> : \n',
                 '\t\t\t\t</span>\n',
 
                 '\t\t\t\t<span class="description__value">\n',
@@ -503,7 +689,7 @@ class HTML_Generator:
             version_html=[
                 '\t\t\t<div class="description__version">\n',
                 '\t\t\t\t<span class="version__title">\n',
-                '\t\t\t\t<i class="fas fa-square"></i> Version : \n',
+                '\t\t\t\t<i class="fas fa-square"></i> <strong>Version</strong> : \n',
                 '\t\t\t\t</span>\n',
 
                 '\t\t\t\t<span class="version__value">\n',
@@ -518,7 +704,7 @@ class HTML_Generator:
             revdate_html=[
                 '\t\t\t<div class="description__revdate">\n',
                 '\t\t\t\t<span class="revdate__title">\n',
-                '\t\t\t\t<i class="fas fa-square"></i> Rev Date : \n',
+                '\t\t\t\t<i class="fas fa-square"></i> <strong>Revision Date</strong> : \n',
                 '\t\t\t\t</span>\n',
 
                 '\t\t\t\t<span class="revdate__value">\n',
@@ -532,7 +718,7 @@ class HTML_Generator:
             developer_html=[
                 '\t\t\t<div class="description__name">\n',
                 '\t\t\t\t<span class="name__title">\n',
-                '\t\t\t\t<i class="fas fa-square"></i> Developer \n',
+                '\t\t\t\t<i class="fas fa-square"></i> <strong>Developer</strong> \n',
                 '\t\t\t\t</span>\n',
                 '\t\t\t</div>\n\n',
             ]
@@ -543,7 +729,7 @@ class HTML_Generator:
             name_html=[
                 '\t\t\t<div class="description__name">\n',
                 '\t\t\t\t<span class="name__title">\n',
-                '\t\t\t\t<i class="fas fa-circle"></i> name : \n',
+                '\t\t\t\t<i class="fas fa-circle"></i> <strong>name</strong> : \n',
                 '\t\t\t\t</span>\n',
 
                 '\t\t\t\t<span class="name__value">\n',
@@ -558,7 +744,7 @@ class HTML_Generator:
             email_html=[
                 '\t\t\t<div class="description__email">\n',
                 '\t\t\t\t<span class="email__title">\n',
-                '\t\t\t\t<i class="fas fa-circle"></i> email : \n',
+                '\t\t\t\t<i class="fas fa-circle"></i> <strong>email</strong> : \n',
                 '\t\t\t\t</span>\n',
 
                 '\t\t\t\t<span class="email__value">\n',
@@ -573,7 +759,7 @@ class HTML_Generator:
             phone_html=[
                 '\t\t\t<div class="description_phone">\n',
                 '\t\t\t\t<span class="phone__title">\n',
-                '\t\t\t\t<i class="fas fa-circle"></i> phone : \n',
+                '\t\t\t\t<i class="fas fa-circle"></i> <strong>phone</strong> : \n',
                 '\t\t\t\t</span>\n',
 
                 '\t\t\t\t<span class="phone__value">\n',
@@ -588,7 +774,7 @@ class HTML_Generator:
             readme=description_data['readme']
             readme_html_head=['\t\t\t<div class="description_readme">\n'
                               '\t\t\t\t<span class="readme__title">\n',
-                              '\t\t\t\t<i class="fas fa-square"></i> Notice : \n',
+                              '\t\t\t\t<i class="fas fa-square"></i> <strong>Notice</strong> : \n',
                               '\t\t\t\t<br></span>\n',
                               ]
             readme_html_tail = ['\t\t\t</div>\n\n']

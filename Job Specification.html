@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Page Title</title>
+	<link rel="apple-touch-icon" sizes="57x57" href="./favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="./favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="./favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="./favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="./favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="./favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="./favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+	<link rel="manifest" href="./favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<title>JOB Specification</title>
 	<style>
 	:root{		--table_header_color:gray;	}	body{
 	background-color: lightblue;
+	}
+	.menu-bar{
+	margin-top:30px;
+	margin-bottom:10px;
 	}
 	.variable_search_part{
 	display: flex;
@@ -45,7 +66,6 @@
 	</div>
 	<div class="menu-bar">
 		<button class="home_btn">Home</button>
-		<button class="label_btn">Label</button>
 		<button class="variable_btn">Variable</button>
 		<button class="function_btn">Function</button>
 	</div>
@@ -57,7 +77,7 @@
 		<div class="description">
 			<div class="description__description">
 				<span class="description__title">
-				<i class="fas fa-square"></i> Description : 
+				<i class="fas fa-square"></i> <strong>Description</strong> : 
 				</span>
 				<span class="description__value">
 				Auto Teaching Job
@@ -66,7 +86,7 @@
 
 			<div class="description__version">
 				<span class="version__title">
-				<i class="fas fa-square"></i> Version : 
+				<i class="fas fa-square"></i> <strong>Version</strong> : 
 				</span>
 				<span class="version__value">
 				v1.0
@@ -75,7 +95,7 @@
 
 			<div class="description__revdate">
 				<span class="revdate__title">
-				<i class="fas fa-square"></i> Rev Date : 
+				<i class="fas fa-square"></i> <strong>Revision Date</strong> : 
 				</span>
 				<span class="revdate__value">
 				2021.08.09
@@ -84,13 +104,13 @@
 
 			<div class="description__name">
 				<span class="name__title">
-				<i class="fas fa-square"></i> Developer 
+				<i class="fas fa-square"></i> <strong>Developer</strong> 
 				</span>
 			</div>
 
 			<div class="description__name">
 				<span class="name__title">
-				<i class="fas fa-circle"></i> name : 
+				<i class="fas fa-circle"></i> <strong>name</strong> : 
 				</span>
 				<span class="name__value">
 				Park Wonho
@@ -99,7 +119,7 @@
 
 			<div class="description__email">
 				<span class="email__title">
-				<i class="fas fa-circle"></i> email : 
+				<i class="fas fa-circle"></i> <strong>email</strong> : 
 				</span>
 				<span class="email__value">
 				park.wonho@hyundai-robotics.com
@@ -108,7 +128,7 @@
 
 			<div class="description_phone">
 				<span class="phone__title">
-				<i class="fas fa-circle"></i> phone : 
+				<i class="fas fa-circle"></i> <strong>phone</strong> : 
 				</span>
 				<span class="phone__value">
 				010-8332-1697
@@ -117,7 +137,7 @@
 
 			<div class="description_readme">
 				<span class="readme__title">
-				<i class="fas fa-square"></i> Notice : 
+				<i class="fas fa-square"></i> <strong>Notice</strong> : 
 				<br></span>
 				<span class="readme_0">
 					 as__da__sd
@@ -126,7 +146,13 @@
 					as#dd
 				<br></span>
 				<span class="readme_2">
-					asd
+					as@mark{dasda}sd
+				<br></span>
+				<span class="readme_3">
+					as@red{dasda}sd
+				<br></span>
+				<span class="readme_4">
+					a @u{asda}sds
 				<br></span>
 			</div>
 
@@ -325,12 +351,10 @@
 
 	<script>
 		let home_UI = document.querySelector(".description_UI");
-		let label_UI = document.querySelector(".label_UI");
 		let variable_UI = document.querySelector(".variable_UI");
 		let function_UI = document.querySelector(".function_UI");
 
 		let home_btn=document.querySelector(".home_btn");
-		let label_btn=document.querySelector(".label_btn");
 		let variable_btn=document.querySelector(".variable_btn");
 		let function_btn=document.querySelector(".function_btn");
 
@@ -343,10 +367,7 @@
 			home_UI.style.display="block";
 			variable_UI.style.display="none";
 			function_UI.style.display="none";
-			label_UI.style.display="none";
-
 		home_btn.addEventListener("click",main_Btn_func )
-		label_btn.addEventListener("click", main_Btn_func)
 		variable_btn.addEventListener("click", main_Btn_func)
 		function_btn.addEventListener("click", main_Btn_func)
 
@@ -355,48 +376,40 @@
 			switch(button_type){
 				case "Home":
 					home_btn_activation=true;
-					label_btn_activation=false;
 					variable_btn_activation=false;
 					function_btn_activation=false;
 
 					home_UI.style.display="block";
-					label_UI.style.display="none";
 					variable_UI.style.display="none";
 					function_UI.style.display="none";
 					break;
 
 				case "Label":
 			home_btn_activation=false;
-			label_btn_activation=true;
 			variable_btn_activation=false;
 			function_btn_activation=false;
 
 			home_UI.style.display="none";
-			label_UI.style.display="block";
 			variable_UI.style.display="none";
 			function_UI.style.display="none";
 					break;
 
 			case "Variable":
 				home_btn_activation=false;
-				label_btn_activation=false;
 				variable_btn_activation=true;
 				function_btn_activation=false;
 
 				home_UI.style.display="none";
-				label_UI.style.display="none";
 				variable_UI.style.display="block";
 				function_UI.style.display="none";
 					break;
 
 			case "Function":
 				home_btn_activation=false;
-				label_btn_activation=false;
 				variable_btn_activation=false;
 				function_btn_activation=true;
 
 				home_UI.style.display="none";
-				label_UI.style.display="none";
 				variable_UI.style.display="none";
 				function_UI.style.display="block";
 					break;
@@ -415,6 +428,21 @@
 
 		const BOLD_STYLE={
 			fontWeight:"bold"
+		}
+
+		const UNDERLINE_STYLE={
+			textDecoration:"underline"
+		}
+
+		const HIGHLIGHT_STYLE={
+			backgroundColor:"#FFFF00"
+		}
+
+		const COLOR_STYLE={
+			yellow:"#FFFF00",
+			red:"#FF0000",
+			blue:"#0000FF",
+			green:"#008000",
 		}
 
 		<!--Description Function-->
@@ -493,29 +521,150 @@
 		return result;
 		}
 
+		function check_Underline_MD(line){
+		let sentence=line.split("@u{");
+		let front_non_applined_part=sentence[0].trim();
+		let temp_line_part=sentence[1].split("}");
+		let rear_non_applined_part= temp_line_part[1].trim();
+		let applied_part= temp_line_part[0].trim();
+
+		let result={
+		"front_non_applined_part":front_non_applined_part,
+		"rear_non_applined_part":rear_non_applined_part,
+		"applied":applied_part,
+		}
+		return result;
+		}
+
+		function apply_underlineMD(parentNode,md_result,bold_style){
+		let applied = document.createElement("span");
+		applied.innerText = md_result["applied"];
+		applied.style.textDecoration=UNDERLINE_STYLE.textDecoration;
+		let front_non_applined_part = document.createElement("span");
+		front_non_applined_part.innerText = md_result["front_non_applined_part"];
+		let rear_non_applined_part = document.createElement("span");
+		rear_non_applined_part.innerText = md_result["rear_non_applined_part"];
+		parentNode.innerText="";
+		parentNode.appendChild(front_non_applined_part);
+		parentNode.appendChild(applied);
+		parentNode.appendChild(rear_non_applined_part);
+		parentNode.appendChild(document.createElement("br"));
+		}
+
+		function check_Highlight_MD(line){
+		let sentence=line.split("@mark{");
+		let front_non_applined_part=sentence[0].trim();
+		let temp_line_part=sentence[1].split("}");
+		let rear_non_applined_part= temp_line_part[1].trim();
+		let applied_part= temp_line_part[0].trim();
+		let result={
+		"front_non_applined_part":front_non_applined_part,
+		"rear_non_applined_part":rear_non_applined_part,
+		"applied":applied_part,
+		}
+		return result;
+		}
+
+		function apply_highlightMD(parentNode,md_result,bold_style){
+		let applied = document.createElement("span");
+		applied.innerText = md_result["applied"];
+		applied.style.backgroundColor=HIGHLIGHT_STYLE.backgroundColor;
+		let front_non_applined_part = document.createElement("span");
+		front_non_applined_part.innerText = md_result["front_non_applined_part"];
+		let rear_non_applined_part = document.createElement("span");
+		rear_non_applined_part.innerText = md_result["rear_non_applined_part"];
+		parentNode.innerText="";
+		parentNode.appendChild(front_non_applined_part);
+		parentNode.appendChild(applied);
+		parentNode.appendChild(rear_non_applined_part);
+		parentNode.appendChild(document.createElement("br"));
+		}
+
+		function check_Color_MD(line){
+		let color_tag;
+		if (line.indexOf("red")!==-1){
+		color_tag="@red{";
+		}else if (line.indexOf("blue")!==-1){
+		color_tag="@blue{";
+		}else if (line.indexOf("green")!==-1){
+		color_tag="@green{";
+		}else if (line.indexOf("yelllow")!==-1){
+		color_tag="@yellow{";
+		}
+
+		let sentence=line.split(color_tag);
+		let front_non_applined_part=sentence[0].trim();
+		let temp_line_part=sentence[1].split("}");
+		let rear_non_applined_part= temp_line_part[1].trim();
+		let applied_part= temp_line_part[0].trim();
+
+		let result={
+		"front_non_applined_part":front_non_applined_part,
+		"rear_non_applined_part":rear_non_applined_part,
+		"applied":applied_part,
+		"color_tag":color_tag.substring(1,color_tag.length-1),
+		}
+		return result;
+		}
+
+		function apply_colorMD(parentNode,md_result,bold_style){
+		let applied = document.createElement("span");
+		applied.innerText = md_result["applied"];
+		let color_style=md_result["color_tag"];
+		applied.style.color=COLOR_STYLE[color_style];
+		let front_non_applined_part = document.createElement("span");
+		front_non_applined_part.innerText = md_result["front_non_applined_part"];
+		let rear_non_applined_part = document.createElement("span");
+		rear_non_applined_part.innerText = md_result["rear_non_applined_part"];
+		parentNode.innerText="";
+		parentNode.appendChild(front_non_applined_part);
+		parentNode.appendChild(applied);
+		parentNode.appendChild(rear_non_applined_part);
+		parentNode.appendChild(document.createElement("br"));
+		}
+
 		<!--Description DOM Setting-->
 		let description_readme= document.querySelector(".description_readme");
-
-		console.log("readme",description_readme.childElementCount);
 
 		let readmeLine_num=description_readme.childElementCount;
 		for(let i=0; i<readmeLine_num;i++){
 			if(i>=1){ // <!--header Á¦¿Ü-->
 			let readline=document.querySelector(".readme_"+(i-1).toString());
+console.log("innerHTML", readline.innerHTML);<!--debug-->
+console.log("innerText", readline.innerText);<!--debug-->
 			let readline__text=readline.innerText;
 			if(readline__text.indexOf("#")!==-1){
 			let is_HeadMD=check_Head_MD(readline__text);
-			apply_headerMD(readline,is_HeadMD,HEADER_STYLE)
+			apply_headerMD(readline,is_HeadMD,HEADER_STYLE);
 			}
 			if(readline__text.indexOf("__")!==-1){
-			let first_loc=readline__text.indexOf("__")
+			let first_loc=readline__text.indexOf("__");
 			if(readline__text.indexOf("__",first_loc+3)!==-1){
 			let is_boldMD=check_Bold_MD(readline__text);
-			apply_boldMD(readline,is_boldMD,BOLD_STYLE)
+			apply_boldMD(readline,is_boldMD,BOLD_STYLE);
 			}
 			}
+			if(readline__text.indexOf("@u")!==-1){
+			let is_underlineMD=check_Underline_MD(readline__text);
+			apply_underlineMD(readline,is_underlineMD,UNDERLINE_STYLE);
+			}
+			if(readline__text.indexOf("@mark")!==-1){
+			let is_highlightMD=check_Highlight_MD(readline__text);
+			apply_highlightMD(readline,is_highlightMD,HIGHLIGHT_STYLE);
+			}
+		let colorList=Object.keys(COLOR_STYLE);
+		for(let i=0;i<colorList.length;i++){
+			let colorTag="@"+colorList[i];
+			if(readline__text.indexOf(colorTag)!==-1){
+				let is_colorMD=check_Color_MD(readline__text);
+				apply_colorMD(readline,is_colorMD,COLOR_STYLE);
+				break;
+			}
+		}
+
 		}
 		}
+
 		<!--Variable CONST Setting-->
 		const VARIABLE_TYPE_INDEX = 6;
 		const VARIABLE_JOB_INDEX = 5;
