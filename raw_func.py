@@ -1,5 +1,3 @@
-import text_func
-
 def extract_varInfo(var_raw:list):
     # rawdata form : {'job_num': '5001_Glo_Var.JOB', 'rawdata': "gi_Search=1\t'@var Stage Search Method @type Integer @use(0 : No setting, 1:Manual Searching, 2 : Auto Searching)\n"}
     result={}

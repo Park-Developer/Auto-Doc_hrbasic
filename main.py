@@ -1,7 +1,10 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon,QFont
-import HTML_Generator as html_ge
+import HTML_Generator as html_ge # Main HTML Generator
+import Desc_Generator as desc_ge # Description HTML Generator
+import Func_Generator as func_ge # Function HTML Generator
+import Var_Generator as var_ge # Variable HTML Generator
 import JobReader as job_re
 import raw_func
 
@@ -79,13 +82,18 @@ class MyApp(QWidget):
         self.close()
 
     def make_docHTML(self,job_address):
+        '''
+        :param job_address: job program이 위치한 디렉토리 
+        :return: html문서 생성
+        '''
+
         # [1]_ raw data 읽기
         job_reader = job_re.JobReader(job_address)
         job_reader.read_n_make_rawData()
         descrition_raw_data = job_reader.Job_description
         variable_raw_data = job_reader.Variable_raw_List
         function_raw_data = job_reader.Function_raw_List
-        
+
         # [2]_ 데이터 가공
         descrition_processed_data = raw_func.extract_descripInfo(descrition_raw_data)
         variable_processed_data = raw_func.extract_varInfo(variable_raw_data)
@@ -93,9 +101,14 @@ class MyApp(QWidget):
 
         # [3]_ HTML 파일 생성
         html_generator = html_ge.HTML_Generator()
-        html_generator.make_description_div(descrition_processed_data)
-        html_generator.make_var_div(variable_processed_data)
-        html_generator.make_function_div(function_processed_data)
+
+        html__desc_generator = desc_ge.Description_Generator(descrition_processed_data)  # description 객체 생성
+        html__func_generator = func_ge.Function_Generator(function_processed_data)  # function 객체 생성
+        html__var_generator = var_ge.Variable_Generator(variable_processed_data)  # variable 객체 생성
+
+        html_generator.description_div_list = html__desc_generator.return_description_div()
+        html_generator.variable_div_list = html__var_generator.return_variable_div()
+        html_generator.function_div_list = html__func_generator.return_function_div()
 
         html_generator.merge_Allhtml()
         result_html = html_generator.returnHTML_file(html_generator.html_base)
