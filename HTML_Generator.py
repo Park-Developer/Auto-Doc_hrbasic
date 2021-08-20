@@ -57,16 +57,20 @@ class HTML_Generator:
             '\t<title>JOB Specification</title>\n',
             '\t<style>\n',  # CSS Setting
             '\t:root{',  # CSS Variable Setting
-            '\t\t--table_header_color:gray;',
+            '\t\t--table_header_color:#47c58f;\n',
             '\t}',
 
             '\tbody{\n',
-            '\tbackground-color: lightblue;\n',
+            '\tbackground-color: white;\n',
             '\t}\n',
+            '\t.Status-bar{\n',
+            '\tbackground-color:#D1F2EB;\n',
+            '\t}\n\n',
             # Menu Bac Setting_______________________________
             '\t.menu-bar{\n',
-            '\tmargin-top:30px;\n',
+            '\tpadding-top:30px;\n',
             '\tmargin-bottom:10px;\n',
+            '\tbackground-color:#D1F2EB;\n',
             '\t}\n',
             # Variable Setting_______________________________
             '\t.variable_search_part{\n',
@@ -90,12 +94,12 @@ class HTML_Generator:
 
             # TEST to solve bug
             '\t.header_index{\n',
-            '\twidth:30px;\n'
+            '\twidth:30px;\n',
             '\t}\n',
 
             # Function CSS Setting_______________________________
             '\t.function__table{\n',
-            '\t\tborder: 1px solid black;\n'
+            '\t\tborder: 1px solid black;\n',
             '\t\tborder-collapse: collapse;\n',
             '\t}\n',
 
@@ -118,10 +122,9 @@ class HTML_Generator:
             '\t</div>\n',
 
             '\t<div class="menu-bar">\n',
-            '\t\t<button class="home_btn">Home</button>\n',
-            # '\t\t<button class="label_btn">Label</button>\n',
-            '\t\t<button class="variable_btn">Variable</button>\n',
-            '\t\t<button class="function_btn">Function</button>\n',
+            '\t\t<button class="home_btn"><strong>Home</strong></button>\n',
+            '\t\t<button class="variable_btn"><strong>Variable</strong></button>\n',
+            '\t\t<button class="function_btn"><strong>Function</strong></button>\n',
             '\t</div>\n\n',
 
             '\t<!-- Main Frame Setting -->\n',
@@ -152,6 +155,9 @@ class HTML_Generator:
             ########################################[Initial Setting]#####################################
 
             # | Initial DOM setting|
+            # main constant setting
+            '\t\tlet BTN_ACTIVATION_COLOR="#47c58f";\n',
+            '\t\tlet BTN_DEACTIVATION_COLOR="#696868";\n',
             # 1. DIV DOM
             '\t\tlet home_UI = document.querySelector(".description_UI");\n',
             # '\t\tlet label_UI = document.querySelector(".label_UI");\n',
@@ -164,13 +170,23 @@ class HTML_Generator:
             '\t\tlet variable_btn=document.querySelector(".variable_btn");\n',
             '\t\tlet function_btn=document.querySelector(".function_btn");\n\n',
 
+            # Button Color Setting
+            '\t\t\thome_btn.style.backgroundColor=BTN_ACTIVATION_COLOR;\n',  # Activate
+            '\t\t\tvariable_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
+            '\t\t\tfunction_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
+
             # | Initial Object setting |  : All variable is global variable
             '\t\t<!--Initial Btn Variable Setting-->\n',
-            '\t\tlet home_btn_activation=false;\n',
+            '\t\tlet home_btn_activation=true;\n',
             '\t\tlet label_btn_activation=false;\n',
             '\t\tlet variable_btn_activation=false;\n',
             '\t\tlet function_btn_activation=false;\n\n',
 
+            # Search Activation
+            '\t\tlet func_search_focus=false;\n',
+            '\t\tlet var_search_focus=false;\n\n',
+
+            # Button Visibility Setting
             '\t\t\thome_UI.style.display="block";\n',  # Activate
             '\t\t\tvariable_UI.style.display="none";\n',
             '\t\t\tfunction_UI.style.display="none";\n',
@@ -195,40 +211,36 @@ class HTML_Generator:
             '\t\t\t\t\tfunction_btn_activation=false;\n\n',
 
             '\t\t\t\t\thome_UI.style.display="block";\n',  # block
+            '\t\t\t\t\thome_btn.style.backgroundColor =BTN_ACTIVATION_COLOR;\n',  # block
             # '\t\t\t\t\tlabel_UI.style.display="none";\n',
             '\t\t\t\t\tvariable_UI.style.display="none";\n',
+            '\t\t\t\t\tvariable_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
             '\t\t\t\t\tfunction_UI.style.display="none";\n',
+            '\t\t\t\t\tfunction_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
             '\t\t\t\t\tbreak;\n\n',
-            # [Label Button Click]_______
-            '\t\t\t\tcase "Label":\n',
-            '\t\t\thome_btn_activation=false;\n',
-            # '\t\t\tlabel_btn_activation=true;\n', # activate
-            '\t\t\tvariable_btn_activation=false;\n',
-            '\t\t\tfunction_btn_activation=false;\n\n',
 
-            '\t\t\thome_UI.style.display="none";\n',
-            # '\t\t\tlabel_UI.style.display="block";\n',  # block
-            '\t\t\tvariable_UI.style.display="none";\n',
-            '\t\t\tfunction_UI.style.display="none";\n',
-            '\t\t\t\t\tbreak;\n\n',
             # [Variable Button Click]______
             '\t\t\tcase "Variable":\n',
             '\t\t\t\thome_btn_activation=false;\n',
-            # '\t\t\t\tlabel_btn_activation=false;\n',
+            '\t\t\t\t\thome_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
             '\t\t\t\tvariable_btn_activation=true;\n',  # activate
+            '\t\t\t\t\tvariable_btn.style.backgroundColor =BTN_ACTIVATION_COLOR;\n',  # block
             '\t\t\t\tfunction_btn_activation=false;\n\n',
+            '\t\t\t\t\tfunction_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
 
             '\t\t\t\thome_UI.style.display="none";\n',
-            # '\t\t\t\tlabel_UI.style.display="none";\n',
             '\t\t\t\tvariable_UI.style.display="block";\n',  # block
             '\t\t\t\tfunction_UI.style.display="none";\n',
             '\t\t\t\t\tbreak;\n\n',
+
             # [Function Button Click]______
             '\t\t\tcase "Function":\n',
             '\t\t\t\thome_btn_activation=false;\n',
-            # '\t\t\t\tlabel_btn_activation=false;\n',
+            '\t\t\t\t\thome_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
             '\t\t\t\tvariable_btn_activation=false;\n',
+            '\t\t\t\t\tvariable_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
             '\t\t\t\tfunction_btn_activation=true;\n\n',  # activate
+            '\t\t\t\t\tfunction_btn.style.backgroundColor =BTN_ACTIVATION_COLOR;\n',  # block
 
             '\t\t\t\thome_UI.style.display="none";\n',
             # '\t\t\t\tlabel_UI.style.display="none";\n',
@@ -577,6 +589,21 @@ class HTML_Generator:
             '\t\t\tsearch_name(table_Obj, input_Obj, search_index)\n',
             '\t\t}\n\n',
 
+            # (4). Variable Search Short Key Event_____________________
+            '\t\tvariable_Search_Input.addEventListener("focusin", () => {\n',  # Event Setting
+            '\t\tvar_search_focusIn();\n',
+            '\t\t});\n\n',
+            '\t\tvariable_Search_Input.addEventListener("focusout", () => {\n',  # Event Setting
+            '\t\tvar_search_focusOut();\n',
+            '\t\t});\n\n',
+
+            '\t\tfunction var_search_focusIn(){\n',
+            '\t\t\tvar_search_focus = true;\n',
+            '\t\t}\n\n',
+
+            '\t\tfunction var_search_focusOut(){\n',
+            '\t\t\tvar_search_focus = false;\n',
+            '\t\t}\n\n',
             ########################################[Function Setting]################################
             # |Function Constant Setting|
             '\t\t<!--Variable CONST Setting-->\n',
@@ -601,6 +628,31 @@ class HTML_Generator:
             '\t\t\tsearch_name(table_Obj, input_Obj, search_index)\n',
             '\t\t}\n\n',
 
+            '\t\tfunction_Search_Input.addEventListener("focusin", () => {\n',  # Event Setting
+            '\t\tfunc_search_focusIn();\n',
+            '\t\t});\n\n',
+            '\t\tfunction_Search_Input.addEventListener("focusout", () => {\n',  # Event Setting
+            '\t\tfunc_search_focusOut();\n',
+            '\t\t});\n\n',
+
+            '\t\tfunction func_search_focusIn(){\n',
+            '\t\t\tfunc_search_focus = true;\n',
+            '\t\t}\n\n',
+
+            '\t\tfunction func_search_focusOut(){\n',
+            '\t\t\tfunc_search_focus = false;\n',
+            '\t\t}\n\n',
+            ########################################[Body Setting]####################################
+            '\t\tlet body = document.getElementsByTagName("body")[0];\n\n',
+            '\t\tbody.addEventListener("keypress", function (e) {\n',
+            '\t\tif (e.key === "Enter") {\n',
+            '\t\t\tif( var_search_focus==true){\n',
+            '\t\t\t\tvar_search_Ok_btn_func();\n',
+            '\t\t\t}else if( func_search_focus==true){\n',
+            '\t\t\t\tfunc_search_Ok_btn_func();\n',
+            '\t\t\t}\n',
+            '\t\t}\n',
+            '\t\t});\n\n',
             ########################################[Reuse Function]##################################
 
             # |Resue Function1| : Seach item

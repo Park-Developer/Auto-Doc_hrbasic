@@ -117,6 +117,39 @@ class MyApp(QWidget):
         html_file.close()
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    ex = MyApp()
-    sys.exit(app.exec_())
+    DEBUG_MODE=True # debug 모드 세팅
+
+    if DEBUG_MODE==True:
+        test_address = r"C:\Users\gnvid\.Nimi Places\Project\HRBASIC AutoDoc\Test code"
+        job_reader = job_re.JobReader(test_address)
+        job_reader.read_n_make_rawData()
+        descrition_raw_data = job_reader.Job_description
+        variable_raw_data = job_reader.Variable_raw_List
+        function_raw_data = job_reader.Function_raw_List
+
+        # [2]_ 데이터 가공
+        descrition_processed_data = raw_func.extract_descripInfo(descrition_raw_data)
+        variable_processed_data = raw_func.extract_varInfo(variable_raw_data)
+        function_processed_data = raw_func.extract_functionInfo(function_raw_data)
+
+        # [3]_ HTML 파일 생성
+        html_generator = html_ge.HTML_Generator()
+
+        html__desc_generator = desc_ge.Description_Generator(descrition_processed_data)  # description 객체 생성
+        html__func_generator = func_ge.Function_Generator(function_processed_data)  # function 객체 생성
+        html__var_generator = var_ge.Variable_Generator(variable_processed_data)  # variable 객체 생성
+
+        html_generator.description_div_list = html__desc_generator.return_description_div()
+        html_generator.variable_div_list = html__var_generator.return_variable_div()
+        html_generator.function_div_list = html__func_generator.return_function_div()
+
+        html_generator.merge_Allhtml()
+        result_html = html_generator.returnHTML_file(html_generator.html_base)
+        html_file = open('Job Specification.html', 'w')
+        html_file.write(result_html)
+        html_file.close()
+
+    else:
+        app = QApplication(sys.argv)
+        ex = MyApp()
+        sys.exit(app.exec_())

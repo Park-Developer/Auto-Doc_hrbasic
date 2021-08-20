@@ -132,22 +132,23 @@ class Variable_Generator(HTML_Generator):
             ########################################[SELECTOR]################
 
             '\t\t\t<div class="variable__selector_type">\n',  # variable__selector_type
-            '\t\t\t\t<span class="Type_name">Type</span>\n',
+            '\t\t\t\t<span class="Type_name"><Strong>Type</Strong></span>\n',
             '\t\t\t\t<select name="Type" class="Type_selection">\n',
             '\t\t\t\t\t<option>All</option>\n',
             '\t\t\t\t\t<option>Integer</option>\n',
             '\t\t\t\t\t<option>Double</option>\n',
             '\t\t\t\t\t<option>String</option>\n',
             '\t\t\t\t\t<option>Array</option>\n',
+            '\t\t\t\t\t<option>User-defined</option>\n',
             '\t\t\t\t</select>\n',
             '\t\t\t</div><!--variable__selector_type End-->\n\n',  # variable__selector_type
 
             '\t\t\t<div class="variable__selector_job">\n',  # variable__selector_job
-            '\t\t\t\t<span class="Job_name">Job</span>\n',
+            '\t\t\t\t<span class="Job_name"><Strong>Job</Strong></span>\n',
             '\t\t\t\t<select name="Job" class="Job_selection">\n',
             '\t\t\t\t\t<option>All</option>\n',
             # 이 부분에 JOB List 추가
-            '\t\t\t\t</select>\n'
+            '\t\t\t\t</select>\n',
             '\t\t\t</div><!--variable__selector_job End-->\n\n',  # variable__selector_job
 
             '\t\t\t</div><!--selector End-->\n\n',
@@ -156,7 +157,7 @@ class Variable_Generator(HTML_Generator):
             ########################################[Search]################
             '\t\t\t<!--Search Setting-->\n',  # comment
             '\t\t\t<div class="variable__search">\n',
-            '\t\t\t<span class="search__title">Search</span>\n',
+            '\t\t\t<span class="search__title"><Strong>Search</Strong></span>\n',
             '\t\t\t<input type="text" class="variable_search__input" name="name" required minlength="4" maxlength="8" size="10">\n',
             '\t\t\t<button class = "variable_search__btn"><i class="fas fa-search"></i></button>\n',
             '\t\t\t</div>\n\n',

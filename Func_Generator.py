@@ -10,7 +10,7 @@ class Function_Generator(HTML_Generator):
             '\t\t\t<div class="function">\n',
             '\t<!--Function Search Setting-->\n',  # comment
             '\t<div class="function__search">\n',
-            '\t<span class="function_search__title">Search</span>\n',
+            '\t<span class="function_search__title"><Strong>Search</Strong></span>\n',
             '\t<input type="text" class="function_search__input" name="name" required minlength="4" maxlength="8" size="10">\n',
             '\t<button class ="function_search__btn"><i class="fas fa-search"></i></button>\n',
             '\t</div>\n\n',
