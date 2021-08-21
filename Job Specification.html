@@ -33,6 +33,14 @@
 	margin-bottom:10px;
 	background-color:#D1F2EB;
 	}
+	.description_readme{
+	width: 50%;
+	border: 1px solid;
+	border-color: #47c58f;
+	background-color:#F8F8FF;
+	margin-top:11px;
+	margin-left:5px;
+	}
 	.variable_search_part{
 	display: flex;
 	}
@@ -116,7 +124,7 @@
 
 			<div class="description__name">
 				<span class="name__title">
-				<i class="fas fa-circle"></i> <strong>name</strong> : 
+				<strong> - name</strong> : 
 				</span>
 				<span class="name__value">
 				Park Wonho
@@ -125,7 +133,7 @@
 
 			<div class="description__email">
 				<span class="email__title">
-				<i class="fas fa-circle"></i> <strong>email</strong> : 
+				<strong> - email</strong> : 
 				</span>
 				<span class="email__value">
 				park.wonho@hyundai-robotics.com
@@ -134,28 +142,28 @@
 
 			<div class="description_phone">
 				<span class="phone__title">
-				<i class="fas fa-circle"></i> <strong>phone</strong> : 
+				<strong> - phone</strong> : 
 				</span>
 				<span class="phone__value">
 				010-8332-1697
 				</span>
 			</div>  <!--class="description_phone END-->
 
-			<div class="description_readme">
 				<span class="readme__title">
 				<i class="fas fa-square"></i> <strong>Notice</strong> : 
 				<br></span>
+			<div class="description_readme">
 				<span class="readme_0">
-					 as__da__sd
+					 asd
 				<br></span>
 				<span class="readme_1">
-					as#dd
+					Auto @blue{Teaching}
 				<br></span>
 				<span class="readme_2">
 					as@mark{dasda}sd
 				<br></span>
 				<span class="readme_3">
-					as@red{dasda}sd
+					as@red{da__sd__a}sd
 				<br></span>
 				<span class="readme_4">
 					a @u{asda}sds
@@ -169,7 +177,7 @@
 		<div class="label_UI">
 		</div> <!--label_UI end-->
 
-		<div class="variable_UI">
+		<div class="variable_UI" hidden>
 		<div class="variable">
 			<!--Selector Setting-->
 			<!--variable_search_part-->
@@ -307,7 +315,7 @@
 
 		</div> <!--variable_UI end-->
 
-		<div class="function_UI">
+		<div class="function_UI" hidden>
 			<div class="function">
 	<!--Function Search Setting-->
 	<div class="function__search">
@@ -357,6 +365,406 @@
 	<script src = "https://kit.fontawesome.com/3dbd9a16b0.js" crossorigin = "anonymous" > </script>
 
 	<script>
+		let MD_Module = {
+		MD_CODE: {
+		header_code: 0,
+		emphasis_code: 5,
+		mark_code: 6,
+		reserved_code: 7,
+		u_code: 8,
+		color_red_code: 11,
+		color_blue_code: 12,
+		color_yellow_code: 13,
+		color_green_code: 14,
+		},
+		
+		
+		HEADER_STYLE: {
+		h1_size: "50px",
+		h2_size: "40px",
+		h3_size: "30px",
+		h4_size: "20px",
+		h5_size: "10px",
+		},
+		
+		BOLD_STYLE: {
+		fontWeight: "bold"
+		},
+		
+		UNDERLINE_STYLE: {
+		textDecoration: "underline"
+		},
+		
+		HIGHLIGHT_STYLE: {
+		backgroundColor: "#FFFF00"
+		},
+		
+		COLOR_STYLE: {
+		yellow: "#FFFF00",
+		red: "#FF0000",
+		blue: "#0000FF",
+		green: "#008000",
+		},
+		tool: {
+		parag_match: function (md_stk) {
+		mark_loc = md_stk.indexOf(MD_Module.MD_CODE.mark_code);
+		color_red_loc = md_stk.indexOf(MD_Module.MD_CODE.color_red_code);
+		color_blue_loc = md_stk.indexOf(MD_Module.MD_CODE.color_blue_code);
+		color_yellow_loc = md_stk.indexOf(MD_Module.MD_CODE.color_yellow_code);
+		color_green_loc = md_stk.indexOf(MD_Module.MD_CODE.color_green_code);
+		u_loc = md_stk.indexOf(MD_Module.MD_CODE.u_code);
+		
+		let max_idx = Math.max(mark_loc, color_yellow_loc, color_green_loc, color_blue_loc, color_red_loc, u_loc);
+		return max_idx;
+		},
+		
+		},
+		getter: {
+		get_headerInfo: function (line) {
+		if (line.indexOf("####") !== -1) {
+		return 4;
+		} else if (line.indexOf("###") !== -1) {
+		return 3;
+		} else if (line.indexOf("##") !== -1) {
+		return 2;
+		} else if (line.indexOf("#") !== -1) {
+		return 1;
+		}
+		},
+		
+		},
+		removal: {
+		remove_headerMD: function (origin_line, md_info) {
+		//header1(#) : 1
+		//header2(##) : 2
+		//header3(###) : 3
+		//header4(####) : 4
+		while (true) {
+		if (origin_line.indexOf("#") !== -1) {
+		let header_loc = origin_line.indexOf("#");
+		
+		origin_line = origin_line.substr(0, header_loc) + origin_line.substr(header_loc + 1, origin_line.length);
+		md_info.splice(header_loc, 1);
+		} else {
+		break;
+		}
+		}
+		let result = {
+		origin_line: origin_line,
+		md_info: md_info.slice()
+		}
+		return result;
+		},
+		
+		remove_emphasisMD: function (origin_line, md_info) {
+		// emphasis code : 5
+		while (true) {
+		if (origin_line.indexOf("__") !== -1) {
+		let loc1 = origin_line.indexOf("__");
+		
+		origin_line = origin_line.substr(0, loc1) + origin_line.substr(loc1 + 2, origin_line.length);
+		md_info.splice(loc1, 2);
+		} else {
+		break;
+		}
+		}
+		
+		let result = {
+		origin_line: origin_line,
+		md_info: md_info.slice(),
+		}
+		return result;
+		},
+		
+		remove_markMD: function (origin_line, md_info) {
+		// mark code : 6
+		while (true) {
+		if (origin_line.indexOf("@mark{") !== -1) {
+		let loc = origin_line.indexOf("@mark{");
+		
+		origin_line = origin_line.substr(0, loc) + origin_line.substr(loc + 6, origin_line.length);
+		
+		md_info.splice(loc, 6);
+		} else {
+		break;
+		}
+		}
+		
+		let md_code = MD_Module.MD_CODE.mark_code;
+		
+		
+		let processed_info = this.remove_closeParen(origin_line, md_info, md_code);
+		
+		
+		let result = {
+		origin_line: processed_info.origin_line,
+		md_info: processed_info.md_info.slice(),
+		}
+		return result;
+		}
+		,
+		remove_uMD: function (origin_line, md_info) {
+		// u code : 8
+		while (true) {
+		if (origin_line.indexOf("@u{") !== -1) {
+		let loc = origin_line.indexOf("@u{");
+		
+		origin_line = origin_line.substr(0, loc) + origin_line.substr(loc + 3, origin_line.length);
+		md_info.splice(loc, 3);
+		} else {
+		break;
+		}
+		}
+		let md_code = MD_Module.MD_CODE.u_code;
+		
+		let processed_info = this.remove_closeParen(origin_line, md_info, md_code);
+		
+		
+		let result = {
+		origin_line: processed_info.origin_line,
+		md_info: processed_info.md_info.slice(),
+		}
+		return result;
+		},
+		remove_closeParen: function (origin_line, md_info, md_code) {
+		let paren_info = {
+		is_find: false,
+		loc: -1
+		};
+		let start_p = 0;
+		for (let i = 0; i < md_info.length; i++) {
+		if (start_p === 0 && md_info[i].indexOf(md_code) !== -1) {
+		start_p = i;
+		}
+		
+		if (start_p !== 0 && md_info[i].indexOf(md_code) === -1) {
+		origin_line = origin_line.substr(0, i) + origin_line.substr(i + 1, origin_line.length);
+		md_info.splice(i, 1);
+		start_p = 0;
+		}
+		
+		}
+		let result = {
+		origin_line: origin_line,
+		md_info: md_info.slice(),
+		}
+		return result;
+		
+		},
+		remove_All_colorMD: function (origin_line, md_info, color_style) {
+		function remove_colorMD(color, origin_line, md_info) {
+		let color_tag = "@" + color + "{";
+		
+		while (true) {
+		if (origin_line.indexOf(color_tag) !== -1) {
+		let loc = origin_line.indexOf(color_tag);
+		origin_line = origin_line.substr(0, loc) + origin_line.substr(loc + color_tag.length, origin_line.length);
+		md_info.splice(loc, color_tag.length);
+		} else {
+		break;
+		}
+		}
+		let result = {
+		origin_line: origin_line,
+		md_info: md_info.slice(),
+		}
+		return result;
+		}
+		
+		
+		let color_lists = Object.keys(color_style);
+		for (let i = 0; i < color_lists.length; i++) {
+		let color = color_lists[i];
+		let color_result = remove_colorMD(color, origin_line, md_info)
+		origin_line = color_result.origin_line;
+		md_info = color_result.md_info;
+		
+		let md_code = MD_Module.MD_CODE["color_" + color + "_code"];
+		
+		
+		let processed_info = this.remove_closeParen(origin_line, md_info, md_code);
+		
+		
+		
+		origin_line = processed_info.origin_line;
+		md_info = processed_info.md_info.slice();
+		
+		}
+		
+		let result = {
+		origin_line: origin_line,
+		md_info: md_info.slice()
+		}
+		return result;
+		
+		},
+		remove_Allmd: function (origin_line, md_info) {
+		let header_result = this.remove_headerMD(origin_line, md_info);
+		origin_line = header_result.origin_line;
+		md_info = header_result.md_info;
+		
+		let emphasis_result = this.remove_emphasisMD(origin_line, md_info);
+		origin_line = emphasis_result.origin_line;
+		md_info = emphasis_result.md_info;
+		
+		let mark_result = this.remove_markMD(origin_line, md_info);
+		origin_line = mark_result.origin_line;
+		md_info = mark_result.md_info;
+		
+		let u_result = this.remove_uMD(origin_line, md_info);
+		origin_line = u_result.origin_line;
+		md_info = u_result.md_info;
+		
+		const COLOR_STYLE = {
+		yellow: "#FFFF00",
+		red: "#FF0000",
+		blue: "#0000FF",
+		green: "#008000",
+		}
+		let color_result = this.remove_All_colorMD(origin_line, md_info, COLOR_STYLE);
+		origin_line = color_result.origin_line;
+		md_info = color_result.md_info;
+		
+		let result = {
+		origin_line: origin_line,
+		md_info: md_info.slice()
+		}
+		return result;
+		}
+		},
+		creator: {
+		create_MDinfo: function (line) {
+		function check_header_Instack(stack) {
+		let result = false;
+		for (let i = 0; i < 4; i++) {
+		if (stack.indexOf(i + 1) !== -1) {
+		result = true;
+		break;
+		}
+		}
+		return result;
+		};
+		//initial setting
+		let line_len = line.length;
+		let md_stk = [];
+		
+		let line_info = [];
+		for (let j = 0; j < line_len; j++) {
+		line_info.push([]);
+		}
+		
+		for (let i = 0; i < line_len; i++) {
+		// [MD 검사]
+		if (line[i] === "#" && check_header_Instack(md_stk) === false) {
+		header_code = MD_Module.getter.get_headerInfo(line);
+		md_stk.push(header_code);
+		} else if (line[i] === "_" && line[i + 1] === "_") {
+		if (md_stk.indexOf(MD_Module.MD_CODE.emphasis_code) !== -1) {
+		// close tag
+		let close_idx = md_stk.indexOf(5);
+		if (close_idx > -1) {
+		md_stk.splice(close_idx, 1);
+		}
+		} else {
+		// open tag
+		if (line.indexOf("__", i + 2) !== -1) {
+		md_stk.push(MD_Module.MD_CODE.emphasis_code);
+		}
+		}
+		} else if (line[i] === "@" && line[i + 1] === "m") { //  mark_code=6;
+		md_stk.push(MD_Module.MD_CODE.mark_code);
+		} else if (line[i] === "@" && line[i + 1] === "r") { // color_code=7;
+		md_stk.push(MD_Module.MD_CODE.color_red_code);
+		} else if (line[i] === "@" && line[i + 1] === "b") { // color_code=7;
+		md_stk.push(MD_Module.MD_CODE.color_blue_code);
+		} else if (line[i] === "@" && line[i + 1] === "y") { // color_code=7;
+		md_stk.push(MD_Module.MD_CODE.color_yellow_code);
+		} else if (line[i] === "@" && line[i + 1] === "g") { // color_code=7;
+		md_stk.push(MD_Module.MD_CODE.color_green_code);
+		} else if (line[i] === "@" && line[i + 1] === "u") { // u_code=8;
+		md_stk.push(MD_Module.MD_CODE.u_code);
+		} else if (line[i] === "}") {
+		let remove_idx = MD_Module.tool.parag_match(md_stk);
+		md_stk.splice(remove_idx, 1);
+		}
+		
+		// [MD 적용]
+		line_info[i] = md_stk.slice();
+		
+		}
+		
+		
+		return line_info;
+		
+		},
+		/*
+		header_code : 0,
+		emphasis_code : 5,
+		mark_code  :6,
+		color_code : 7,
+		u_code: 8,
+		MD_Module
+		
+		*/
+		create_spanDIV: function (parent_node, processed_line, processed_md_info) {
+		if (processed_line.length !== processed_md_info.length) {
+		alert("create span div error!");
+		}
+		parent_node.innerText="";
+		for (let i = 0; i < processed_line.length; i++) {
+		let span_tag = document.createElement("span"); //
+		span_tag.innerText = processed_line[i];
+		
+		// [1] header md check______
+		if (processed_md_info[i].indexOf(1) !== -1) {
+		span_tag.style.fontSize = MD_Module.HEADER_STYLE.h1_size;
+		}
+		if (processed_md_info[i].indexOf(2) !== -1) {
+		
+		span_tag.style.fontSize = MD_Module.HEADER_STYLE.h2_size;
+		}
+		if (processed_md_info[i].indexOf(3) !== -1) {
+		span_tag.style.fontSize = MD_Module.HEADER_STYLE.h3_size;
+		}
+		if (processed_md_info[i].indexOf(4) !== -1) {
+		span_tag.style.fontSize = MD_Module.HEADER_STYLE.h4_size;
+		}
+		
+		// [2] emphasis md check______
+		if (processed_md_info[i].indexOf(5) !== -1) {
+		span_tag.style.fontWeight = MD_Module.BOLD_STYLE.fontWeight;
+		}
+		
+		// [3] mark md check______
+		if (processed_md_info[i].indexOf(6) !== -1) {
+		span_tag.style.backgroundColor = MD_Module.HIGHLIGHT_STYLE.backgroundColor;
+		}
+		
+		// [4] u md check______
+		if (processed_md_info[i].indexOf(8) !== -1) {
+		span_tag.style.textDecoration = MD_Module.UNDERLINE_STYLE.textDecoration;
+		}
+		
+		// [5] color md check______(color range : 11 ~ )
+		if (processed_md_info[i].indexOf(11) !== -1) { //     color_red_code:11,
+		span_tag.style.color = MD_Module.COLOR_STYLE.red;
+		}
+		if (processed_md_info[i].indexOf(12) !== -1) { //        color_blue_code:12,
+		span_tag.style.color = MD_Module.COLOR_STYLE.blue;
+		}
+		if (processed_md_info[i].indexOf(13) !== -1) { //      color_yellow_code:13,
+		span_tag.style.color = MD_Module.COLOR_STYLE.yellow;
+		}
+		if (processed_md_info[i].indexOf(14) !== -1) { //         color_green_code:14,
+		span_tag.style.color = MD_Module.COLOR_STYLE.green;
+		}
+		
+		parent_node.appendChild(span_tag);
+		}
+		},
+		}
+		
+		}
 		let BTN_ACTIVATION_COLOR="#47c58f";
 		let BTN_DEACTIVATION_COLOR="#696868";
 		let home_UI = document.querySelector(".description_UI");
@@ -431,249 +839,19 @@
 			}
 		}
 
-		<!--Description CONST Setting-->
-		const HEADER_STYLE={
-			h1_size:"50px",
-			h2_size:"40px",
-			h3_size:"30px",
-			h4_size:"20px",
-			h5_size:"10px",
-		}
-
-		const BOLD_STYLE={
-			fontWeight:"bold"
-		}
-
-		const UNDERLINE_STYLE={
-			textDecoration:"underline"
-		}
-
-		const HIGHLIGHT_STYLE={
-			backgroundColor:"#FFFF00"
-		}
-
-		const COLOR_STYLE={
-			yellow:"#FFFF00",
-			red:"#FF0000",
-			blue:"#0000FF",
-			green:"#008000",
-		}
-
-		<!--Description Function-->
-		function check_Head_MD(line){
-			function make_md(header,line){
-			let sentence=line.split(header)
-			let non_applined_part=sentence[0].trim();
-			let applied_part=sentence[1].trim();
-		let result={
-			"non_applied":non_applined_part,
-			"applied":applied_part,
-			"header":header
-			}
-
-		return result;		}
-
-		let header;
-		if (line.indexOf("####")!==-1){
-		header="####";
-		}else if (line.indexOf("###")!==-1){
-		header="###";
-		}else if (line.indexOf("##")!==-1){
-		header="##";
-		}else if (line.indexOf("#")!==-1){
-		header="#";
-		}
-		 let result=make_md(header,line);
-		 return result
-		}
-
-		function apply_headerMD(parentNode, md_result, header_style){
-			function decide_font(header, header_style){
-			let header_size = "h" + header.length + "_size";
-			return header_style[header_size];
-
-			}
-
-		header = md_result["header"];
-		let non_applied = document.createElement("span");
-		non_applied.innerText = md_result["non_applied"];
-
-		let applied = document.createElement("span");
-		applied.innerText = md_result["applied"];
-		 applied.style.fontSize = decide_font(header, header_style);
-		parentNode.innerText = "";
-		parentNode.appendChild(non_applied);
-		parentNode.appendChild(applied);
-		parentNode.appendChild(document.createElement("br"));
-		}
-
-		function apply_boldMD(parentNode,md_result,bold_style){
-		let applied = document.createElement("span");
-		applied.innerText = md_result["applied"];
-		applied.style.fontWeight=BOLD_STYLE.fontWeight;//[fontWeight];
-		let front_non_applined_part = document.createElement("span");
-		front_non_applined_part.innerText = md_result["front_non_applined_part"];
-		let rear_non_applined_part = document.createElement("span");
-		rear_non_applined_part.innerText = md_result["rear_non_applined_part"];
-		parentNode.innerText="";
-		parentNode.appendChild(front_non_applined_part);
-		parentNode.appendChild(applied);
-		parentNode.appendChild(rear_non_applined_part);
-		parentNode.appendChild(document.createElement("br"));
-		}
-
-		function check_Bold_MD(line){
-		let sentence=line.split("__");
-		let front_non_applined_part=sentence[0].trim();
-		let rear_non_applined_part=sentence[2].trim();
-		let applied_part=sentence[1].trim();
-		let result={
-		"front_non_applined_part":front_non_applined_part,
-		"rear_non_applined_part":rear_non_applined_part,
-		"applied":applied_part,
-		}
-		return result;
-		}
-
-		function check_Underline_MD(line){
-		let sentence=line.split("@u{");
-		let front_non_applined_part=sentence[0].trim();
-		let temp_line_part=sentence[1].split("}");
-		let rear_non_applined_part= temp_line_part[1].trim();
-		let applied_part= temp_line_part[0].trim();
-
-		let result={
-		"front_non_applined_part":front_non_applined_part,
-		"rear_non_applined_part":rear_non_applined_part,
-		"applied":applied_part,
-		}
-		return result;
-		}
-
-		function apply_underlineMD(parentNode,md_result,bold_style){
-		let applied = document.createElement("span");
-		applied.innerText = md_result["applied"];
-		applied.style.textDecoration=UNDERLINE_STYLE.textDecoration;
-		let front_non_applined_part = document.createElement("span");
-		front_non_applined_part.innerText = md_result["front_non_applined_part"];
-		let rear_non_applined_part = document.createElement("span");
-		rear_non_applined_part.innerText = md_result["rear_non_applined_part"];
-		parentNode.innerText="";
-		parentNode.appendChild(front_non_applined_part);
-		parentNode.appendChild(applied);
-		parentNode.appendChild(rear_non_applined_part);
-		parentNode.appendChild(document.createElement("br"));
-		}
-
-		function check_Highlight_MD(line){
-		let sentence=line.split("@mark{");
-		let front_non_applined_part=sentence[0].trim();
-		let temp_line_part=sentence[1].split("}");
-		let rear_non_applined_part= temp_line_part[1].trim();
-		let applied_part= temp_line_part[0].trim();
-		let result={
-		"front_non_applined_part":front_non_applined_part,
-		"rear_non_applined_part":rear_non_applined_part,
-		"applied":applied_part,
-		}
-		return result;
-		}
-
-		function apply_highlightMD(parentNode,md_result,bold_style){
-		let applied = document.createElement("span");
-		applied.innerText = md_result["applied"];
-		applied.style.backgroundColor=HIGHLIGHT_STYLE.backgroundColor;
-		let front_non_applined_part = document.createElement("span");
-		front_non_applined_part.innerText = md_result["front_non_applined_part"];
-		let rear_non_applined_part = document.createElement("span");
-		rear_non_applined_part.innerText = md_result["rear_non_applined_part"];
-		parentNode.innerText="";
-		parentNode.appendChild(front_non_applined_part);
-		parentNode.appendChild(applied);
-		parentNode.appendChild(rear_non_applined_part);
-		parentNode.appendChild(document.createElement("br"));
-		}
-
-		function check_Color_MD(line){
-		let color_tag;
-		if (line.indexOf("red")!==-1){
-		color_tag="@red{";
-		}else if (line.indexOf("blue")!==-1){
-		color_tag="@blue{";
-		}else if (line.indexOf("green")!==-1){
-		color_tag="@green{";
-		}else if (line.indexOf("yelllow")!==-1){
-		color_tag="@yellow{";
-		}
-
-		let sentence=line.split(color_tag);
-		let front_non_applined_part=sentence[0].trim();
-		let temp_line_part=sentence[1].split("}");
-		let rear_non_applined_part= temp_line_part[1].trim();
-		let applied_part= temp_line_part[0].trim();
-
-		let result={
-		"front_non_applined_part":front_non_applined_part,
-		"rear_non_applined_part":rear_non_applined_part,
-		"applied":applied_part,
-		"color_tag":color_tag.substring(1,color_tag.length-1),
-		}
-		return result;
-		}
-
-		function apply_colorMD(parentNode,md_result,bold_style){
-		let applied = document.createElement("span");
-		applied.innerText = md_result["applied"];
-		let color_style=md_result["color_tag"];
-		applied.style.color=COLOR_STYLE[color_style];
-		let front_non_applined_part = document.createElement("span");
-		front_non_applined_part.innerText = md_result["front_non_applined_part"];
-		let rear_non_applined_part = document.createElement("span");
-		rear_non_applined_part.innerText = md_result["rear_non_applined_part"];
-		parentNode.innerText="";
-		parentNode.appendChild(front_non_applined_part);
-		parentNode.appendChild(applied);
-		parentNode.appendChild(rear_non_applined_part);
-		parentNode.appendChild(document.createElement("br"));
-		}
-
 		<!--Description DOM Setting-->
 		let description_readme= document.querySelector(".description_readme");
 
 		let readmeLine_num=description_readme.childElementCount;
 		for(let i=0; i<readmeLine_num;i++){
 			if(i>=1){ // <!--header 제외-->
-			let readline=document.querySelector(".readme_"+(i-1).toString());
-			let readline__text=readline.innerText;
-			if(readline__text.indexOf("#")!==-1){
-			let is_HeadMD=check_Head_MD(readline__text);
-			apply_headerMD(readline,is_HeadMD,HEADER_STYLE);
-			}
-			if(readline__text.indexOf("__")!==-1){
-			let first_loc=readline__text.indexOf("__");
-			if(readline__text.indexOf("__",first_loc+3)!==-1){
-			let is_boldMD=check_Bold_MD(readline__text);
-			apply_boldMD(readline,is_boldMD,BOLD_STYLE);
-			}
-			}
-			if(readline__text.indexOf("@u")!==-1){
-			let is_underlineMD=check_Underline_MD(readline__text);
-			apply_underlineMD(readline,is_underlineMD,UNDERLINE_STYLE);
-			}
-			if(readline__text.indexOf("@mark")!==-1){
-			let is_highlightMD=check_Highlight_MD(readline__text);
-			apply_highlightMD(readline,is_highlightMD,HIGHLIGHT_STYLE);
-			}
-		let colorList=Object.keys(COLOR_STYLE);
-		for(let i=0;i<colorList.length;i++){
-			let colorTag="@"+colorList[i];
-			if(readline__text.indexOf(colorTag)!==-1){
-				let is_colorMD=check_Color_MD(readline__text);
-				apply_colorMD(readline,is_colorMD,COLOR_STYLE);
-				break;
-			}
-		}
-
+			let readline = document.querySelector(".readme_" + (i - 1).toString());
+			let raw_line = readline.innerText;
+			let raw_mdinfo = MD_Module.creator.create_MDinfo(raw_line);
+			let converted = MD_Module.removal.remove_Allmd(raw_line, raw_mdinfo);
+			let processed_line = converted.origin_line;
+			let processed_info = converted.md_info;
+			MD_Module.creator.create_spanDIV(readline, processed_line, processed_info);
 		}
 		}
 

@@ -75,7 +75,7 @@ class Description_Generator(HTML_Generator):
             name_html = [
                 '\t\t\t<div class="description__name">\n',
                 '\t\t\t\t<span class="name__title">\n',
-                '\t\t\t\t<i class="fas fa-circle"></i> <strong>name</strong> : \n',
+                '\t\t\t\t<strong> - name</strong> : \n',
                 '\t\t\t\t</span>\n',
 
                 '\t\t\t\t<span class="name__value">\n',
@@ -90,7 +90,7 @@ class Description_Generator(HTML_Generator):
             email_html = [
                 '\t\t\t<div class="description__email">\n',
                 '\t\t\t\t<span class="email__title">\n',
-                '\t\t\t\t<i class="fas fa-circle"></i> <strong>email</strong> : \n',
+                '\t\t\t\t<strong> - email</strong> : \n',
                 '\t\t\t\t</span>\n',
 
                 '\t\t\t\t<span class="email__value">\n',
@@ -105,7 +105,7 @@ class Description_Generator(HTML_Generator):
             phone_html = [
                 '\t\t\t<div class="description_phone">\n',
                 '\t\t\t\t<span class="phone__title">\n',
-                '\t\t\t\t<i class="fas fa-circle"></i> <strong>phone</strong> : \n',
+                '\t\t\t\t<strong> - phone</strong> : \n',
                 '\t\t\t\t</span>\n',
 
                 '\t\t\t\t<span class="phone__value">\n',
@@ -118,10 +118,10 @@ class Description_Generator(HTML_Generator):
         if 'readme' in self.description_data:
 
             readme = self.description_data['readme']
-            readme_html_head = ['\t\t\t<div class="description_readme">\n'
-                                '\t\t\t\t<span class="readme__title">\n',
+            readme_html_head = ['\t\t\t\t<span class="readme__title">\n',
                                 '\t\t\t\t<i class="fas fa-square"></i> <strong>Notice</strong> : \n',
                                 '\t\t\t\t<br></span>\n',
+                                '\t\t\t<div class="description_readme">\n'
                                 ]
             readme_html_tail = ['\t\t\t</div>\n\n']
             readme_html_body = []
