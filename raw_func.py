@@ -1,5 +1,11 @@
 def extract_varInfo(var_raw:list):
     # rawdata form : {'job_num': '5001_Glo_Var.JOB', 'rawdata': "gi_Search=1\t'@var Stage Search Method @type Integer @use(0 : No setting, 1:Manual Searching, 2 : Auto Searching)\n"}
+    class varData(): # 중복 키 생성을 위한 Class
+        def __init__(self,name):
+            self.name = name
+        def __repr__(self):
+            return self.name
+
     result={}
 
     def extract_var_name(raw_data: str) -> str:
@@ -46,23 +52,24 @@ def extract_varInfo(var_raw:list):
             cnt=0
             while True:
                 cnt+=1
-                if ('(' not in result) and (')' not in result )and ('\n' not in result) and ('\t' not in result):
+                if ('(' not in result) and (')' not in result )and ('\n' not in result) and ('\t' not in result) and (':' not in result):
                     break
 
                 if cnt>100:
                     break
                 if '(' in result:
                     result = result.replace("(", '')
-                if ')' not in result:
+                if ')' in result:
                     result = result.replace(")", '')
-                if '\n' not in result:
+                if '\n' in result:
                     result = result.replace("\n", '')
-                if '\t' not in result:
+                if '\t' in result:
                     result = result.replace("\t", '')
-
+                if ':' in result:
+                    result = result.replace(":", '')
             return result.strip()
 
-        for raw_data__data in raw_dataList:
+        for raw_data__data in raw_dataList[1:]:
             if 'var' in raw_data__data:
                 variable__desc = extract_var_property(raw_data__data,'var')  # 필수
                 try:
@@ -101,7 +108,7 @@ def extract_varInfo(var_raw:list):
                     pass
                 else:
                     pass
-        result[variable__name]=saveform
+        result[varData(variable__name)]=saveform
     return result
 
 def extract_functionInfo(function_raw:list):
@@ -111,7 +118,7 @@ def extract_functionInfo(function_raw:list):
         property_content=raw_data.split(property)[1]
 
         while True:
-            if ("'" not in property_content) and ('"' not in property_content) and ('\t' not in property_content) and ('\n' not in property_content):
+            if (":" not in property_content) and ("'" not in property_content) and ('"' not in property_content) and ('\t' not in property_content) and ('\n' not in property_content):
                 break
 
             if "'" in property_content:
@@ -122,7 +129,8 @@ def extract_functionInfo(function_raw:list):
                 property_content=property_content.replace("\t", '')
             if '\n' in property_content:
                 property_content=property_content.replace("\n", '')
-
+            if ':' in property_content:
+                property_content=property_content.replace(":", '')
         return property_content.strip()
 
     for func_data in function_raw:
@@ -204,10 +212,8 @@ def extract_descripInfo(desc_raw:dict):
             phone = data.split(':')[1].strip()
             result["phone"] = phone
 
-
-
     return result
 
 if __name__=="__main__":
-    test_func_raw=[ {'job_num': '5400_error.JOB', 'rawdata': ["' @func Error Handling\n", "' @ref 아직 덜 만듬 ㅋ\n", "' @param li_errCode, li_ProLoc\n"]}]
-    print(extract_functionInfo(test_func_raw))
+    test_func_raw=[{'job_num': '5000_Main.JOB', 'rawdata': 'DIM lt_userIn AS String \'@var User Input @type : String @use "Y","N" @default "none"\n'}, {'job_num': '5005_UDPSetting.JOB', 'rawdata': 'DIM lt_userIn AS String \'@var User Input @type : String2 @use "Y2","N2" @default "test"\n'}]
+    print(extract_varInfo(test_func_raw))

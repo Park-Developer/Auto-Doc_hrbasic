@@ -5,7 +5,7 @@ class HTML_Generator:
         "variable__desc": 1,
         "variable__default": 2,
         "variable__use": 3,
-        "variable__jobNum": 4,
+        "variable__loc": 4,
         "variable__type": 5,
     }
 
@@ -71,6 +71,11 @@ class HTML_Generator:
             '\tpadding-top:30px;\n',
             '\tmargin-bottom:10px;\n',
             '\tbackground-color:#D1F2EB;\n',
+            '\t}\n',
+
+            # Table Setting
+            '\ttable, th, td {\n',
+            '\t    border: 1px solid gray;\n',
             '\t}\n',
             # Description Setting________________
             '\t.description_readme{\n',

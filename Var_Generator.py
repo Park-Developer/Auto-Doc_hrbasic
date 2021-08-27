@@ -70,7 +70,7 @@ class Variable_Generator(HTML_Generator):
             new_row = write_row(var_info, index_info, new_row, "variable__type")
             new_row = write_row(var_info, index_info, new_row, "variable__use")
             new_row = write_row(var_info, index_info, new_row, "variable__default")
-            new_row = write_row(var_info, index_info, new_row, "variable__jobNum")
+            new_row = write_row(var_info, index_info, new_row, "variable__loc")
 
             return new_row
 
