@@ -214,6 +214,44 @@ def extract_descripInfo(desc_raw:dict):
 
     return result
 
+def extract_code_property(code_raw:dict)->dict:
+    raw_data=code_raw['rawdata']
+
+    pure_comment_part=[] # 주석만 있는 부분
+    mixed_comment_part=[] # 주석이랑 코드가 섞여있는 부분
+    for line in raw_data:
+        if "'" in line:
+            temp=line.split("'")
+            code_part=temp[0]
+            comment_part=temp[1]
+            if (code_part.strip()==""):
+                pure_comment_part.append(line)
+            else:
+                mixed_comment_part.append(line)
+        else:
+            # 주석이 아이에 없는 부분
+            mixed_comment_part.append(line)
+
+    result={
+    "job_num":code_raw['job_num'].split('_')[0].strip(),
+    "code_num":code_raw['code_num'],
+    "raw_data":raw_data,
+    "pureComment_part":pure_comment_part,
+    "mixedComment_part":mixed_comment_part,
+    }
+    return result
+
+def extract_codeInfo(code_list:list)->dict:
+    processed_codedata = {}  # return para
+    for idx,value in enumerate(code_list):
+        code_num=value["code_num"]
+        reference_name="code_#"+str(code_num)
+        code_property=extract_code_property(value)
+        processed_codedata[reference_name]=code_property
+
+    return processed_codedata
+
+
 if __name__=="__main__":
     test_func_raw=[{'job_num': '5000_Main.JOB', 'rawdata': 'DIM lt_userIn AS String \'@var User Input @type : String @use "Y","N" @default "none"\n'}, {'job_num': '5005_UDPSetting.JOB', 'rawdata': 'DIM lt_userIn AS String \'@var User Input @type : String2 @use "Y2","N2" @default "test"\n'}]
     print(extract_varInfo(test_func_raw))

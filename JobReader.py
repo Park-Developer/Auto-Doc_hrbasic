@@ -5,6 +5,7 @@ class JobReader:
         self.Job_description={}
         self.Variable_raw_List=[]
         self.Function_raw_List=[]
+        self.Code_raw_List = []
         self.Label_raw_List=[]
 
         self.user_error_List=[] # User-Error
@@ -34,7 +35,10 @@ class JobReader:
         readme_flag =False
         readme = []  # read raw데이터 저장
         desc_tmp = []
+        # Flag
         readme_flag=False
+        code_flag=False
+        code_number=0
         for file in self.file_list: # job : job 파일 이름
             file_path=self.file_address+"\\"+file
             func_tmp = []
@@ -65,6 +69,23 @@ class JobReader:
                         if self.is_func(line)==True:
                             func_tmp.append(line)
 
+                        # [4] Code Data 확인
+                        if "@code/" in line:
+                            code_flag = True
+                            code_rawdata=[]
+                            code_number+=1
+                            code_tempdic={
+                                "job_num": job,
+                                "code_num":code_number,
+                            }
+                        elif "/@code" in line:
+                            code_flag = False
+                            code_tempdic["rawdata"]=code_rawdata
+                            self.Code_raw_List.append(code_tempdic)
+
+                        if code_flag==True:
+                            code_rawdata.append(line)
+
                     # 한개의 파일에서 순환 종류후 데이터 검사
                     # Function Data 저장
                     if (func_tmp!=[]):
@@ -90,6 +111,7 @@ if __name__=="__main__":
     test_jobReader = JobReader(test_address)
 
     test_jobReader.read_n_make_rawData()
-    print(test_jobReader.Variable_raw_List)
-    print(test_jobReader.Function_raw_List)
-    print(test_jobReader.Job_description)
+    #print(test_jobReader.Variable_raw_List)
+    #print(test_jobReader.Function_raw_List)
+    #print(test_jobReader.Job_description)
+    print(test_jobReader.Code_raw_List)

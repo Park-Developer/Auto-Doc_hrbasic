@@ -144,11 +144,15 @@ if __name__ == "__main__":
         descrition_raw_data = job_reader.Job_description
         variable_raw_data = job_reader.Variable_raw_List
         function_raw_data = job_reader.Function_raw_List
+        code_raw_data=job_reader.Code_raw_List # debug 모드에만 반영함
+
 
         # [2]_ 데이터 가공
         descrition_processed_data = raw_func.extract_descripInfo(descrition_raw_data)
         variable_processed_data = raw_func.extract_varInfo(variable_raw_data)
         function_processed_data = raw_func.extract_functionInfo(function_raw_data)
+        code_processed_data = raw_func.extract_codeInfo(code_raw_data)
+        print( code_processed_data)
 
         # [3]_ HTML 파일 생성
         html_generator = html_ge.HTML_Generator()

@@ -8,6 +8,10 @@ class HTML_Generator:
         "variable__loc": 4,
         "variable__type": 5,
     }
+    var_insertInfo = {
+        "Search": "Job_selection",
+        "Table": "variable__table",
+    }
 
     function_table_index = {
         # | Function | Description | Param | Result | Reference |
@@ -18,9 +22,9 @@ class HTML_Generator:
         "function__ref": 4,
     }
 
-    var_insertInfo = {
-        "Search": "Job_selection",
-        "Table": "variable__table",
+    code_insertInfo = {
+        "Search": "code_Job_selection",
+        "Table": "code__table",
     }
 
     Insert_classname={ # 각각의 HTML 파일을 넣을 Classname 설정
@@ -141,6 +145,7 @@ class HTML_Generator:
             '\t\t<button class="home_btn"><strong>Home</strong></button>\n',
             '\t\t<button class="variable_btn"><strong>Variable</strong></button>\n',
             '\t\t<button class="function_btn"><strong>Function</strong></button>\n',
+            '\t\t<button class="code_btn"><strong>Code</strong></button>\n',
             '\t\t<a href='+self.manual_link+'class="btn btn-primary"><i class="fas fa-external-link-square-alt"></i>Manual</a>\n',
             '\t</div>\n\n',
 
@@ -161,6 +166,9 @@ class HTML_Generator:
 
             '\t\t<div class="label_UI">\n',
             '\t\t</div> <!--label_UI end-->\n\n',
+
+            '\t\t<div class="code_UI">\n',
+            '\t\t</div> <!--code_UI end-->\n\n',
 
             '\t</div> <!--main-frame end-->\n\n',
             # icon Setting
