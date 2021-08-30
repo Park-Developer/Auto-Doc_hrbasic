@@ -5,6 +5,7 @@ import HTML_Generator as html_ge # Main HTML Generator
 import Desc_Generator as desc_ge # Description HTML Generator
 import Func_Generator as func_ge # Function HTML Generator
 import Var_Generator as var_ge # Variable HTML Generator
+import Code_Generator as code_ge # Variable HTML Generator
 import JobReader as job_re
 import raw_func
 
@@ -114,6 +115,7 @@ class MyApp(QWidget):
             html__func_generator = func_ge.Function_Generator(function_processed_data)  # function 객체 생성
             html__var_generator = var_ge.Variable_Generator(variable_processed_data)  # variable 객체 생성
 
+
             html_generator.description_div_list = html__desc_generator.return_description_div()
             html_generator.variable_div_list = html__var_generator.return_variable_div()
             html_generator.function_div_list = html__func_generator.return_function_div()
@@ -152,7 +154,7 @@ if __name__ == "__main__":
         variable_processed_data = raw_func.extract_varInfo(variable_raw_data)
         function_processed_data = raw_func.extract_functionInfo(function_raw_data)
         code_processed_data = raw_func.extract_codeInfo(code_raw_data)
-        print( code_processed_data)
+        #print( code_processed_data)
 
         # [3]_ HTML 파일 생성
         html_generator = html_ge.HTML_Generator()
@@ -160,10 +162,13 @@ if __name__ == "__main__":
         html__desc_generator = desc_ge.Description_Generator(descrition_processed_data)  # description 객체 생성
         html__func_generator = func_ge.Function_Generator(function_processed_data)  # function 객체 생성
         html__var_generator = var_ge.Variable_Generator(variable_processed_data)  # variable 객체 생성
+        html__code_generator = code_ge.Code_Generator(code_processed_data)
 
         html_generator.description_div_list = html__desc_generator.return_description_div()
         html_generator.variable_div_list = html__var_generator.return_variable_div()
         html_generator.function_div_list = html__func_generator.return_function_div()
+        html_generator.code_div_list = html__code_generator.return_code_div()
+        print( html_generator.code_div_list)
 
         html_generator.merge_Allhtml()
         result_html = html_generator.returnHTML_file(html_generator.html_base)

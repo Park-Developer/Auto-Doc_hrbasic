@@ -22,6 +22,12 @@ class HTML_Generator:
         "function__ref": 4,
     }
 
+    code_table_index = {
+        # | Code | Comment | Job |
+        "mixedComment_part": 0,
+        "pureComment_part": 1,
+        "job_num": 2,
+    }
     code_insertInfo = {
         "Search": "code_Job_selection",
         "Table": "code__table",
@@ -33,6 +39,7 @@ class HTML_Generator:
         "variable":"variable_UI",
         "function":"function_UI",
         "label":"label_UI",
+        "code":"code_UI",
     }
     def __init__(self):
         self.manual_link="https://mica-mule-62a.notion.site/0dd6366820874e8a84bf0a1e762fa4ff" # * manual이 작성된 notion link
@@ -111,7 +118,9 @@ class HTML_Generator:
             '\t.variable__table_header{\n',
             '\t\tbackground-color:var(--table_header_color)\n',
             '\t}\n',
-
+            '\t.code__table_header{\n',
+            '\t\tbackground-color:var(--table_header_color)\n',
+            '\t}\n',
             # TEST to solve bug
             '\t.header_index{\n',
             '\twidth:30px;\n',
@@ -167,7 +176,7 @@ class HTML_Generator:
             '\t\t<div class="label_UI">\n',
             '\t\t</div> <!--label_UI end-->\n\n',
 
-            '\t\t<div class="code_UI">\n',
+            '\t\t<div class="code_UI" hidden>\n',
             '\t\t</div> <!--code_UI end-->\n\n',
 
             '\t</div> <!--main-frame end-->\n\n',
@@ -585,20 +594,21 @@ class HTML_Generator:
             '\t\tlet BTN_DEACTIVATION_COLOR="#696868";\n',
             # 1. DIV DOM
             '\t\tlet home_UI = document.querySelector(".description_UI");\n',
-            # '\t\tlet label_UI = document.querySelector(".label_UI");\n',
             '\t\tlet variable_UI = document.querySelector(".variable_UI");\n',
             '\t\tlet function_UI = document.querySelector(".function_UI");\n\n',
+            '\t\tlet code_UI = document.querySelector(".code_UI");\n\n',
 
             # 2. Button DOM
             '\t\tlet home_btn=document.querySelector(".home_btn");\n',
-            # '\t\tlet label_btn=document.querySelector(".label_btn");\n',
             '\t\tlet variable_btn=document.querySelector(".variable_btn");\n',
             '\t\tlet function_btn=document.querySelector(".function_btn");\n\n',
+            '\t\tlet code_btn=document.querySelector(".code_btn");\n\n',
 
             # Button Color Setting
             '\t\t\thome_btn.style.backgroundColor=BTN_ACTIVATION_COLOR;\n',  # Activate
             '\t\t\tvariable_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
             '\t\t\tfunction_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
+            '\t\t\tcode_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
 
             # | Initial Object setting |  : All variable is global variable
             '\t\t<!--Initial Btn Variable Setting-->\n',
@@ -606,45 +616,48 @@ class HTML_Generator:
             '\t\tlet label_btn_activation=false;\n',
             '\t\tlet variable_btn_activation=false;\n',
             '\t\tlet function_btn_activation=false;\n\n',
+            '\t\tlet code_btn_activation=false;\n\n',
 
             # Search Activation
             '\t\tlet func_search_focus=false;\n',
             '\t\tlet var_search_focus=false;\n\n',
+            '\t\tlet code_search_focus=false;\n\n',
 
             # Button Visibility Setting
             '\t\t\thome_UI.style.display="block";\n',  # Activate
             '\t\t\tvariable_UI.style.display="none";\n',
             '\t\t\tfunction_UI.style.display="none";\n',
-            # '\t\t\tlabel_UI.style.display="none";\n\n',
+            '\t\t\tcode_UI.style.display="none";\n',
 
             # | Event Setting|
             # Button Event Setting
             '\t\thome_btn.addEventListener("click",main_Btn_func )\n',
-            # '\t\tlabel_btn.addEventListener("click", main_Btn_func)\n',
             '\t\tvariable_btn.addEventListener("click", main_Btn_func)\n',
             '\t\tfunction_btn.addEventListener("click", main_Btn_func)\n\n',
+            '\t\tcode_btn.addEventListener("click", main_Btn_func)\n\n',
 
             # Button Event Function
             '\t\tfunction main_Btn_func(event){   <!--main button function-->\n',
             '\t\t\tlet button_type=event.target.innerHTML\n',
             '\t\t\tswitch(button_type){\n',
-            # [Home Button Click]_______
+            # [1. Home Button Click]_______
             '\t\t\t\tcase "Home":\n',
             '\t\t\t\t\thome_btn_activation=true;\n',  # activatge
-            # '\t\t\t\t\tlabel_btn_activation=false;\n',
             '\t\t\t\t\tvariable_btn_activation=false;\n',
             '\t\t\t\t\tfunction_btn_activation=false;\n\n',
+            '\t\t\t\t\tcode_btn_activation=false;\n\n',
 
             '\t\t\t\t\thome_UI.style.display="block";\n',  # block
             '\t\t\t\t\thome_btn.style.backgroundColor =BTN_ACTIVATION_COLOR;\n',  # block
-            # '\t\t\t\t\tlabel_UI.style.display="none";\n',
             '\t\t\t\t\tvariable_UI.style.display="none";\n',
             '\t\t\t\t\tvariable_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
             '\t\t\t\t\tfunction_UI.style.display="none";\n',
             '\t\t\t\t\tfunction_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
+            '\t\t\t\t\tcode_UI.style.display="none";\n',
+            '\t\t\t\t\tcode_btn.style.backgroundColor=BTN_DEACTIVATION_COLOR;\n',
             '\t\t\t\t\tbreak;\n\n',
 
-            # [Variable Button Click]______
+            # [2. Variable Button Click]______
             '\t\t\tcase "Variable":\n',
             '\t\t\t\thome_btn_activation=false;\n',
             '\t\t\t\t\thome_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
@@ -652,13 +665,16 @@ class HTML_Generator:
             '\t\t\t\t\tvariable_btn.style.backgroundColor =BTN_ACTIVATION_COLOR;\n',  # block
             '\t\t\t\tfunction_btn_activation=false;\n\n',
             '\t\t\t\t\tfunction_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
+            '\t\t\t\tcode_btn_activation=false;\n\n',
+            '\t\t\t\t\tcode_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
 
             '\t\t\t\thome_UI.style.display="none";\n',
             '\t\t\t\tvariable_UI.style.display="block";\n',  # block
             '\t\t\t\tfunction_UI.style.display="none";\n',
+            '\t\t\t\tcode_UI.style.display="none";\n',
             '\t\t\t\t\tbreak;\n\n',
 
-            # [Function Button Click]______
+            # [3. Function Button Click]______
             '\t\t\tcase "Function":\n',
             '\t\t\t\thome_btn_activation=false;\n',
             '\t\t\t\t\thome_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
@@ -666,12 +682,32 @@ class HTML_Generator:
             '\t\t\t\t\tvariable_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
             '\t\t\t\tfunction_btn_activation=true;\n\n',  # activate
             '\t\t\t\t\tfunction_btn.style.backgroundColor =BTN_ACTIVATION_COLOR;\n',  # block
+            '\t\t\t\tcode_btn_activation=true;\n\n',  # activate
+            '\t\t\t\t\tcode_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
 
             '\t\t\t\thome_UI.style.display="none";\n',
-            # '\t\t\t\tlabel_UI.style.display="none";\n',
             '\t\t\t\tvariable_UI.style.display="none";\n',
             '\t\t\t\tfunction_UI.style.display="block";\n',  # block
+            '\t\t\t\tcode_UI.style.display="none";\n',
             '\t\t\t\t\tbreak;\n\n',
+
+            # [4. Code Button Click]______
+            '\t\t\tcase "Code":\n',
+            '\t\t\t\thome_btn_activation=false;\n',
+            '\t\t\t\t\thome_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
+            '\t\t\t\tvariable_btn_activation=false;\n',
+            '\t\t\t\t\tvariable_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
+            '\t\t\t\tfunction_btn_activation=true;\n\n',  # activate
+            '\t\t\t\t\tfunction_btn.style.backgroundColor =BTN_DEACTIVATION_COLOR;\n',  # block
+            '\t\t\t\tcode_btn_activation=true;\n\n',  # activate
+            '\t\t\t\t\tcode_btn.style.backgroundColor =BTN_ACTIVATION_COLOR;\n',  # block
+
+            '\t\t\t\thome_UI.style.display="none";\n',
+            '\t\t\t\tvariable_UI.style.display="none";\n',
+            '\t\t\t\tfunction_UI.style.display="none";\n',  # block
+            '\t\t\t\tcode_UI.style.display="block";\n',
+            '\t\t\t\t\tbreak;\n\n',
+
             '\t\t\t}\n',
             '\t\t}\n\n',
             ########################################[Description Setting]###############################
@@ -857,14 +893,14 @@ class HTML_Generator:
         self.function_div_list = []
         self.label_div_list = []
         self.index_div_list = []
+        self.code_div_list=[]
 
         self.div_insert_location = {
             # Insert class name : HTML List
             HTML_Generator.Insert_classname["description"]: self.description_div_list,
             HTML_Generator.Insert_classname["variable"]:self.variable_div_list,
             HTML_Generator.Insert_classname["function"]:self.function_div_list,
-            #"label_UI": self.label_div_list,
-            # "index_UI": self.index_div_list,
+            HTML_Generator.Insert_classname["code"]: self.code_div_list,
         }
 
 
@@ -872,10 +908,12 @@ class HTML_Generator:
         desc_insertClass_name= HTML_Generator.Insert_classname["description"]
         var_insertClass_name =HTML_Generator.Insert_classname["variable"]
         func_insertClass_name = HTML_Generator.Insert_classname["function"]
+        code_insertClass_name = HTML_Generator.Insert_classname["code"]
 
         self.div_insert_location[desc_insertClass_name] = self.description_div_list
         self.div_insert_location[var_insertClass_name] = self.variable_div_list
         self.div_insert_location[func_insertClass_name] = self.function_div_list
+        self.div_insert_location[code_insertClass_name] = self.code_div_list
         #self.div_insert_location["label_UI"] = self.label_div_list
         #self.div_insert_location["index_UI"] = self.index_div_list
 
@@ -959,9 +997,12 @@ class HTML_Generator:
                 return result
 
             for insert_className, insert_html in self.div_insert_location.items():
+                #print("debuh1",insert_className, insert_html)
                 if (insert_html != []):
                     find_result = find_classLoc(self.html_base, insert_className)
+                    #print("debuh134124", find_result)
                     if find_result["is_find"] == True:
+                        #print("debuh2", insert_className)
                         insert_loc = find_result["location"] + 1
                         self.html_base = insert_to_basehtml(self.html_base, insert_html, insert_loc)
 
