@@ -31,6 +31,7 @@ class HTML_Generator:
         "label":"label_UI",
     }
     def __init__(self):
+        self.manual_link="https://mica-mule-62a.notion.site/0dd6366820874e8a84bf0a1e762fa4ff" # * manual이 작성된 notion link
         self.html_base = [  # Basic Form
             '<!DOCTYPE html>\n',
             '<html>\n',
@@ -140,6 +141,7 @@ class HTML_Generator:
             '\t\t<button class="home_btn"><strong>Home</strong></button>\n',
             '\t\t<button class="variable_btn"><strong>Variable</strong></button>\n',
             '\t\t<button class="function_btn"><strong>Function</strong></button>\n',
+            '\t\t<a href='+self.manual_link+'class="btn btn-primary"><i class="fas fa-external-link-square-alt"></i>Manual</a>\n',
             '\t</div>\n\n',
 
             '\t<!-- Main Frame Setting -->\n',
