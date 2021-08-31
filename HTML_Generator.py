@@ -32,6 +32,94 @@ class HTML_Generator:
         "Search": "code_Job_selection",
         "Table": "code__table",
     }
+    code_UI_setting={
+        "table_UI":{
+            "theme_color": "#121212",
+            "basic_font_color": "white",
+            "comment_font_color": "pink",
+            "comment_font_style": "italic",
+        },
+        "HRBasic_Syntax":{
+            # [1] Motion I/O_____
+           "MOVE ":"blue",
+           "PRINT":"blue",
+           "INPUT":"blue",
+           "WAIT":"blue",
+           "CONTPATH":"orange",
+
+            # [2] Flow 제어_____
+           "GOTO":"purple",
+           "GOSUB":"purple",
+           "CALL":"purple",
+           "IF":"green",
+           "THEN":"green",
+           "FOR":"green",
+           "DELAY":"purple",
+           "END":"purple",
+           "RETURN":"purple",
+           "ELSEIF":"green",
+           "ELSE":"green",
+           "ENDIF":"green",
+           "NEXT":"green",
+           "JMPP":"purple",
+           "STOP":"purple",
+           "SELECT":"green",
+           "CASE":"green",
+           "Lable":"purple",
+           "END_SELECT":"green",
+           "EXIT":"purple",
+           "TO":"green",
+           "STEP":"green",
+
+            # [3] 기타_____
+           "REM ":"red",
+           "GATHER":"orange",
+           "StoPoCnd":"orange",
+           "TaskStart":"orange",
+           "DIM": "orange",
+           "AS": "orange",
+
+            # [4] Function_____
+           "ABS":"pink",
+           "MAX":"pink",
+           "MIN":"pink",
+           "DEGRAD":"pink",
+           "RADDEG ":"pink",
+           "SQR":"pink",
+           "SIN":"pink",
+           "COS":"pink",
+           "TAN":"pink",
+           "ATN":"pink",
+           "ATN2":"pink",
+           "DIST":"pink",
+           "VAL":"pink",
+           "LEN":"pink",
+           "TIMER":"pink",
+           "STR$":"pink",
+           "CHR$":"pink",
+           "LEFT$":"pink",
+           "RIGHT$":"pink",
+           "MID$":"pink",
+           "DATE$":"pink",
+           "TIME$":"pink",
+
+           # [5] Property_____
+           "_AX_X":"#B9862E", # Brown
+           "_AX_TH":"#B9862E", # Brown
+           "_AX_R":"#B9862E", # Brown
+           "_AX_L":"#B9862E", # Brown
+           "_AX_RA":"#B9862E", # Brown
+           "_AX_LA":"#B9862E", # Brown
+           "_AX_Z1":"#B9862E", # Brown
+           "_AX_Z2":"#B9862E", # Brown
+
+           "Accuracy": "#B9862E",  # Brown
+           "SPDRATE": "#B9862E",  # Brown
+           "ACCRATE": "#B9862E",  # Brown
+           "DECRATE": "#B9862E",  # Brown
+        }
+
+    }
 
     Insert_classname={ # 각각의 HTML 파일을 넣을 Classname 설정
         "description":"description_UI",

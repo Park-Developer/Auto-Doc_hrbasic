@@ -82,6 +82,105 @@ class Code_Generator(HTML_Generator):
         self.code_SearchPart_div_list=list(set(divlist_temp))
         return self.code_SearchPart_div_list
 
+    def overlapped_syntax__END(self,applined_line):
+        '''
+        END | IF | ENDIF가 중복되는 경우 방지용
+        :param applined_line:
+        :return:
+        '''
+        if "END" in applined_line: # END인 경우
+            loc=applined_line.find("END")
+
+            if applined_line[loc:loc+5] == "ENDIF": # END가 ENDIF에 포함되어 있는 경우
+                return applined_line
+            else:
+                syntax="END"
+                color=HTML_Generator.code_UI_setting["HRBasic_Syntax"]["END"]
+                applined_line = applined_line.replace(syntax.strip(), '<span style="color:{0}">'.format(
+                    color.strip()) + syntax.strip() + "</span>")
+                return applined_line
+
+        elif "IF" in applined_line: # IF인 경우
+            loc=applined_line.find("IF")
+
+            if applined_line[loc-3:loc+2] == "ENDIF": # END가 ENDIF에 포함되어 있는 경우
+                return applined_line
+            else:
+                syntax="IF"
+                color=HTML_Generator.code_UI_setting["HRBasic_Syntax"]["IF"]
+                applined_line = applined_line.replace(syntax.strip(), '<span style="color:{0}">'.format(
+                    color.strip()) + syntax.strip() + "</span>")
+                return applined_line
+
+        else:
+            return applined_line
+
+    def HRBasic_Syntax_highlight(self,line:str,sytax_color_list:dict)->str:
+        '''
+        code에 HRBasic 문법 적용
+        :param line:
+        :return:
+        '''
+        applined_line=line
+        for syntax,color in sytax_color_list.items():
+            if syntax.strip() in line:
+                if syntax=="END" or syntax=="IF":   # 중복 방지 작업1 : END - ENDIF - IF
+                    applined_line=self.overlapped_syntax__END(applined_line)
+                else: # 중복이 없는 경우
+                    applined_line=applined_line.replace(syntax.strip(),'<span style="color:{0}">'.format(color.strip())+syntax.strip()+"</span>")
+
+        return applined_line
+
+    def MixedCmt_convert_toSpan(self,raw_list):
+        span_list=[]
+        def maxLine_filter(line):
+            filter_list=["\n"]
+            for filter in filter_list:
+                if (filter in line):
+                    line=line.replace(filter,"")
+
+            conversion_list=[" "]
+            for conversion in conversion_list:
+                if conversion in line:
+                    line = line.replace(" ","&nbsp") # &nbsp : HTML 공백태그
+            return line
+        # Comment UI Setting
+        comment_font_color=HTML_Generator.code_UI_setting["table_UI"]["comment_font_color"]
+        comment_font_style = HTML_Generator.code_UI_setting["table_UI"]["comment_font_style"]
+
+        for idx,line in enumerate(raw_list):
+            filtered_line = maxLine_filter(line)
+            if "'" in filtered_line : # 주석과 코드가 같이 있는 경우
+                temp=filtered_line .split("'")
+                temp__code=self.HRBasic_Syntax_highlight(temp[0],HTML_Generator.code_UI_setting["HRBasic_Syntax"])
+                temp__cmt= "' "+temp[1]
+                span_list.append("<span>" +temp__code + "</span>"+'<span style="color:{0};font-style:{1}">'.format(comment_font_color,comment_font_style) +temp__cmt + "</span><br>")
+            else:
+                syntax_highlighted_line=self.HRBasic_Syntax_highlight(filtered_line,HTML_Generator.code_UI_setting["HRBasic_Syntax"])
+                span_list.append("<span>"+syntax_highlighted_line+"</span><br>")
+
+        result=''.join(span_list)
+
+        return result
+
+    def PureCmt_convert_toSpan(self,raw_list):
+        span_list=[]
+        def pureLine_filter(line):
+            filter_list=["\n","@code/","/@code","'"]
+            for filter in filter_list:
+                if (filter in line):
+                    line=line.replace(filter,"")
+
+            return line
+
+        for idx,line in enumerate(raw_list):
+            filtered_line=pureLine_filter(line)
+            if len(filtered_line.strip())!=0: # 빈 문자열이 아닌 경우
+                span_list.append("<span>"+pureLine_filter(line)+"</span><br>")
+
+        result=''.join(span_list)
+
+        return result
     def make_codeTable_part(self):
         table_base=['<tr class="code__table_header">',
 		'<th class="header_index" align="center">Index</th>',
@@ -94,26 +193,31 @@ class Code_Generator(HTML_Generator):
             new_row = ['-', '-', '-']  # '-' : 속성이 없다는 뜻  //  | Code | Comment | Job |
             for property, index in code_index_info.items():
                 if code_info.get(property)!=None:
-                    if(property=="mixedComment_part" or property=="pureComment_part"):
-                        mixed_part=''.join(code_info[property][1:len(code_info[property])-1])
-                        mixed_part.replace("\n","<br>")
-                        new_row[code_index_info[property]] =   mixed_part
+                    if(property=="mixedComment_part"):
+                        converted_list=self.MixedCmt_convert_toSpan(code_info[property])
+                        new_row[code_index_info[property]] = converted_list
+                    elif (property=="pureComment_part"):
+                        converted_list = self.PureCmt_convert_toSpan(code_info[property])
+                        new_row[code_index_info[property]] =converted_list
                     else:
                         new_row[code_index_info[property]]=code_info[property]
             return new_row
 
         code_index=0
 
+        # Table UI Setting
+        table_theme_color=HTML_Generator.code_UI_setting["table_UI"]["theme_color"]
+        table_basic_font_color=HTML_Generator.code_UI_setting["table_UI"]["basic_font_color"]
 
         for code_number, code_info in self.code_data.items():
-            row_html = ['\t\t\t\t\t<tr class="code__table_row ' + str(code_index) + '">\n',
-                        '\t\t\t\t\t<td class="code__table_row' + str(code_index) + '_col0" align="center">' + str(
+            row_html = ['\t\t\t\t\t<tr bgcolor={0} style="color:{1}"'.format(table_theme_color,table_basic_font_color) + ' class="code__table_row{0}">\n'.format(code_index) ,
+                        '\t\t\t\t\t<td style="font-weight:bold" class="code__table_row' + str(code_index) + '_col0" align="center">' + str(
                             code_index + 1) + '</td>\n']  # Index Column
 
             row_info=match_col_property(code_info,HTML_Generator.code_table_index)
 
             for col_idx, property_value in enumerate(row_info):
-                row_html.append('\t\t\t\t\t<td class="function__table_row' + str(code_index) + '_col'
+                row_html.append('\t\t\t\t\t<td valign="top" class="function__table_row' + str(code_index) + '_col'
                                 + str(col_idx) + '">' + str(property_value) + '</td>\n'
                                 )
 

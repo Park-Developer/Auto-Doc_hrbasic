@@ -163,12 +163,13 @@ if __name__ == "__main__":
         html__func_generator = func_ge.Function_Generator(function_processed_data)  # function 객체 생성
         html__var_generator = var_ge.Variable_Generator(variable_processed_data)  # variable 객체 생성
         html__code_generator = code_ge.Code_Generator(code_processed_data)
+        #print(code_processed_data)
 
         html_generator.description_div_list = html__desc_generator.return_description_div()
         html_generator.variable_div_list = html__var_generator.return_variable_div()
         html_generator.function_div_list = html__func_generator.return_function_div()
         html_generator.code_div_list = html__code_generator.return_code_div()
-        print( html_generator.code_div_list)
+        #print( html_generator.code_div_list)
 
         html_generator.merge_Allhtml()
         result_html = html_generator.returnHTML_file(html_generator.html_base)
