@@ -671,6 +671,7 @@ class HTML_Generator:
             '\t\t\n',
             '\t\tparent_node.appendChild(span_tag);\n',
             '\t\t}\n',
+            '\t\tparent_node.appendChild(document.createElement("br"));\n',
             '\t\t},\n',
             '\t\t}\n',
             '\t\t\n',
@@ -816,6 +817,33 @@ class HTML_Generator:
             '\t\t}\n',  ## Main Loop END
             '\t\t}\n\n',
 
+            ########################################[Code Setting]######################################
+            '\t<!--Code DOM Setting-->\n',
+            '\tlet Code_Info={\n',
+            '\tcomment_index:2,\n',
+            '\t}\n',
+
+            '\t<!--Code MD Application-->\n',
+            '\tlet code__table= document.querySelector(".code__table");\n',
+            '\tfor(let i=1;i<code__table.rows.length;i++){\n',
+            '\tlet commentTD=code__table.rows[i].cells[Code_Info.comment_index];\n',
+            '\tlet tdLine_num=commentTD.childElementCount;\n',
+            '\tfor(let j=0;j<tdLine_num;j++){\n',
+
+            '\tlet commentline=commentTD.querySelector(".comment_"+(j+1).toString());\n',
+
+            '\tif (commentline!==null){ <!--encoding problem-->\n',
+            '\tlet raw_line=commentline.innerText;\n',
+
+            '\tlet raw_mdinfo = MD_Module.creator.create_MDinfo(raw_line);\n',
+
+            '\tlet converted = MD_Module.removal.remove_Allmd(raw_line, raw_mdinfo);\n',
+            '\tlet processed_line = converted.origin_line;\n',
+            '\tlet processed_info = converted.md_info;\n',
+            '\tMD_Module.creator.create_spanDIV(commentline, processed_line, processed_info);\n',
+            '\t}\n',
+            '\t}\n',
+            '\t}\n',
             ########################################[Variable Setting]##################################
 
             # |Variable Constant Setting|

@@ -176,7 +176,7 @@ class Code_Generator(HTML_Generator):
         for idx,line in enumerate(raw_list):
             filtered_line=pureLine_filter(line)
             if len(filtered_line.strip())!=0: # 빈 문자열이 아닌 경우
-                span_list.append("<span>"+pureLine_filter(line)+"</span><br>")
+                span_list.append('<span class="comment_{0}">'.format(idx)+pureLine_filter(line)+'<br></span>')
 
         result=''.join(span_list)
 
@@ -217,8 +217,8 @@ class Code_Generator(HTML_Generator):
             row_info=match_col_property(code_info,HTML_Generator.code_table_index)
 
             for col_idx, property_value in enumerate(row_info):
-                row_html.append('\t\t\t\t\t<td valign="top" class="function__table_row' + str(code_index) + '_col'
-                                + str(col_idx) + '">' + str(property_value) + '</td>\n'
+                row_html.append('\t\t\t\t\t<td valign="top" class="code__table_row' + str(code_index) + '_col'
+                                + str(col_idx+1) + '">' + str(property_value) + '</td>\n'
                                 )
 
             code_index+=1
