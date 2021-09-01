@@ -41,33 +41,33 @@ class HTML_Generator:
         },
         "HRBasic_Syntax":{
             # [1] Motion I/O_____
-           "MOVE ":"blue",
-           "PRINT":"blue",
-           "INPUT":"blue",
-           "WAIT":"blue",
+           "MOVE ":"#2a9df4", # blue
+           "PRINT":"#2a9df4", # blue
+           "INPUT":"#2a9df4", # blue
+           "WAIT":"#2a9df4", # blue
            "CONTPATH":"orange",
 
             # [2] Flow 제어_____
-           "GOTO":"purple",
-           "GOSUB":"purple",
-           "CALL":"purple",
+           "GOTO":"#b491cb", # purple
+           "GOSUB":"#b491cb", # purple
+           "CALL":"#b491cb", # purple
            "IF":"green",
            "THEN":"green",
            "FOR":"green",
-           "DELAY":"purple",
-           "END":"purple",
-           "RETURN":"purple",
+           "DELAY":"#b491cb", # purple
+           "END":"#b491cb", # purple
+           "RETURN":"#b491cb", # purple
            "ELSEIF":"green",
            "ELSE":"green",
            "ENDIF":"green",
            "NEXT":"green",
-           "JMPP":"purple",
-           "STOP":"purple",
+           "JMPP":"#b491cb", # purple
+           "STOP":"#b491cb", # purple
            "SELECT":"green",
            "CASE":"green",
-           "Lable":"purple",
+           "Lable":"#b491cb", # purple
            "END_SELECT":"green",
-           "EXIT":"purple",
+           "EXIT":"#b491cb", # purple
            "TO":"green",
            "STEP":"green",
 
@@ -112,6 +112,12 @@ class HTML_Generator:
            "_AX_LA":"#B9862E", # Brown
            "_AX_Z1":"#B9862E", # Brown
            "_AX_Z2":"#B9862E", # Brown
+
+           "Integer":"#FF8D85", # Salmon
+           "String": "#FF8D85", # Salmon
+           "Double": "#FF8D85", # Salmon
+           "Array":"#FF8D85", #S almon
+           "Pose":"#FF8D85", # Salmon
 
            "Accuracy": "#B9862E",  # Brown
            "SPDRATE": "#B9862E",  # Brown
@@ -266,6 +272,10 @@ class HTML_Generator:
 
             '\t\t<div class="code_UI" hidden>\n',
             '\t\t</div> <!--code_UI end-->\n\n',
+
+            '\t\t<div class="no_result" style="display:none;">\n',
+            '\t\t\t<span style="color:red;font-family:Verdana,sans-serif;font-weight:bold;font-style:italic;" class="no_result__contents">No result found</span>\n',
+            '\t\t</div> <!--no_result end-->\n\n',
 
             '\t</div> <!--main-frame end-->\n\n',
             # icon Setting
@@ -826,24 +836,74 @@ class HTML_Generator:
             '\t<!--Code MD Application-->\n',
             '\tlet code__table= document.querySelector(".code__table");\n',
             '\tfor(let i=1;i<code__table.rows.length;i++){\n',
-            '\tlet commentTD=code__table.rows[i].cells[Code_Info.comment_index];\n',
-            '\tlet tdLine_num=commentTD.childElementCount;\n',
-            '\tfor(let j=0;j<tdLine_num;j++){\n',
+            '\t\tlet commentTD=code__table.rows[i].cells[Code_Info.comment_index];\n',
+            '\t\tlet tdLine_num=commentTD.childElementCount;\n',
+            '\t\tfor(let j=0;j<tdLine_num;j++){\n',
 
-            '\tlet commentline=commentTD.querySelector(".comment_"+(j+1).toString());\n',
+            '\t\t\tlet commentline=commentTD.querySelector(".comment_"+(j+1).toString());\n',
 
-            '\tif (commentline!==null){ <!--encoding problem-->\n',
-            '\tlet raw_line=commentline.innerText;\n',
+            '\t\t\tif (commentline!==null){ <!--encoding problem-->\n',
+            '\t\t\t\tlet raw_line=commentline.innerText;\n',
 
-            '\tlet raw_mdinfo = MD_Module.creator.create_MDinfo(raw_line);\n',
+            '\t\t\t\tlet raw_mdinfo = MD_Module.creator.create_MDinfo(raw_line);\n',
 
-            '\tlet converted = MD_Module.removal.remove_Allmd(raw_line, raw_mdinfo);\n',
-            '\tlet processed_line = converted.origin_line;\n',
-            '\tlet processed_info = converted.md_info;\n',
-            '\tMD_Module.creator.create_spanDIV(commentline, processed_line, processed_info);\n',
+            '\t\t\t\tlet converted = MD_Module.removal.remove_Allmd(raw_line, raw_mdinfo);\n',
+            '\t\t\t\tlet processed_line = converted.origin_line;\n',
+            '\t\t\t\tlet processed_info = converted.md_info;\n',
+            '\t\t\t\tMD_Module.creator.create_spanDIV(commentline, processed_line, processed_info);\n',
+            '\t\t\t}\n',
+            '\t\t}\n',
             '\t}\n',
-            '\t}\n',
-            '\t}\n',
+
+            '<!--Code DOM Setting-->\n',
+            'const CODE_INDEX = 1;\n',
+            'const CODE_JOB_INDEX=3;\n',
+            'let code_Search_Input=document.querySelector(".code_search__input");\n',
+            'let code_Search_Btn=document.querySelector(".code_search__btn");\n',
+
+            'let code_table= document.querySelector(".code__table");\n',
+            'let code_jobSelector= document.querySelector(".code_Job_selection");\n',
+
+            'code_Search_Btn.addEventListener("click", () => {\n',
+            'code_search_Ok_btn_func();\n',
+            '});\n',
+
+		    'function code_search_Ok_btn_func(){    <!--code_search_Ok_btn_func-->\n',
+			'let table_Obj=code_table;\n',
+			'let input_Obj=code_Search_Input;\n',
+			'let search_index=CODE_INDEX ;\n',
+
+			'search_name(table_Obj, input_Obj, search_index)\n',
+            '}\n',
+
+            'code_Search_Input.addEventListener("focusin", () => {\n',
+            'code_search_focusIn();\n',
+            '});\n',
+
+            'code_Search_Input.addEventListener("focusout", () => {\n',
+            'code_search_focusOut();\n',
+            '});\n',
+
+            'function code_search_focusIn(){\n',
+            '	code_search_focus = true;\n',
+            '}\n',
+
+            'function code_search_focusOut(){\n',
+            '	code_search_focus = false;\n',
+            '}\n',
+
+
+            'code_jobSelector.addEventListener("change", () => {\n',
+            'change_code_jobSelection();\n',
+            '});\n',
+
+            'function change_code_jobSelection(){\n',
+                'table_Obj=code_table;\n',
+                'selector_obj=code_jobSelector;\n',
+                'filter_index=CODE_JOB_INDEX;\n',
+                'filter_property(table_Obj, selector_obj, filter_index);\n',
+            '}\n',
+
             ########################################[Variable Setting]##################################
 
             # |Variable Constant Setting|
@@ -962,37 +1022,63 @@ class HTML_Generator:
             '\t\t\t\tvar_search_Ok_btn_func();\n',
             '\t\t\t}else if( func_search_focus==true){\n',
             '\t\t\t\tfunc_search_Ok_btn_func();\n',
+            '\t\t\t}else if(code_search_focus==true){\n',
+            '\t\t\t\tcode_search_Ok_btn_func();\n',
             '\t\t\t}\n',
-            '\t\t}\n',
+            '\t\t\t}\n',
             '\t\t});\n\n',
             ########################################[Reuse Function]##################################
 
             # |Resue Function1| : Seach item
             '\t\tfunction search_name(table_Obj,input_Obj,search_index){    <!--search function-->\n',
+            '\t\t\tlet search_cnt=0;\n',
             '\t\t\tlet search_text= input_Obj.value;\n',
+            '\t\t\ttable_Obj.style.display="";\n',
             '\t\t\tfor(let i=1;i<table_Obj.rows.length;i++){\n',
             '\t\t\t\tif(table_Obj.rows[i].cells[search_index].innerHTML.indexOf(search_text)!=-1){\n',
             '\t\t\t\t\ttable_Obj.rows[i].style.display="";\n',
+            '\t\t\t\t\tsearch_cnt+=1;\n',
             '\t\t\t\t}else{\n',
             '\t\t\t\t\ttable_Obj.rows[i].style.display="none";\n',
             '\t\t\t\t}\n',
+            '\t\t\t}\n',
+            '\t\tlet no_result_div=document.querySelector(".no_result");\n\n',  # Search ok button
+            '\t\t\tif(search_cnt===0){\n',
+            '\t\t\t\t\tno_result_div.style.display="";\n',
+            '\t\t\t\t\ttable_Obj.style.display="none";\n',
+            '\t\t\t}else{\n',
+            '\t\t\t\t\tno_result_div.style.display="none";\n',
+            '\t\t\t\t\ttable_Obj.style.display="";\n',
             '\t\t\t}\n',
             '\t\t}\n\n',
 
             # |Reuse Function2| : Filter item
             '\t\tfunction filter_property(table_Obj,selector_obj,filter_index){    <!--filter function-->\n',
+            '\t\t\tlet search_cnt=0;\n',
+            '\t\t\ttable_Obj.style.display="";\n',
             '\t\tlet filter_parameter=selector_obj.value;\n',
             '\t\tfor (let i=1; i<table_Obj.rows.length;i++){\n',  # Header행 제외 -> i=1부터 시작
             '\t\t\tif (filter_parameter==="All"){\n',
             '\t\t\ttable_Obj.rows[i].style.display="";\n',
+            '\t\t\tsearch_cnt+=1;\n',
             '\t\t\t}else{\n',
             '\t\t\tif (table_Obj.rows[i].cells[filter_index].innerHTML.indexOf(filter_parameter)!=-1){\n',
             '\t\t\ttable_Obj.rows[i].style.display="";\n',
+            '\t\t\tsearch_cnt+=1;\n',
             '\t\t\t}else{\n',
             '\t\t\ttable_Obj.rows[i].style.display="none";\n',
             '\t\t\t}\n',
             '\t\t}\n',
             '\t\t}\n',
+
+            '\t\tlet no_result_div=document.querySelector(".no_result");\n\n',  # Search ok button
+            '\t\t\tif(search_cnt===0){\n',
+            '\t\t\t\t\tno_result_div.style.display="";\n',
+        '\t\t\t\t\ttable_Obj.style.display="none";\n',
+            '\t\t\t}else{\n',
+            '\t\t\t\t\tno_result_div.style.display="none";\n',
+        '\t\t\t\t\ttable_Obj.style.display="";\n',
+            '\t\t\t}\n',
             '\t\t}\n\n',
 
             # Excution______________________________________________________

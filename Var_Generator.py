@@ -139,6 +139,7 @@ class Variable_Generator(HTML_Generator):
             '\t\t\t\t\t<option>Double</option>\n',
             '\t\t\t\t\t<option>String</option>\n',
             '\t\t\t\t\t<option>Array</option>\n',
+            '\t\t\t\t\t<option>Pose</option>\n',
             '\t\t\t\t\t<option>User-defined</option>\n',
             '\t\t\t\t</select>\n',
             '\t\t\t</div><!--variable__selector_type End-->\n\n',  # variable__selector_type

@@ -82,6 +82,26 @@ class Code_Generator(HTML_Generator):
         self.code_SearchPart_div_list=list(set(divlist_temp))
         return self.code_SearchPart_div_list
 
+    def overlapped_syntax__TO(self,applined_line):
+        '''
+        END | IF | ENDIF가 중복되는 경우 방지용
+        :param applined_line:
+        :return:
+        '''
+        if "TO" in applined_line: # END인 경우
+            loc=applined_line.find("TO")
+
+            if applined_line[loc-1:loc+3] == "STOP": # END가 ENDIF에 포함되어 있는 경우
+                return applined_line
+            else:
+                syntax="TO"
+                color=HTML_Generator.code_UI_setting["HRBasic_Syntax"]["TO"]
+                applined_line = applined_line.replace(syntax.strip(), '<span style="color:{0}">'.format(
+                    color.strip()) + syntax.strip() + "</span>")
+                return applined_line
+        else:
+            return applined_line
+
     def overlapped_syntax__END(self,applined_line):
         '''
         END | IF | ENDIF가 중복되는 경우 방지용
@@ -126,6 +146,8 @@ class Code_Generator(HTML_Generator):
             if syntax.strip() in line:
                 if syntax=="END" or syntax=="IF":   # 중복 방지 작업1 : END - ENDIF - IF
                     applined_line=self.overlapped_syntax__END(applined_line)
+                elif syntax=="TO":
+                    applined_line = self.overlapped_syntax__TO(applined_line)
                 else: # 중복이 없는 경우
                     applined_line=applined_line.replace(syntax.strip(),'<span style="color:{0}">'.format(color.strip())+syntax.strip()+"</span>")
 
