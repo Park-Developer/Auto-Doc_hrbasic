@@ -94,15 +94,14 @@ class MyApp(QWidget):
 
         # [1]_ raw data 읽기
         job_reader = job_re.JobReader(job_address)
-        job_reader.read_n_make_rawData()
-        descrition_raw_data = job_reader.Job_description
-        variable_raw_data = job_reader.Variable_raw_List
-        function_raw_data = job_reader.Function_raw_List
-        code_raw_data = job_reader.Code_raw_List
+        is_readingSuccess=job_reader.read_n_make_rawData() # Encoding Type Check
 
-        if ( descrition_raw_data=={}): #or variable_raw_data==[] or function_raw_data==[]):
-            is_success = False
-        else:
+        if (is_readingSuccess==True):
+            descrition_raw_data = job_reader.Job_description
+            variable_raw_data = job_reader.Variable_raw_List
+            function_raw_data = job_reader.Function_raw_List
+            code_raw_data = job_reader.Code_raw_List
+
             try:
                 # [2]_ 데이터 가공
                 descrition_processed_data = raw_func.extract_descripInfo(descrition_raw_data)
@@ -131,9 +130,11 @@ class MyApp(QWidget):
                 html_file.write(result_html)
                 html_file.close()
             except:
-                pass
+                is_success = False
             else:
                 is_success = True
+        else:
+            is_success = False
 
         return is_success
 
@@ -141,45 +142,51 @@ if __name__ == "__main__":
     DEBUG_MODE= False # debug 모드 세팅
 
     if DEBUG_MODE==True:
+        # TEST Address
         # C:\Users\gnvid\.Nimi Places\Project\Auto Teaching\JOB Program
         # C:\Users\gnvid\.Nimi Places\Project\HRBASIC AutoDoc\Test code
-        test_address = r"C:\Users\gnvid\.Nimi Places\Project\Auto Teaching\JOB Program"
+        # C:\Users\gnvid\.Nimi Places\HRC\GVO V3\ARRAY_PROG\6 AXIS
+        test_address = r"C:\Users\gnvid\.Nimi Places\HRC\GVO V3\ARRAY_PROG\6 AXIS"
         job_reader = job_re.JobReader(test_address)
-        job_reader.read_n_make_rawData()
-        descrition_raw_data = job_reader.Job_description
-        variable_raw_data = job_reader.Variable_raw_List
-        function_raw_data = job_reader.Function_raw_List
-        code_raw_data=job_reader.Code_raw_List
+        is_readingSuccess=job_reader.read_n_make_rawData()
 
-        # [2]_ 데이터 가공
-        descrition_processed_data = raw_func.extract_descripInfo(descrition_raw_data)
-        variable_processed_data = raw_func.extract_varInfo(variable_raw_data)
-        function_processed_data = raw_func.extract_functionInfo(function_raw_data)
-        code_processed_data = raw_func.extract_codeInfo(code_raw_data)
-        #print( code_processed_data)
+        if (is_readingSuccess==True):
+            descrition_raw_data = job_reader.Job_description
+            variable_raw_data = job_reader.Variable_raw_List
+            function_raw_data = job_reader.Function_raw_List
+            code_raw_data=job_reader.Code_raw_List
 
-        # [3]_ HTML 파일 생성
-        html_generator = html_ge.HTML_Generator()
+            # [2]_ 데이터 가공
+            descrition_processed_data = raw_func.extract_descripInfo(descrition_raw_data)
+            variable_processed_data = raw_func.extract_varInfo(variable_raw_data)
+            function_processed_data = raw_func.extract_functionInfo(function_raw_data)
+            code_processed_data = raw_func.extract_codeInfo(code_raw_data)
+            #print( code_processed_data)
 
-        html__desc_generator = desc_ge.Description_Generator(descrition_processed_data)  # description 객체 생성
-        html__func_generator = func_ge.Function_Generator(function_processed_data)  # function 객체 생성
-        html__var_generator = var_ge.Variable_Generator(variable_processed_data)  # variable 객체 생성
-        html__code_generator = code_ge.Code_Generator(code_processed_data)
-        #print(code_processed_data)
+            # [3]_ HTML 파일 생성
+            html_generator = html_ge.HTML_Generator()
 
-        html_generator.description_div_list = html__desc_generator.return_description_div()
-        html_generator.variable_div_list = html__var_generator.return_variable_div()
-        html_generator.function_div_list = html__func_generator.return_function_div()
-        html_generator.code_div_list = html__code_generator.return_code_div()
-        #print( html_generator.code_div_list)
+            html__desc_generator = desc_ge.Description_Generator(descrition_processed_data)  # description 객체 생성
+            html__func_generator = func_ge.Function_Generator(function_processed_data)  # function 객체 생성
+            html__var_generator = var_ge.Variable_Generator(variable_processed_data)  # variable 객체 생성
+            html__code_generator = code_ge.Code_Generator(code_processed_data)
+            #print(code_processed_data)
 
-        html_generator.merge_Allhtml()
-        result_html = html_generator.returnHTML_file(html_generator.html_base)
+            html_generator.description_div_list = html__desc_generator.return_description_div()
+            html_generator.variable_div_list = html__var_generator.return_variable_div()
+            html_generator.function_div_list = html__func_generator.return_function_div()
+            html_generator.code_div_list = html__code_generator.return_code_div()
+            #print( html_generator.code_div_list)
 
-        file_path=test_address+'\\Job Specification.html'
-        html_file = open(file_path, 'w')
-        html_file.write(result_html)
-        html_file.close()
+            html_generator.merge_Allhtml()
+            result_html = html_generator.returnHTML_file(html_generator.html_base)
+
+            file_path=test_address+'\\Job Specification.html'
+            html_file = open(file_path, 'w')
+            html_file.write(result_html)
+            html_file.close()
+        else:
+            print("Reading Error!!")
 
     else:
         app = QApplication(sys.argv)
