@@ -1,5 +1,4 @@
 import os
-
 class JobReader:
     def __init__(self,job_address):
         self.Job_description={}
