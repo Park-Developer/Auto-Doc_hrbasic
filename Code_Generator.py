@@ -18,7 +18,7 @@ class Code_Generator(HTML_Generator):
             '\t\t\t<div class="code__selector_job">\n',  # variable__selector_job
             '\t\t\t\t<span class="Job_name"><Strong>Job</Strong></span>\n',
             '\t\t\t\t<select name="Job" class="code_Job_selection">\n',
-            '\t\t\t\t\t<option>All</option>\n',
+            '\t\t\t\t\t<option selected="selected">All</option>\n', # default option
             # 이 부분에 JOB List 추가
             '\t\t\t\t</select>\n',
             '\t\t\t</div><!--code__selector_job End-->\n\n',  # variable__selector_job
