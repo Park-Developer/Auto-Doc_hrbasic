@@ -214,23 +214,45 @@ def extract_descripInfo(desc_raw:dict):
 
     return result
 
-def extract_code_property(code_raw:dict)->dict:
-    raw_data=code_raw['rawdata']
+def calc_codeRange(raw_data:list)->int:
+    '''
 
-    pure_comment_part=[] # 주석만 있는 부분
-    mixed_comment_part=[] # 주석이랑 코드가 섞여있는 부분
-    for line in raw_data:
+    :param raw_data:
+    :return: last code line index
+    '''
+    last_codeLine=0
+
+    for idx, line in enumerate(raw_data):
         if "'" in line:
             temp=line.split("'")
             code_part=temp[0]
-            comment_part=temp[1]
-            if (code_part.strip()==""):
-                pure_comment_part.append(line)
-            else:
-                mixed_comment_part.append(line)
+            if (code_part.strip() != ""):
+                last_codeLine=idx
         else:
-            # 주석이 아이에 없는 부분
-            mixed_comment_part.append(line)
+            if line!="":
+                last_codeLine=idx
+
+    return last_codeLine
+
+def extract_code_property(code_raw:dict)->dict:
+    raw_data=code_raw['rawdata']
+    last_codeLine=calc_codeRange(raw_data)
+
+    pure_comment_part=[] # 주석만 있는 부분
+    mixed_comment_part=[] # 주석이랑 코드가 섞여있는 부분
+    for idx, line in enumerate(raw_data):
+        if "@code" not in line:
+            if "'" in line:   # line에 주석(')이 있는지로 구분
+                temp=line.split("'")
+                code_part=temp[0]
+                comment_part=temp[1]
+                if (code_part.strip()=="" and idx>last_codeLine):
+                    pure_comment_part.append(line)
+                else:
+                    mixed_comment_part.append(line)
+            else:
+                # 주석이 아이에 없는 부분
+                mixed_comment_part.append(line)
 
     result={
     "job_num":code_raw['job_num'].split('_')[0].strip(),

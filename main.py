@@ -139,14 +139,14 @@ class MyApp(QWidget):
         return is_success
 
 if __name__ == "__main__":
-    DEBUG_MODE= False # debug 모드 세팅
+    DEBUG_MODE= True # debug 모드 세팅
 
     if DEBUG_MODE==True:
         # TEST Address
         # C:\Users\gnvid\.Nimi Places\Project\Auto Teaching\JOB Program
         # C:\Users\gnvid\.Nimi Places\Project\HRBASIC AutoDoc\Test code
         # C:\Users\gnvid\.Nimi Places\HRC\GVO V3\ARRAY_PROG\6 AXIS
-        test_address = r"C:\Users\gnvid\.Nimi Places\HRC\GVO V3\ARRAY_PROG\6 AXIS"
+        test_address = r"C:\Users\gnvid\.Nimi Places\Project\Auto Teaching\JOB Program"
         job_reader = job_re.JobReader(test_address)
         is_readingSuccess=job_reader.read_n_make_rawData()
 
@@ -170,7 +170,8 @@ if __name__ == "__main__":
             html__func_generator = func_ge.Function_Generator(function_processed_data)  # function 객체 생성
             html__var_generator = var_ge.Variable_Generator(variable_processed_data)  # variable 객체 생성
             html__code_generator = code_ge.Code_Generator(code_processed_data)
-            #print(code_processed_data)
+            print("Code processed Data")
+            print(code_processed_data)
 
             html_generator.description_div_list = html__desc_generator.return_description_div()
             html_generator.variable_div_list = html__var_generator.return_variable_div()

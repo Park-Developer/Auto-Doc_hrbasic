@@ -195,10 +195,17 @@ class Code_Generator(HTML_Generator):
 
             return line
 
+        is_firstLine=True
+        line_cnt=0
         for idx,line in enumerate(raw_list):
             filtered_line=pureLine_filter(line)
+
             if len(filtered_line.strip())!=0: # 빈 문자열이 아닌 경우
-                span_list.append('<span class="comment_{0}">'.format(idx)+pureLine_filter(line)+'<br></span>')
+                is_firstLine = False
+
+            if is_firstLine==False:
+                line_cnt=line_cnt+1
+                span_list.append('<span class="comment_{0}">'.format(line_cnt)+pureLine_filter(line)+'<br></span>')
 
         result=''.join(span_list)
 
